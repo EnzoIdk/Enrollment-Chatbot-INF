@@ -6,3 +6,7 @@ langchain-chroma
 langchain-ollama
 langchain-text-splitters
 langchain-core
+# Dependencias para el bot de Discord
+discord.py
+nest-asyncio
+python-dotenv
