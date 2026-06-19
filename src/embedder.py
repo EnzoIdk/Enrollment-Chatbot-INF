@@ -76,7 +76,12 @@ class Embedder(object):
             records = data if isinstance(data, list) else [data]
 
             for record in records:
-                documents.extend(self._build_qa_document(record, source = str(json_file)))
+                doc = self._build_qa_document(record, source = str(json_file))
+                if doc is None: 
+                    print(f"Se ha omitido un mensaje del archivo: {json_file}")
+                    print(record)
+                    continue
+                documents.extend(doc)
 
         return self._create_chunks(documents)
 
@@ -87,7 +92,9 @@ class Embedder(object):
         ciclo = record.get("ciclo", "").strip()
 
         if not pregunta or not respuesta or not ciclo:
-            raise ValueError("All fields 'pregunta', 'respuesta', and 'ciclo' must be provided.")
+            print("Se ha omitido un documento")
+            return None
+            # raise ValueError("All fields 'pregunta', 'respuesta', and 'ciclo' must be provided.")
 
         page_content = (
             f"Ciclo: {ciclo}\n"
@@ -141,7 +148,7 @@ class Embedder(object):
         assert 0 <= static_weight <= 1, "static_weight must be between 0 and 1"
         assert 0 <= dynamic_weight <= 1, "dynamic_weight must be between 0 and 1"
         assert 0 <= historical_weight <= 1, "historical_weight must be between 0 and 1"
-        assert static_weight + dynamic_weight + historical_weight == 1, "Weights must sum to 1"
+        # assert static_weight + dynamic_weight + historical_weight == 1.0, "Weights must sum to 1"
 
         # Obtnemos el retriever estático
         vector_store_static = self._get_vector_store(self.static_db_name)

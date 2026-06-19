@@ -34,7 +34,7 @@ def run_server(llm: LanguageModel) -> None:
         if query == "quit": break
         if query == "": continue
 
-        llm.generate_response(pregunta = query)
+        print(llm.generate_response(pregunta = query))
 
     print("Fin.")
 
@@ -51,9 +51,9 @@ def main() -> None:
     print("Prompt del sistema leído...")
     
     embedder = Embedder(model_name = embedder_model_name, database_path = db_dir)
-    read_static_documents(embedder)
-    read_dynamic_documents(embedder)
-    read_historical_documents(embedder)
+    #read_static_documents(embedder)
+    #read_dynamic_documents(embedder)
+    #read_historical_documents(embedder)
 
     llm = LanguageModel(model_name = llm_model_name, initial_prompt = system_prompt)
     llm.define_rag_chain(embedder.get_retriever(k = 3, static_weight = 0.3, dynamic_weight = 0.6, 
