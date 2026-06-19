@@ -2,22 +2,54 @@ import discord
 import json
 import nest_asyncio
 import os
+import datetime
 from dotenv import load_dotenv
 
 # Configuración inicial
 nest_asyncio.apply()
-load_dotenv()
+
+# Forzamos a encontrar el archivo .env sin importar desde dónde se ejecute el comando en la terminal
+ruta_env = os.path.join(os.path.dirname(__file__), '..', '.env')
+if os.path.exists(ruta_env):
+    load_dotenv(ruta_env)
+else:
+    load_dotenv() # Intento por defecto si ya está en la raíz
+
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 # Configuración del archivo
 NOMBRE_ARCHIVO = 'dataset_entrenamiento.json'
-DIRECTOR_ID = 843310187762941953 # ID del director de carrera (cambiarlo)
+DIRECTOR_ID = 733720277304737823 # ID del director de carrera (cambiarlo)
 NOMBRE_DIRECTOR = "Luis Flores"
 BOT_ID = 1516215867090931753 # ID del bot
+CANALES_OBJETIVO = [873310192333377546, 1058544766142394379, 819657860627038228]
 
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
+
+def obtener_ciclo(fecha_utc):
+    if fecha_utc is None:
+        return "Desconocido"
+        
+    # Ajustamos la hora a Perú (UTC-5) para que los cambios de mes sean exactos
+    fecha_local = fecha_utc - datetime.timedelta(hours=5)
+    mes = fecha_local.month
+    anio = fecha_local.year
+    
+    # De noviembre hasta enero: año-0 o (año+1)-0
+    if mes in [11, 12]:
+        return f"{anio + 1}-0"
+    elif mes == 1:
+        return f"{anio}-0"
+    # De febrero a abril (incluyendo mayo como cobertura): año-1
+    elif mes in [2, 3, 4, 5]:
+        return f"{anio}-1"
+    # De junio, julio y agosto (incluyendo sep y oct como cobertura): año-2
+    elif mes in [6, 7, 8, 9, 10]:
+        return f"{anio}-2"
+        
+    return f"{anio}-X"
 
 # Función auxiliar para limpiar los tags del texto
 def limpiar_texto(texto):
@@ -89,70 +121,90 @@ async def on_message(message):
         
         datos_qa = []
         
-        # 2. Extraer el historial en orden CRONOLÓGICO (oldest_first=True)
-        # Esto es vital para poder concatenar mensajes seguidos lógicamente.
-        mensajes = [msg async for msg in message.channel.history(limit=1000, oldest_first=True)]
-        
-        current_question = None
-        current_answer = []
+        for canal_id in CANALES_OBJETIVO:
+            canal = client.get_channel(canal_id)
 
-        for i, msg in enumerate(mensajes):
-            # Analizamos si el mensaje es del Director
-            if msg.author.id == DIRECTOR_ID:
-                
-                # CASO 1: Responde directamente mediante Reply
-                if msg.reference is not None and msg.reference.resolved is not None:
-                    # Si ya teníamos un par QA guardándose, lo cerramos y añadimos a la lista
-                    if current_question and current_answer:
-                        datos_qa.append({
-                            "pregunta": current_question,
-                            "respuesta": "\n".join(current_answer)
-                        })
+            if canal is None:
+                try:
+                    canal = await client.fetch_channel(canal_id)
+                except Exception as e:
+                    print(f"⚠️ No pude acceder al canal con ID {canal_id}: {e}")
+                    continue # Saltamos al siguiente canal si hay error
+            try:
+                # Extraemos el historial de este canal en específico
+                mensajes = [msg async for msg in canal.history(limit=None, oldest_first=True)]
+            except discord.Forbidden:
+                print(f"⚠️ No tengo permisos para leer el historial del canal {canal_id}")
+                continue
+        
+            current_question = None
+            current_answer = []
+            current_cycle = None
+
+            for i, msg in enumerate(mensajes):
+                # Analizamos si el mensaje es del Director
+                if msg.author.id == DIRECTOR_ID:
                     
-                    # Iniciamos la captura de un nuevo par QA
-                    msg_referenciado = msg.reference.resolved
-                    if isinstance(msg_referenciado, discord.Message):
-                        # Limpiamos la pregunta entrante
-                        current_question = limpiar_texto(msg_referenciado.content)
-                        # Limpiamos la respuesta por si el director se etiqueta a sí mismo o copia un texto
-                        current_answer = [limpiar_texto(msg.content)]
-                        
-                # CASO 2: No es reply, es un mensaje suelto
-                else:
-                    # Subcaso 2.1: El mensaje justo anterior no es de él y tiene un "?"
-                    if i > 0 and mensajes[i-1].author.id != DIRECTOR_ID and '?' in mensajes[i-1].content:
-                        # Cerramos QAs previos
+                    # CASO 1: Responde directamente mediante Reply
+                    if msg.reference is not None and msg.reference.resolved is not None:
+                        # Si ya teníamos un par QA guardándose, lo cerramos y añadimos a la lista
                         if current_question and current_answer:
                             datos_qa.append({
                                 "pregunta": current_question,
-                                "respuesta": "\n".join(current_answer)
+                                "respuesta": "\n".join(current_answer),
+                                "ciclo": current_cycle
                             })
                         
-                        current_question = limpiar_texto(mensajes[i-1].content)
-                        current_answer = [limpiar_texto(msg.content)]
-                        
-                    # Subcaso 2.2: Son mensajes seguidos del director (continuación de su respuesta)
-                    elif i > 0 and mensajes[i-1].author.id == DIRECTOR_ID:
-                        if current_question is not None: # Si pertenece a una pregunta activa
-                            current_answer.append(limpiar_texto(msg.content))
+                        # Iniciamos la captura de un nuevo par QA
+                        msg_referenciado = msg.reference.resolved
+                        if isinstance(msg_referenciado, discord.Message):
+                            # Limpiamos la pregunta entrante
+                            current_question = limpiar_texto(msg_referenciado.content)
+                            # Limpiamos la respuesta por si el director se etiqueta a sí mismo o copia un texto
+                            current_answer = [limpiar_texto(msg.content)]
+                            current_cycle = obtener_ciclo(msg.created_at) # Capturamos el ciclo de la respuesta
                             
-            # Si el mensaje NO es del Director
-            else:
-                # Si había una respuesta del director capturándose, se cierra el bloque porque ya habló otra persona
-                if current_question and current_answer:
-                    datos_qa.append({
-                        "pregunta": current_question,
-                        "respuesta": "\n".join(current_answer)
-                    })
-                    current_question = None
-                    current_answer = []
+                    # CASO 2: No es reply, es un mensaje suelto
+                    else:
+                        # Subcaso 2.1: El mensaje justo anterior no es de él y tiene un "?"
+                        if i > 0 and mensajes[i-1].author.id != DIRECTOR_ID and '?' in mensajes[i-1].content:
+                            # Cerramos QAs previos
+                            if current_question and current_answer:
+                                datos_qa.append({
+                                    "pregunta": current_question,
+                                    "respuesta": "\n".join(current_answer),
+                                    "ciclo": current_cycle
+                                })
+                            
+                            current_question = limpiar_texto(mensajes[i-1].content)
+                            current_answer = [limpiar_texto(msg.content)]
+                            current_cycle = obtener_ciclo(msg.created_at)
+                            
+                        # Subcaso 2.2: Son mensajes seguidos del director (continuación de su respuesta)
+                        elif i > 0 and mensajes[i-1].author.id == DIRECTOR_ID:
+                            if current_question is not None: # Si pertenece a una pregunta activa
+                                current_answer.append(limpiar_texto(msg.content))
+                                
+                # Si el mensaje NO es del Director
+                else:
+                    # Si había una respuesta del director capturándose, se cierra el bloque porque ya habló otra persona
+                    if current_question and current_answer:
+                        datos_qa.append({
+                            "pregunta": current_question,
+                            "respuesta": "\n".join(current_answer),
+                            "ciclo": current_cycle
+                        })
+                        current_question = None
+                        current_answer = []
+                        current_cycle = None
 
-        # 3. Al terminar todo el bucle, si quedó un último par abierto, lo guardamos
-        if current_question and current_answer:
-            datos_qa.append({
-                "pregunta": current_question,
-                "respuesta": "\n".join(current_answer)
-            })
+            # 3. Al terminar todo el bucle, si quedó un último par abierto, lo guardamos
+            if current_question and current_answer:
+                datos_qa.append({
+                    "pregunta": current_question,
+                    "respuesta": "\n".join(current_answer),
+                    "ciclo": current_cycle
+                })
 
         # 4. Guardar en formato JSON explícitamente
         with open(NOMBRE_ARCHIVO, 'w', encoding='utf-8') as f:
@@ -166,15 +218,14 @@ async def on_message(message):
 
             # --- NUEVA LÓGICA DEL BOTÓN ---
             # Instanciamos la vista pasándole el mensaje actual
-            vista_contacto = VistaTicket(
-                mensaje_original=message, 
-                pregunta_alumno=message.content # Usamos el mensaje actual como "pregunta" de prueba
-            )
+            # vista_contacto = VistaTicket(
+            #     mensaje_original=message, 
+            #     pregunta_alumno=message.content # Usamos el mensaje actual como "pregunta" de prueba
+            # )
             
             await message.channel.send(
                 file=archivo_discord,
-                content=f"📋 ¡Hola, {usuario_etiquetado}! Aquí tienes tu `.json` listo con **{len(datos_qa)} pares** de Q&A estructurados.",
-                view=vista_contacto # Adjuntamos el botón al mensaje
+                content=f"📋 ¡Hola, {usuario_etiquetado}! Aquí tienes tu `.json` listo con **{len(datos_qa)} pares** de Q&A estructurados."
             )
             await mensaje_espera.delete()
         else:
