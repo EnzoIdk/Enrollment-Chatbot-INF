@@ -37,6 +37,9 @@ class LanguageModel(object):
         if self.rag_chain is None:
             raise ValueError("RAG chain is not defined. Please call define_rag_chain() first.")
         
-        response = self.rag_chain.invoke({"input": pregunta})
-
+        try:
+            response = self.rag_chain.invoke({"input": pregunta})
+        except Exception as e:
+            return str(e)
+        
         return response["answer"]

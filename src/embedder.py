@@ -59,6 +59,7 @@ class Embedder(object):
         
         return self._create_chunks(documents)
     
+    
     def read_json_documents(self, documents_path: str) -> list[Document]:
         assert documents_path is not None, "Documents path cannot be None"
 

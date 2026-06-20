@@ -39,7 +39,6 @@ def run_server(llm: LanguageModel) -> None:
     print("Fin.")
 
 
-
 def main() -> None:
     embedder_model_name = os.getenv("EMBEDDER_MODEL_NAME")
     llm_model_name = os.getenv("LLM_MODEL_NAME")
@@ -50,14 +49,14 @@ def main() -> None:
         system_prompt = f.read()
     print("Prompt del sistema leído...")
     
-    embedder = Embedder(model_name = embedder_model_name, database_path = db_dir)
-    read_static_documents(embedder)
-    read_dynamic_documents(embedder)
-    read_historical_documents(embedder)
+    embedder = Embedder(model_name = embedder_model_name, database_path = db_dir, chunk_size = 250, chunk_overlap = 50)
+    #read_static_documents(embedder)
+    #read_dynamic_documents(embedder)
+    #read_historical_documents(embedder)
 
-    llm = LanguageModel(model_name = llm_model_name, initial_prompt = system_prompt)
-    llm.define_rag_chain(embedder.get_retriever(k = 3, static_weight = 0.3, dynamic_weight = 0.6, 
-                                                historical_weight = 0.1))
+    llm = LanguageModel(model_name = llm_model_name, initial_prompt = system_prompt, temperature = 0.08)
+    llm.define_rag_chain(embedder.get_retriever(k = 5, static_weight = 0.6, dynamic_weight = 0.38, 
+                                                historical_weight = 0.02))
     
     run_server(llm)
 
