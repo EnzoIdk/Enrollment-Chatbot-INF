@@ -28,6 +28,13 @@ def read_historical_documents(embedder: Embedder) -> None:
     print("Documentos históricos leídos")
 
 
+def read_web_documents_main(embedder: Embedder) -> None:
+    web_docs_file = os.getenv("WEB_DOCS_FILE")
+    chunks = embedder.read_web_documents(web_docs_file)
+    embedder.embed_and_store(chunks = chunks, database_name = "static")
+    print("Documentos web leídos")
+
+
 def run_server(llm: LanguageModel) -> None:
     while True:
         query = input("Escribe un mensaje: ")
@@ -35,6 +42,7 @@ def run_server(llm: LanguageModel) -> None:
         if query == "": continue
 
         print(llm.generate_response(pregunta = query))
+        print()
 
     print("Fin.")
 
@@ -45,14 +53,15 @@ def main() -> None:
     db_dir = os.getenv("DB_DIR")
     print("Variables de entorno leídas...")
 
-    with open(os.getenv("SYSTEM_PROMPT_FILE"), "r") as f:
+    with open(os.getenv("SYSTEM_PROMPT_FILE"), "r", encoding="utf-8") as f:
         system_prompt = f.read()
     print("Prompt del sistema leído...")
     
-    embedder = Embedder(model_name = embedder_model_name, database_path = db_dir, chunk_size = 250, chunk_overlap = 50)
-    #read_static_documents(embedder)
-    #read_dynamic_documents(embedder)
-    #read_historical_documents(embedder)
+    embedder = Embedder(model_name = embedder_model_name, database_path = db_dir, chunk_size = 500, chunk_overlap = 50)
+    # read_static_documents(embedder)
+    # read_dynamic_documents(embedder)
+    # read_historical_documents(embedder)
+    # read_web_documents_main(embedder)
 
     llm = LanguageModel(model_name = llm_model_name, initial_prompt = system_prompt, temperature = 0.08)
     llm.define_rag_chain(embedder.get_retriever(k = 5, static_weight = 0.6, dynamic_weight = 0.38, 
