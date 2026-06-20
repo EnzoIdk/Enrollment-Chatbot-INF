@@ -47,7 +47,7 @@ def run_server(llm: LanguageModel) -> None:
     print("Fin.")
 
 
-def main() -> None:
+def setup_chatbot() -> LanguageModel:
     embedder_model_name = os.getenv("EMBEDDER_MODEL_NAME")
     llm_model_name = os.getenv("LLM_MODEL_NAME")
     db_dir = os.getenv("DB_DIR")
@@ -66,7 +66,10 @@ def main() -> None:
     llm = LanguageModel(model_name = llm_model_name, initial_prompt = system_prompt, temperature = 0.08)
     llm.define_rag_chain(embedder.get_retriever(k = 5, static_weight = 0.6, dynamic_weight = 0.38, 
                                                 historical_weight = 0.02))
-    
+    return llm
+
+def main() -> None:
+    llm = setup_chatbot()
     run_server(llm)
 
 
