@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from main import setup_chatbot
 
-# Configuramos los intents requeridos (necesitas habilitar Message Content Intent en el portal de Discord)
+# Configuramos los intents requeridos (recordar habilitar el envío de mensajes)
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -26,8 +26,9 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    # Si el bot fue mencionado o es un mensaje directo, o simplemente cualquier mensaje (default actual)
-    # Por ahora respondemos a cualquier mensaje de un usuario
+    # Solo respondemos si el bot fue mencionado
+    if client.user not in message.mentions:
+        return
     
     # Nos aseguramos que el modelo haya terminado de cargar
     if llm is None:

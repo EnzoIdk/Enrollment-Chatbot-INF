@@ -13,3 +13,7 @@ beautifulsoup4
 discord.py
 nest-asyncio
 python-dotenv
+# Librería para detección de nombres con PLN
+spacy
+# Descargar el modelo de lenguaje en español para spacy
+# python -m spacy download es_core_news_md
