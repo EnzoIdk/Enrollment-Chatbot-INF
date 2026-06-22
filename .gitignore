@@ -6,3 +6,9 @@ db/
 *.venv
 venv/
 *.pyc
+__pycache__/
+# JSON sin anonimizar
+discord/datasetOriginal
+discord/primerasPruebas
+# Diccionario de anonimización
+discord/diccionario_anonimizacion.json

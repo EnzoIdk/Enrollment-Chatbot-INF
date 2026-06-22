@@ -2,7 +2,7 @@ import json
 
 from langchain_chroma import Chroma
 from langchain_classic.retrievers import EnsembleRetriever
-from langchain_community.document_loaders import PyPDFDirectoryLoader, DirectoryLoader, CSVLoader
+from langchain_community.document_loaders import PyPDFDirectoryLoader, DirectoryLoader, CSVLoader, WebBaseLoader
 from langchain_core.documents.base import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -83,6 +83,24 @@ class Embedder(object):
                     print(record)
                     continue
                 documents.extend(doc)
+
+        return self._create_chunks(documents)
+
+
+    def read_web_documents(self, file_path: str) -> list[Document]:
+        assert file_path is not None, "File path cannot be None"
+
+        with open(file_path, "r", encoding="utf-8") as f:
+            urls = [line.strip() for line in f if line.strip()]
+
+        if not urls:
+            raise ValueError("No URLs found in the specified file.")
+
+        loader = WebBaseLoader(urls)
+        documents = loader.load()
+
+        if len(documents) == 0:
+            raise ValueError("No documents found in the specified URLs.")
 
         return self._create_chunks(documents)
 
