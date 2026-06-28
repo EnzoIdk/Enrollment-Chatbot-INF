@@ -80,8 +80,13 @@ def anonimizar_texto(texto, diccionario_memoria):
     
     return texto_anonimizado
 
-def procesar_dataset(input_files, output_suffix="_anonimizado.json", dict_file="diccionario_anonimizacion.json"):
-    # Cargar diccionario previo si existe (útil si pausas el script y continúas luego)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def procesar_dataset(input_files, output_suffix="_anonimizado.json", dict_file=None):
+    if dict_file is None:
+        dict_file = os.path.join(SCRIPT_DIR, "diccionario_anonimizacion.json")
+
+    # Cargar diccionario previo si existe
     diccionario_memoria = {}
     if os.path.exists(dict_file):
         with open(dict_file, 'r', encoding='utf-8') as f:
@@ -107,7 +112,10 @@ def procesar_dataset(input_files, output_suffix="_anonimizado.json", dict_file="
 
         nombre_base = os.path.basename(input_file)
         # Guardar dataset anonimizado
-        output_file = nombre_base.replace('.json', output_suffix)
+        output_dir = os.path.join(os.path.dirname(SCRIPT_DIR), 'docs', 'historical')
+        os.makedirs(output_dir, exist_ok=True)
+        output_file = os.path.join(output_dir, nombre_base.replace('.json', output_suffix))
+        
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(data_procesada, f, ensure_ascii=False, indent=4)
         print(f"Archivo guardado: {output_file}")
@@ -116,8 +124,11 @@ def procesar_dataset(input_files, output_suffix="_anonimizado.json", dict_file="
     with open(dict_file, 'w', encoding='utf-8') as f:
         json.dump(diccionario_memoria, f, ensure_ascii=False, indent=4)
     print(f"\nDiccionario de anonimización actualizado y guardado en: {dict_file}")
-    print("Recuerda añadir este archivo a tu .gitignore")
 
-# Lista de archivos a procesar
-archivos = ['datasetOriginal/dataset_entrenamiento.json', 'datasetOriginal/dataset_psp.json']
-procesar_dataset(archivos)
+# Encontrar todos los archivos JSON en datasetOriginal/
+import glob
+archivos = glob.glob(os.path.join(SCRIPT_DIR, 'datasetOriginal', '*.json'))
+if archivos:
+    procesar_dataset(archivos)
+else:
+    print("No se encontraron archivos .json en datasetOriginal/")
