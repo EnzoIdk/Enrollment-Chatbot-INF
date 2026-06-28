@@ -13,7 +13,7 @@ class LanguageModel(object):
         assert initial_prompt is not None, "Initial prompt cannot be None"
 
         try:
-            _llm = ChatOllama(model = model_name, temperature = temperature)
+            _llm = ChatOllama(model = model_name, temperature = temperature, keep_alive = 1)
             _prompt = ChatPromptTemplate.from_messages([
                 ("system", initial_prompt + "\n\nContexto:\n{context}"),
                 ("human", "{input}")
@@ -39,7 +39,8 @@ class LanguageModel(object):
         
         try:
             response = self.rag_chain.invoke({"input": pregunta})
+            return response["answer"]
         except Exception as e:
-            return str(e)
+            print(f"Error en inferencia: {e}")
         
-        return response["answer"]
+        return "¡Uy! Mis servidores están un poco saturados procesando matrículas. ¿Te importa repetirme la pregunta en un ratito?"
