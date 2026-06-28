@@ -17,9 +17,16 @@ else:
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATASET_DIR = os.path.join(SCRIPT_DIR, 'datasetOriginal')
+
 # Configuración del archivo
-NOMBRE_ARCHIVO = 'dataset_entrenamiento.json'
-DIRECTOR_ID = 733720277304737823 # ID del director de carrera (cambiarlo)
+NOMBRES_ARCHIVOS = {
+    873310192333377546: os.path.join(DATASET_DIR, 'dataset_consultas.json'),
+    1058544766142394379: os.path.join(DATASET_DIR, 'dataset_pedidos.json'),
+    819657860627038228: os.path.join(DATASET_DIR, 'dataset_psp.json')
+}
+DIRECTOR_ID = 733720277304737823 # ID del director de carrera
 NOMBRE_DIRECTOR = "Luis Flores"
 BOT_ID = 1516215867090931753 # ID del bot
 CANALES_OBJETIVO = [873310192333377546, 1058544766142394379, 819657860627038228]
@@ -117,11 +124,14 @@ async def on_message(message):
     if client.user in message.mentions:
         
         # 1. Avisar y guardar el mensaje de que el proceso comenzó
-        mensaje_espera = await message.channel.send("⏳ Hola, papu. Agrupando preguntas con respuestas, dame un momento...")
+        mensaje_espera = await message.channel.send("⏳ Hola. Agrupando preguntas con respuestas, dame un momento...")
         
-        datos_qa = []
+        archivos_discord = []
+        total_pares = 0
+        os.makedirs(DATASET_DIR, exist_ok=True)
         
         for canal_id in CANALES_OBJETIVO:
+            datos_qa = []
             canal = client.get_channel(canal_id)
 
             if canal is None:
@@ -206,30 +216,27 @@ async def on_message(message):
                     "ciclo": current_cycle
                 })
 
-        # 4. Guardar en formato JSON explícitamente
-        with open(NOMBRE_ARCHIVO, 'w', encoding='utf-8') as f:
-            # ensure_ascii=False para que los acentos y ñ se vean bien (no en unicode \u00f1)
-            json.dump(datos_qa, f, indent=4, ensure_ascii=False)
-        
-        # 5. Enviar el archivo de vuelta al chat
-        if os.path.exists(NOMBRE_ARCHIVO):
-            archivo_discord = discord.File(NOMBRE_ARCHIVO)
-            usuario_etiquetado = message.author.mention
+            # Guardar el archivo por cada canal
+            if canal_id in NOMBRES_ARCHIVOS:
+                nombre_archivo = NOMBRES_ARCHIVOS[canal_id]
+                with open(nombre_archivo, 'w', encoding='utf-8') as f:
+                    json.dump(datos_qa, f, indent=4, ensure_ascii=False)
+                
+                if os.path.exists(nombre_archivo):
+                    archivos_discord.append(discord.File(nombre_archivo))
+                    total_pares += len(datos_qa)
 
-            # --- NUEVA LÓGICA DEL BOTÓN ---
-            # Instanciamos la vista pasándole el mensaje actual
-            # vista_contacto = VistaTicket(
-            #     mensaje_original=message, 
-            #     pregunta_alumno=message.content # Usamos el mensaje actual como "pregunta" de prueba
-            # )
+        # 4. Enviar los archivos de vuelta al chat
+        if archivos_discord:
+            usuario_etiquetado = message.author.mention
             
             await message.channel.send(
-                file=archivo_discord,
-                content=f"📋 ¡Hola, {usuario_etiquetado}! Aquí tienes tu `.json` listo con **{len(datos_qa)} pares** de Q&A estructurados."
+                files=archivos_discord,
+                content=f"📋 ¡Hola, {usuario_etiquetado}! Aquí tienes tus archivos `.json` listos con un total de **{total_pares} pares** de Q&A estructurados."
             )
             await mensaje_espera.delete()
         else:
-            await message.channel.send("❌ Hubo un error al generar el archivo JSON.")
+            await message.channel.send("❌ Hubo un error al generar los archivos JSON.")
             await mensaje_espera.delete()
 
 # Iniciar el bot
