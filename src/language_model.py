@@ -224,6 +224,10 @@ class LanguageModel(object):
         normalized_question = re.sub(r"[^a-z0-9áéíóúñü\s]", "", normalized_question).strip()
 
         greetings = {"hola", "buenos dias", "buenas tardes", "buenas noches", "hi", "hello"}
+        wellbeing_questions = {
+            "como estas", "como esta", "que tal", "que tal estas", "como vas",
+            "como te va", "todo bien", "que fue", "que tal chatbotinf",
+        }
         thanks = {"gracias", "muchas gracias", "ok gracias", "listo gracias"}
         farewells = {"adios", "chau", "hasta luego", "nos vemos"}
 
@@ -233,6 +237,11 @@ class LanguageModel(object):
                 "matrícula, calendario académico, trámites relevantes de la carrera, PSP/convenios, malla, sílabos "
                 "y consultas históricas del Discord cargado. Si es sobre otro proceso de la PUCP o información externa, "
                 "te indicaré que está fuera de mi alcance o que no tengo información suficiente."
+            )
+        if normalized_question in wellbeing_questions:
+            return (
+                "Bien, gracias. Puedo ayudarte con información cargada sobre procesos de Ingeniería Informática PUCP: "
+                "matrícula, calendario académico, trámites, PSP/convenios, malla y sílabos."
             )
         if normalized_question in thanks:
             return "De nada. Recuerda que puedo apoyarte solo con procesos de Ingeniería Informática PUCP cubiertos por la información cargada."
