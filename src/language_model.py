@@ -354,6 +354,10 @@ class LanguageModel(object):
 
         asks_code = any(term in normalized_question for term in ["codigo", "codigos", "clave", "claves"])
         asks_credits = any(term in normalized_question for term in ["credito", "creditos", "cuantos creditos", "cuanto creditaje"])
+        asks_course_by_code = (
+            re.search(r"\b[0-9][a-z]{3}[0-9]{2}\b", normalized_question) is not None
+            and any(term in normalized_question for term in ["curso", "cursos", "cual es", "que es"])
+        )
         asks_requirements = any(term in normalized_question for term in [
             "requisito", "requisitos", "que me falta", "qué me falta", "necesito",
             "puedo adelantar", "puedo llevar", "puedo pedir excepcion", "puedo pedir excepción",
@@ -362,7 +366,7 @@ class LanguageModel(object):
             "debo pasar", "tengo que pasar", "si o si pasarlo", "sí o sí pasarlo",
             "si o si aprobar", "sí o sí aprobar",
         ])
-        if not (asks_code or asks_credits or asks_requirements):
+        if not (asks_code or asks_credits or asks_requirements or asks_course_by_code):
             return None
 
         refs = self._find_course_references(normalized_question)
@@ -402,6 +406,14 @@ class LanguageModel(object):
         for ref in target_refs[:3]:
             course = courses.get(ref.get("codigo"))
             if not course:
+                continue
+            if asks_course_by_code and not asks_requirements and not asks_credits:
+                parts = [f"{course['codigo']} es {course['nombre']}"]
+                if course.get("ciclo") is not None:
+                    parts.append(f"ciclo {course['ciclo']}")
+                if course.get("creditos"):
+                    parts.append(f"{course['creditos']} créditos")
+                lines.append(", ".join(parts) + ".")
                 continue
             if asks_code and not asks_requirements and not asks_credits:
                 lines.append(f"El código de {course['nombre']} es {course['codigo']}.")
@@ -641,7 +653,8 @@ class LanguageModel(object):
         seen_codes = set()
         for alias, record in aliases.items():
             name = self._normalize_for_course_matching(str(record.get("nombre", "")))
-            terms = {alias, name}
+            code = self._normalize_for_course_matching(str(record.get("codigo", "")))
+            terms = {alias, name, code}
             if not any(self._contains_course_term(normalized_question, term) for term in terms):
                 continue
             code = record.get("codigo", "")
