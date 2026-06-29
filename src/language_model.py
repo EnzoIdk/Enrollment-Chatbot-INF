@@ -17,6 +17,7 @@ class LanguageModel(object):
     CAMPUS_URL = "https://campusvirtual.pucp.edu.pe/"
     CALENDAR_2026_1_URL = "https://estudiante.pucp.edu.pe/calendario-academico/2026-1/"
     MATRICULA_FACTS_PATH = Path("docs/curated/matricula_fechas.json")
+    COURSE_ALIASES_PATH = Path("docs/curated/vocabulario_cursos.json")
 
     def __init__(self, model_name: str, initial_prompt: str, temperature: float = 0.1):
         assert model_name is not None, "Model name cannot be None"
@@ -197,19 +198,21 @@ class LanguageModel(object):
         attempt = "segunda" if mentions_bika else "tercera"
         course = self._extract_course_after_slang(normalized_question)
         requested_course = self._extract_requested_course_in_slang_question(normalized_question)
-        if course and requested_course:
+        course_display = self._format_course_alias(course) if course else None
+        requested_course_display = self._format_course_alias(requested_course) if requested_course else None
+        if course_display and requested_course_display:
             return (
-                f"Entiendo que estás llevando por {attempt} vez el curso que llamas '{course}'. "
-                f"No puedo confirmar si puedes llevar '{requested_course}' en el mismo ciclo solo con esa información; "
+                f"Entiendo que estás llevando por {attempt} vez '{course_display}'. "
+                f"No puedo confirmar si puedes llevar '{requested_course_display}' en el mismo ciclo solo con esa información; "
                 "eso depende de requisitos, cursos permitidos, posibles infracciones de plan y reglas de matrícula. "
                 f"Revísalo en Campus Virtual PUCP: {self.CAMPUS_URL}. "
                 "Si el sistema no te permite matricularte o te marca infracción de plan, consulta con la Dirección de Carrera o con matrícula-ocr@pucp.edu.pe."
             )
 
-        if course:
+        if course_display:
             return (
-                f"Si dices que llevas {term} de '{course}', entiendo que estás llevando por {attempt} vez "
-                f"el curso que llamas '{course}'. {term.capitalize()} no es parte del nombre del curso."
+                f"Si dices que llevas {term} de '{course_display}', entiendo que estás llevando por {attempt} vez "
+                f"ese curso. {term.capitalize()} no es parte del nombre del curso."
             )
 
         return (
@@ -249,6 +252,34 @@ class LanguageModel(object):
         requested_course = re.sub(r"[^a-z0-9\s]", " ", requested_course)
         requested_course = re.sub(r"\s+", " ", requested_course).strip()
         return requested_course or None
+
+    def _load_course_aliases(self) -> dict[str, str]:
+        if not self.COURSE_ALIASES_PATH.exists():
+            return {}
+        try:
+            records = json.loads(self.COURSE_ALIASES_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {}
+
+        aliases = {}
+        for record in records:
+            alias = self._normalize_text(str(record.get("alias", "")))
+            name = str(record.get("nombre", "")).strip()
+            if alias and name:
+                aliases[alias] = name
+        return aliases
+
+    def _format_course_alias(self, course: str | None) -> str | None:
+        if not course:
+            return None
+        aliases = self._load_course_aliases()
+        normalized_course = self._normalize_text(course)
+        official_name = aliases.get(normalized_course)
+        if official_name:
+            if self._normalize_text(official_name) == normalized_course:
+                return official_name
+            return f"{official_name} ({course.upper()})"
+        return course
 
     def _preflight_ambiguous_slang_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)

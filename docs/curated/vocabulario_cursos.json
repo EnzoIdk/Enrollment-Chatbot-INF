@@ -1,0 +1,27 @@
+[
+  {
+    "alias": "adso",
+    "nombre": "Administración de Sistemas Operativos",
+    "tipo": "curso"
+  },
+  {
+    "alias": "tp",
+    "nombre": "Técnicas de Programación",
+    "tipo": "curso"
+  },
+  {
+    "alias": "sistemas operativos",
+    "nombre": "Sistemas Operativos",
+    "tipo": "curso"
+  },
+  {
+    "alias": "administracion de sistemas operativos",
+    "nombre": "Administración de Sistemas Operativos",
+    "tipo": "curso"
+  },
+  {
+    "alias": "tecnicas de programacion",
+    "nombre": "Técnicas de Programación",
+    "tipo": "curso"
+  }
+]

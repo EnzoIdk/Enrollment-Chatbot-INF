@@ -71,7 +71,7 @@ class Embedder(object):
         assert documents_path is not None, "Documents path cannot be None"
 
         text_files = [
-            path for pattern in ("**/*.md", "**/*.txt")
+            path for pattern in ("**/*.md", "**/*.txt", "**/*.json")
             for path in Path(documents_path).glob(pattern)
         ]
         documents = []
