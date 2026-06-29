@@ -14,6 +14,16 @@ def read_static_documents(embedder: Embedder) -> None:
     print("Documentos estáticos leídos")
 
 
+def read_static_processed_documents(embedder: Embedder) -> None:
+    static_processed_docs_dir = os.getenv("STATIC_PROCESSED_DOCS_DIR", "./docs/static/processed")
+    if not os.path.exists(static_processed_docs_dir):
+        print("No se detectó carpeta de documentos estáticos procesados")
+        return
+    chunks = embedder.read_text_documents(static_processed_docs_dir)
+    embedder.embed_and_store(chunks = chunks, database_name = "static")
+    print("Documentos estáticos procesados leídos")
+
+
 def read_dynamic_documents(embedder: Embedder) -> None:
     dynamic_docs_dir = os.getenv("DYNAMIC_DOCS_DIR")
     chunks = embedder.read_pdf_documents(dynamic_docs_dir)
@@ -116,6 +126,7 @@ def setup_chatbot() -> LanguageModel:
     if not os.path.exists(db_dir) or len(os.listdir(db_dir)) == 0:
         print(f"No se detectó base de datos en '{db_dir}'. Generando embeddings...")
         read_static_documents(embedder)
+        read_static_processed_documents(embedder)
         read_dynamic_documents(embedder)
         read_curated_documents(embedder)
         read_historical_documents(embedder)

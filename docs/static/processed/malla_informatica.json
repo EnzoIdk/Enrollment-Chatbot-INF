@@ -1,0 +1,1188 @@
+{
+  "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+  "descripcion_requisitos": {
+    "parentesis": "( ) Haber cursado con nota 08 o más",
+    "corchetes": "[ ] Haber cursado o cursar simultáneamente",
+    "llaves": "{ } Haber aprobado o cursar simultáneamente, según sílabos donde aparece como tipo 05"
+  },
+  "ciclos": {
+    "5": [
+      "1GES92",
+      "1IND90",
+      "1INF25",
+      "1INF27",
+      "1INF28",
+      "1INF33",
+      "1INF49"
+    ],
+    "6": [
+      "1CON27",
+      "1ELE01",
+      "1EST22",
+      "1INF29",
+      "1INF30",
+      "1INF31",
+      "1INF32"
+    ],
+    "7": [
+      "1EST14",
+      "1INF24",
+      "1INF34",
+      "1INF35",
+      "1INF50",
+      "IDM201",
+      "IND231",
+      "INF238"
+    ],
+    "8": [
+      "1INF26",
+      "1INF36",
+      "1INF37",
+      "1INF38",
+      "1INF39",
+      "1INF40",
+      "1INF41"
+    ],
+    "9": [
+      "1INF42",
+      "1INF44",
+      "1INF45",
+      "1INF54",
+      "IND328",
+      "INF008"
+    ],
+    "10": [
+      "1INF46",
+      "1INF47",
+      "1INF48"
+    ]
+  },
+  "cursos": {
+    "1CON27": {
+      "codigo": "1CON27",
+      "nombre": "Contabilidad y Finanzas",
+      "ciclo": 6,
+      "categoria": "obligatorio",
+      "creditos": "2.50",
+      "requisitos_texto": "1 (2q) 1IND90",
+      "requisitos_codigos": [
+        "1IND90"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1CON27-2026-1-SILABO.PDF"
+    },
+    "1ELE01": {
+      "codigo": "1ELE01",
+      "nombre": "Arquitectura de Computadoras",
+      "ciclo": 6,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1FIS06, 1FIS07, INF134",
+      "requisitos_codigos": [
+        "1FIS06",
+        "1FIS07",
+        "INF134"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1ELE01-2026-1-SILABO.PDF"
+    },
+    "1EST14": {
+      "codigo": "1EST14",
+      "nombre": "Experimentación Numérica",
+      "ciclo": 7,
+      "categoria": "obligatorio",
+      "creditos": "2.00",
+      "requisitos_texto": "1EST22",
+      "requisitos_codigos": [
+        "1EST22"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1EST14-2026-1-SILABO.PDF"
+    },
+    "1EST22": {
+      "codigo": "1EST22",
+      "nombre": "Probabilidad y Estadística",
+      "ciclo": 6,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1MAT09",
+      "requisitos_codigos": [
+        "1MAT09"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1EST22-2026-1-SILABO.PDF"
+    },
+    "1GES92": {
+      "codigo": "1GES92",
+      "nombre": "Taller de Habilidades Interpersonales",
+      "ciclo": 5,
+      "categoria": "obligatorio",
+      "creditos": "1.00",
+      "requisitos_texto": "70 créditos aprobados *",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1GES92-2026-1-SILABO.PDF"
+    },
+    "1IND40": {
+      "codigo": "1IND40",
+      "nombre": "Seminario Internacional en Ciencia e Ingeniería 1",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "1.00",
+      "requisitos_texto": "110 créditos aprobados*",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1IND41": {
+      "codigo": "1IND41",
+      "nombre": "Seminario Internacional en Ciencia e Ingeniería 2",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "1.00",
+      "requisitos_texto": "110 créditos aprobados*",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1IND42": {
+      "codigo": "1IND42",
+      "nombre": "Seminario Internacional en Ciencia e Ingeniería 3",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "1.00",
+      "requisitos_texto": "110 créditos aprobados*",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1IND90": {
+      "codigo": "1IND90",
+      "nombre": "Empresa y Su Entorno",
+      "ciclo": 5,
+      "categoria": "obligatorio",
+      "creditos": "2.00",
+      "requisitos_texto": "70 créditos aprobados *",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1IND90-2026-1-SILABO.PDF"
+    },
+    "1INF02": {
+      "codigo": "1INF02",
+      "nombre": "Aprendizaje de Máquina",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF24",
+      "requisitos_codigos": [
+        "1INF24"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF03": {
+      "codigo": "1INF03",
+      "nombre": "Análisis de Datos",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF24",
+      "requisitos_codigos": [
+        "1INF24"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF06": {
+      "codigo": "1INF06",
+      "nombre": "Estructura de Datos y Programación Metódica",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "4.50",
+      "requisitos_texto": "1 (2q) INF144, [1INF27]",
+      "requisitos_codigos": [
+        "INF144",
+        "1INF27"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF08": {
+      "codigo": "1INF08",
+      "nombre": "Transformación Digital de Negocios",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF40",
+      "requisitos_codigos": [
+        "1INF40"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF11": {
+      "codigo": "1INF11",
+      "nombre": "Gobierno Electrónico",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF39",
+      "requisitos_codigos": [
+        "1INF39"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF12": {
+      "codigo": "1INF12",
+      "nombre": "Temas Avanzados en Ciencias de la Computación",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "[1INF24]",
+      "requisitos_codigos": [
+        "1INF24"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF20": {
+      "codigo": "1INF20",
+      "nombre": "Ciberseguridad",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF41",
+      "requisitos_codigos": [
+        "1INF41"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF21": {
+      "codigo": "1INF21",
+      "nombre": "Informática Forense",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) [INF238]",
+      "requisitos_codigos": [
+        "INF238"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF22": {
+      "codigo": "1INF22",
+      "nombre": "Gestión de Riesgos Tecnológicos",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF39",
+      "requisitos_codigos": [
+        "1INF39"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF24": {
+      "codigo": "1INF24",
+      "nombre": "Inteligencia Artificial",
+      "ciclo": 7,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF32",
+      "requisitos_codigos": [
+        "1INF32"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF24-2026-1-SILABO.PDF"
+    },
+    "1INF25": {
+      "codigo": "1INF25",
+      "nombre": "Programación 2",
+      "ciclo": 5,
+      "categoria": "obligatorio",
+      "creditos": "5.00",
+      "requisitos_texto": "2 (4q) INF144, [1INF27]",
+      "requisitos_codigos": [
+        "INF144",
+        "1INF27"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF25-2026-1-SILABO.PDF"
+    },
+    "1INF26": {
+      "codigo": "1INF26",
+      "nombre": "Formulación de Proyecto de Fin de Carrera",
+      "ciclo": 8,
+      "categoria": "obligatorio",
+      "creditos": "2.00",
+      "requisitos_texto": "[1EST14], [1INF37]",
+      "requisitos_codigos": [
+        "1EST14",
+        "1INF37"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF26-2026-1-SILABO.PDF"
+    },
+    "1INF27": {
+      "codigo": "1INF27",
+      "nombre": "Algoritmia y Estructura de Datos",
+      "ciclo": 5,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) INF144",
+      "requisitos_codigos": [
+        "INF144"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF27-2026-1-SILABO.PDF"
+    },
+    "1INF28": {
+      "codigo": "1INF28",
+      "nombre": "Fundamentos de Sistemas de Información",
+      "ciclo": 5,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 70 créditos aprobados *, [1INF33]",
+      "requisitos_codigos": [
+        "1INF33"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF28-2026-1-SILABO.PDF"
+    },
+    "1INF29": {
+      "codigo": "1INF29",
+      "nombre": "Sistemas Operativos",
+      "ciclo": 6,
+      "categoria": "obligatorio",
+      "creditos": "2.50",
+      "requisitos_texto": "1 (2q) [1ELE01], 1INF25",
+      "requisitos_codigos": [
+        "1ELE01",
+        "1INF25"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF29-2026-1-SILABO.PDF"
+    },
+    "1INF30": {
+      "codigo": "1INF30",
+      "nombre": "Programación 3",
+      "ciclo": 6,
+      "categoria": "obligatorio",
+      "creditos": "5.00",
+      "requisitos_texto": "2 (4q) 1INF25, (1INF33), (1INF27)",
+      "requisitos_codigos": [
+        "1INF25",
+        "1INF33",
+        "1INF27"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF30-2026-1-SILABO.PDF"
+    },
+    "1INF31": {
+      "codigo": "1INF31",
+      "nombre": "Arquitectura de Software",
+      "ciclo": 6,
+      "categoria": "obligatorio",
+      "creditos": "2.50",
+      "requisitos_texto": "1 (2q) 1INF49",
+      "requisitos_codigos": [
+        "1INF49"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF31-2026-1-SILABO.PDF"
+    },
+    "1INF32": {
+      "codigo": "1INF32",
+      "nombre": "Algoritmos Avanzados",
+      "ciclo": 6,
+      "categoria": "obligatorio",
+      "creditos": "2.50",
+      "requisitos_texto": "1 (2q) 1INF27, 1INF25",
+      "requisitos_codigos": [
+        "1INF27",
+        "1INF25"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF32-2026-1-SILABO.PDF"
+    },
+    "1INF33": {
+      "codigo": "1INF33",
+      "nombre": "Base de Datos",
+      "ciclo": 5,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 70 créditos aprobados *, {INF144}",
+      "requisitos_codigos": [
+        "INF144"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF33-2026-1-SILABO.PDF"
+    },
+    "1INF34": {
+      "codigo": "1INF34",
+      "nombre": "Modelado y Automatización de Procesos Empresariales",
+      "ciclo": 7,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1CON27, 1INF28",
+      "requisitos_codigos": [
+        "1CON27",
+        "1INF28"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF34-2026-1-SILABO.PDF"
+    },
+    "1INF35": {
+      "codigo": "1INF35",
+      "nombre": "Administración de Sistemas Operativos",
+      "ciclo": 7,
+      "categoria": "obligatorio",
+      "creditos": "2.50",
+      "requisitos_texto": "1 (2q) 1INF29",
+      "requisitos_codigos": [
+        "1INF29"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF35-2026-1-SILABO.PDF"
+    },
+    "1INF36": {
+      "codigo": "1INF36",
+      "nombre": "Ética y Rsu en Ingeniería Informática",
+      "ciclo": 8,
+      "categoria": "obligatorio",
+      "creditos": "2.50",
+      "requisitos_texto": "1 (2q) 140 créditos aprobados*",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF37": {
+      "codigo": "1INF37",
+      "nombre": "Ingeniería de Software",
+      "ciclo": 8,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF30, 1INF50, {INF238}",
+      "requisitos_codigos": [
+        "1INF30",
+        "1INF50",
+        "INF238"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF37-2026-1-SILABO.PDF"
+    },
+    "1INF38": {
+      "codigo": "1INF38",
+      "nombre": "Innovación y Emprendimiento con Tecnologías de",
+      "ciclo": 8,
+      "categoria": "obligatorio",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF34, IND231",
+      "requisitos_codigos": [
+        "1INF34",
+        "IND231"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF38-2026-1-SILABO.PDF"
+    },
+    "1INF39": {
+      "codigo": "1INF39",
+      "nombre": "Gobierno y Gestión de Tecnologías de Información",
+      "ciclo": 8,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF34, [1INF40]",
+      "requisitos_codigos": [
+        "1INF34",
+        "1INF40"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF39-2026-1-SILABO.PDF"
+    },
+    "1INF40": {
+      "codigo": "1INF40",
+      "nombre": "Tecnologías de Información para los Negocios",
+      "ciclo": 8,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF34, 1INF33",
+      "requisitos_codigos": [
+        "1INF34",
+        "1INF33"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF40-2026-1-SILABO.PDF"
+    },
+    "1INF41": {
+      "codigo": "1INF41",
+      "nombre": "Seguridad de Información",
+      "ciclo": 8,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) [1INF39]",
+      "requisitos_codigos": [
+        "1INF39"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF41-2026-1-SILABO.PDF"
+    },
+    "1INF42": {
+      "codigo": "1INF42",
+      "nombre": "Proyecto de Fin de Carrera 1",
+      "ciclo": 9,
+      "categoria": "obligatorio",
+      "creditos": "2.00",
+      "requisitos_texto": "1INF26",
+      "requisitos_codigos": [
+        "1INF26"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF42-2026-1-SILABO.PDF"
+    },
+    "1INF44": {
+      "codigo": "1INF44",
+      "nombre": "Arquitectura Empresarial",
+      "ciclo": 9,
+      "categoria": "obligatorio",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF40",
+      "requisitos_codigos": [
+        "1INF40"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF44-2026-1-SILABO.PDF"
+    },
+    "1INF45": {
+      "codigo": "1INF45",
+      "nombre": "Implantación de Sistemas de Información",
+      "ciclo": 9,
+      "categoria": "obligatorio",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF40",
+      "requisitos_codigos": [
+        "1INF40"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF45-2026-1-SILABO.PDF"
+    },
+    "1INF46": {
+      "codigo": "1INF46",
+      "nombre": "Proyecto de Fin de Carrera 2",
+      "ciclo": 10,
+      "categoria": "obligatorio",
+      "creditos": "2.00",
+      "requisitos_texto": "1INF42",
+      "requisitos_codigos": [
+        "1INF42"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF46-2026-1-SILABO.PDF"
+    },
+    "1INF47": {
+      "codigo": "1INF47",
+      "nombre": "Proyecto de Implementación de Software",
+      "ciclo": 10,
+      "categoria": "obligatorio",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF54",
+      "requisitos_codigos": [
+        "1INF54"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF47-2026-1-SILABO.PDF"
+    },
+    "1INF48": {
+      "codigo": "1INF48",
+      "nombre": "Estrategia y Gestión de Sistemas de Información",
+      "ciclo": 10,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF40",
+      "requisitos_codigos": [
+        "1INF40"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF48-2026-1-SILABO.PDF"
+    },
+    "1INF49": {
+      "codigo": "1INF49",
+      "nombre": "Ingeniería de Requisitos",
+      "ciclo": 5,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 70 créditos aprobados *",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF49-2026-1-SILABO.PDF"
+    },
+    "1INF50": {
+      "codigo": "1INF50",
+      "nombre": "Diseño de Software",
+      "ciclo": 7,
+      "categoria": "obligatorio",
+      "creditos": "2.50",
+      "requisitos_texto": "1 (2q) 1INF31",
+      "requisitos_codigos": [
+        "1INF31"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF50-2026-1-SILABO.PDF"
+    },
+    "1INF51": {
+      "codigo": "1INF51",
+      "nombre": "Sistemas Administradores de Bases de Datos",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF35",
+      "requisitos_codigos": [
+        "1INF35"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF52": {
+      "codigo": "1INF52",
+      "nombre": "Deep Learning",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "1 (2q) 1INF24",
+      "requisitos_codigos": [
+        "1INF24"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF52-2026-1-SILABO.PDF"
+    },
+    "1INF54": {
+      "codigo": "1INF54",
+      "nombre": "Proyecto de Diseño y Desarrollo de Software",
+      "ciclo": 9,
+      "categoria": "obligatorio",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF37, (1EST14)",
+      "requisitos_codigos": [
+        "1INF37",
+        "1EST14"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF54-2026-1-SILABO.PDF"
+    },
+    "1INF55": {
+      "codigo": "1INF55",
+      "nombre": "Rediseño de Interfaces Gráficas en Sistemas de",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "3 (2q) 1INF40",
+      "requisitos_codigos": [
+        "1INF40"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF55-2026-1-SILABO.PDF"
+    },
+    "1INF56": {
+      "codigo": "1INF56",
+      "nombre": "Programación para Sistemas de Información Empresarial",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "3 (2q) 1INF40",
+      "requisitos_codigos": [
+        "1INF40"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF57": {
+      "codigo": "1INF57",
+      "nombre": "Sistemas Empresariales para la Gestión Financiera",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "3 (2q) 1INF40",
+      "requisitos_codigos": [
+        "1INF40"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF58": {
+      "codigo": "1INF58",
+      "nombre": "Sistemas Empresariales para la Gestión de la Cadena en Suministros",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "3 (2q) 1INF40",
+      "requisitos_codigos": [
+        "1INF40"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF59": {
+      "codigo": "1INF59",
+      "nombre": "Procesamiento de Lenguaje Natural",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "3 (2q) 1INF24",
+      "requisitos_codigos": [
+        "1INF24"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF59-2026-1-SILABO.PDF"
+    },
+    "1INF60": {
+      "codigo": "1INF60",
+      "nombre": "Aprendizaje Por Refuerzo",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "3 (2q) 1INF24",
+      "requisitos_codigos": [
+        "1INF24"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "1INF61": {
+      "codigo": "1INF61",
+      "nombre": "Temas Avanzados de Inteligencia Artificial",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF24",
+      "requisitos_codigos": [
+        "1INF24"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF61-2026-1-SILABO.PDF"
+    },
+    "1INF62": {
+      "codigo": "1INF62",
+      "nombre": "Inteligencia Artificial Aplicada",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "3 (2q) 1INF24",
+      "requisitos_codigos": [
+        "1INF24"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF62-2026-1-SILABO.PDF"
+    },
+    "1INF63": {
+      "codigo": "1INF63",
+      "nombre": "Introducción A los Sistemas de Información",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF37",
+      "requisitos_codigos": [
+        "1INF37"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/1INF63-2026-1-SILABO.PDF"
+    },
+    "CIC611": {
+      "codigo": "CIC611",
+      "nombre": "Matemáticas para Computación",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "175 créditos aprobados *",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "DER349": {
+      "codigo": "DER349",
+      "nombre": "Derecho para Ingenieros Informáticos",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "140 créditos aprobados *",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/DER349-2026-1-SILABO.PDF"
+    },
+    "IDM201": {
+      "codigo": "IDM201",
+      "nombre": "Idioma Extranjero (inglés)",
+      "ciclo": 7,
+      "categoria": "obligatorio",
+      "creditos": "",
+      "requisitos_texto": "Acreditar capacidad de lectura",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "IEE229": {
+      "codigo": "IEE229",
+      "nombre": "Electrónica Digital 3 1.",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.75",
+      "requisitos_texto": "5 (3q) INF134, 1FIS06, 1FIS07",
+      "requisitos_codigos": [
+        "INF134",
+        "1FIS06",
+        "1FIS07"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "IND231": {
+      "codigo": "IND231",
+      "nombre": "Ingeniería Económica",
+      "ciclo": 7,
+      "categoria": "obligatorio",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 80 créditos aprobados*",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/IND231-2026-1-SILABO.PDF"
+    },
+    "IND328": {
+      "codigo": "IND328",
+      "nombre": "Gestión de Proyectos",
+      "ciclo": 9,
+      "categoria": "obligatorio",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF37",
+      "requisitos_codigos": [
+        "1INF37"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/IND328-2026-1-SILABO.PDF"
+    },
+    "INF008": {
+      "codigo": "INF008",
+      "nombre": "Práctica Supervisada Preprofesional",
+      "ciclo": 9,
+      "categoria": "obligatorio",
+      "creditos": "0.50",
+      "requisitos_texto": "1INF34",
+      "requisitos_codigos": [
+        "1INF34"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/INF008-2026-1-SILABO.PDF"
+    },
+    "INF238": {
+      "codigo": "INF238",
+      "nombre": "Redes de Computadoras",
+      "ciclo": 7,
+      "categoria": "obligatorio",
+      "creditos": "4.00",
+      "requisitos_texto": "1ELE01",
+      "requisitos_codigos": [
+        "1ELE01"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/INF238-2026-1-SILABO.PDF"
+    },
+    "INF275": {
+      "codigo": "INF275",
+      "nombre": "Seguridad Computacional",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) [INF238]",
+      "requisitos_codigos": [
+        "INF238"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF309": {
+      "codigo": "INF309",
+      "nombre": "Desarrollo de Videojuegos",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF37",
+      "requisitos_codigos": [
+        "1INF37"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/INF309-2026-1-SILABO.PDF"
+    },
+    "INF310": {
+      "codigo": "INF310",
+      "nombre": "Teoría de Grafos",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF30",
+      "requisitos_codigos": [
+        "1INF30"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF320": {
+      "codigo": "INF320",
+      "nombre": "Programación en Dispositivos Móviles",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF30, 1INF50",
+      "requisitos_codigos": [
+        "1INF30",
+        "1INF50"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF340": {
+      "codigo": "INF340",
+      "nombre": "Auditoría de Sistemas y Tecnologías de Información",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 180 créditos aprobados *",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF342": {
+      "codigo": "INF342",
+      "nombre": "Seminario de Informática",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF37",
+      "requisitos_codigos": [
+        "1INF37"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF356": {
+      "codigo": "INF356",
+      "nombre": "Tecnologías Web",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF30",
+      "requisitos_codigos": [
+        "1INF30"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF357": {
+      "codigo": "INF357",
+      "nombre": "Inteligencia de Negocios",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF40",
+      "requisitos_codigos": [
+        "1INF40"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF370": {
+      "codigo": "INF370",
+      "nombre": "Calidad de Software",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF37",
+      "requisitos_codigos": [
+        "1INF37"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF372": {
+      "codigo": "INF372",
+      "nombre": "Gráficos en Computación",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "4.00",
+      "requisitos_texto": "1 (2q) 1 (2q) 1INF30",
+      "requisitos_codigos": [
+        "1INF30"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF373": {
+      "codigo": "INF373",
+      "nombre": "Teoría de Compiladores",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "4.00",
+      "requisitos_texto": "1 (2q) 1 (2q) 1INF30",
+      "requisitos_codigos": [
+        "1INF30"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF377": {
+      "codigo": "INF377",
+      "nombre": "Sistemas de Información Gerencial",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "4.00",
+      "requisitos_texto": "1 (2q) 1 (2q) 1INF40",
+      "requisitos_codigos": [
+        "1INF40"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF378": {
+      "codigo": "INF378",
+      "nombre": "Sistemas Expertos",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "4.00",
+      "requisitos_texto": "1 (2q) 1 (2q) 1INF24",
+      "requisitos_codigos": [
+        "1INF24"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF382": {
+      "codigo": "INF382",
+      "nombre": "Temas Avanzados en Sist. de Información 01",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF28, 1INF49, 120 créditos aprobados *",
+      "requisitos_codigos": [
+        "1INF28",
+        "1INF49"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF383": {
+      "codigo": "INF383",
+      "nombre": "Temas Avanzados en Sist. de Información 02",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF28, 1INF49, 120 créditos aprobados *",
+      "requisitos_codigos": [
+        "1INF28",
+        "1INF49"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF384": {
+      "codigo": "INF384",
+      "nombre": "Temas Avanzados en Ing. de Software 01",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF37",
+      "requisitos_codigos": [
+        "1INF37"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF385": {
+      "codigo": "INF385",
+      "nombre": "Temas Avanzados en Ing. de Software 02",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF37",
+      "requisitos_codigos": [
+        "1INF37"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF386": {
+      "codigo": "INF386",
+      "nombre": "Temas Avanzados en Tecnología de Inf. 01",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF39",
+      "requisitos_codigos": [
+        "1INF39"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF387": {
+      "codigo": "INF387",
+      "nombre": "Temas Avanzados en Tecnología de Inf. 02",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF39",
+      "requisitos_codigos": [
+        "1INF39"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF388": {
+      "codigo": "INF388",
+      "nombre": "Temas Avanzados en Ing. Computadora 01",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) INF238",
+      "requisitos_codigos": [
+        "INF238"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF389": {
+      "codigo": "INF389",
+      "nombre": "Temas Avanzados en Computación",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "1INF24",
+      "requisitos_codigos": [
+        "1INF24"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    },
+    "INF390": {
+      "codigo": "INF390",
+      "nombre": "Continuidad de las Tecnologías de Información",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.50",
+      "requisitos_texto": "1 (2q) 1INF39",
+      "requisitos_codigos": [
+        "1INF39"
+      ],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": "docs/dynamic/INF390-2026-1-SILABO.PDF"
+    },
+    "TEO240": {
+      "codigo": "TEO240",
+      "nombre": "Teología 2",
+      "ciclo": null,
+      "categoria": "electivo",
+      "creditos": "3.00",
+      "requisitos_texto": "",
+      "requisitos_codigos": [],
+      "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
+      "fuente_silabo": ""
+    }
+  }
+}

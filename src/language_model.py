@@ -18,7 +18,7 @@ class LanguageModel(object):
     CALENDAR_2026_1_URL = "https://estudiante.pucp.edu.pe/calendario-academico/2026-1/"
     MATRICULA_FACTS_PATH = Path("docs/curated/matricula_fechas.json")
     COURSE_ALIASES_PATH = Path("docs/curated/vocabulario_cursos.json")
-    COURSE_REQUIREMENTS_PATH = Path("docs/curated/requisitos_cursos.json")
+    CURRICULUM_PATH = Path("docs/static/processed/malla_informatica.json")
 
     def __init__(self, model_name: str, initial_prompt: str, temperature: float = 0.1):
         assert model_name is not None, "Model name cannot be None"
@@ -77,9 +77,9 @@ class LanguageModel(object):
         if ambiguous_slang_response is not None:
             return ambiguous_slang_response
 
-        course_requirements_response = self._preflight_course_requirements_response(pregunta)
-        if course_requirements_response is not None:
-            return course_requirements_response
+        curriculum_response = self._preflight_curriculum_response(pregunta)
+        if curriculum_response is not None:
+            return curriculum_response
 
         psp_response = self._preflight_psp_response(pregunta)
         if psp_response is not None:
@@ -228,151 +228,119 @@ class LanguageModel(object):
             )
         return None
 
-    def _preflight_course_requirements_response(self, pregunta: str) -> str | None:
-        normalized_question = self._normalize_text(pregunta)
-        asks_requirements = any(phrase in normalized_question for phrase in [
-            "que me falta", "qué me falta", "requisito", "requisitos", "necesito",
+    def _preflight_curriculum_response(self, pregunta: str) -> str | None:
+        normalized_question = self._normalize_for_course_matching(pregunta)
+        curriculum = self._load_curriculum()
+        if not curriculum:
+            return None
+
+        cycle = self._extract_curriculum_cycle(normalized_question)
+        asks_cycle_courses = cycle is not None and any(term in normalized_question for term in [
+            "curso", "cursos", "llevar", "malla", "ciclo",
+        ])
+        if asks_cycle_courses:
+            return self._answer_curriculum_cycle(cycle, curriculum)
+
+        asks_code = any(term in normalized_question for term in ["codigo", "codigos", "clave", "claves"])
+        asks_credits = any(term in normalized_question for term in ["credito", "creditos", "cuantos creditos", "cuanto creditaje"])
+        asks_requirements = any(term in normalized_question for term in [
+            "requisito", "requisitos", "que me falta", "qué me falta", "necesito",
             "puedo adelantar", "puedo llevar", "debo pasar", "tengo que pasar",
             "si o si pasarlo", "sí o sí pasarlo", "si o si aprobar", "sí o sí aprobar",
         ])
-        if not asks_requirements:
+        if not (asks_code or asks_credits or asks_requirements):
             return None
 
-        course_refs = self._find_course_references(normalized_question)
-        if not course_refs:
+        refs = self._find_course_references(normalized_question)
+        refs = self._merge_curriculum_name_references(normalized_question, refs, curriculum)
+        if not refs:
             return None
 
-        requirements = self._load_course_requirements()
-        passed_refs = self._find_passed_course_references(normalized_question)
-        passed_codes = {ref.get("codigo") for ref in passed_refs}
-        target_refs = [
-            ref for ref in course_refs
-            if ref.get("codigo") in requirements and ref.get("codigo") not in passed_codes
-        ]
+        courses = curriculum.get("cursos", {})
+        passed_codes = {ref.get("codigo") for ref in self._find_passed_course_references(normalized_question)}
+        target_refs = [ref for ref in refs if ref.get("codigo") in courses and ref.get("codigo") not in passed_codes]
         if not target_refs:
-            target_refs = [ref for ref in course_refs if ref.get("codigo") in requirements]
+            target_refs = [ref for ref in refs if ref.get("codigo") in courses]
         if not target_refs:
             return None
 
-        lines = ["Según los sílabos cargados:"]
-
+        lines = []
         for ref in target_refs[:3]:
-            course_code = ref.get("codigo")
-            course_data = requirements.get(course_code, {})
-            course_name = course_data.get("nombre") or ref.get("nombre")
-            lines.append(f"- Para {course_name} ({course_code}), los requisitos son:")
-            simultaneous_allowed = False
-            for req in course_data.get("requisitos", []):
-                req_name = req.get("nombre", "")
-                req_code = req.get("codigo", "")
-                req_text = f"{req_name} ({req_code})" if req_code else req_name
-                description = req.get('descripcion', '')
-                if "cursar simultáneamente" in description or "cursar simultaneamente" in self._normalize_text(description):
-                    simultaneous_allowed = True
-                lines.append(f"  - {req_text}: {description}.")
-            if simultaneous_allowed:
-                lines.append("  - Cuando el requisito permite cursar simultáneamente, no significa necesariamente aprobarlo antes; depende de que Campus Virtual lo permita en tu caso.")
+            course = courses.get(ref.get("codigo"))
+            if not course:
+                continue
+            if asks_code and not asks_requirements and not asks_credits:
+                lines.append(f"El código de {course['nombre']} es {course['codigo']}.")
+                continue
+            parts = [f"{course['nombre']} ({course['codigo']})"]
+            if course.get("ciclo") is not None:
+                parts.append(f"ciclo {course['ciclo']}")
+            if course.get("creditos"):
+                parts.append(f"{course['creditos']} créditos")
+            lines.append("- " + ", ".join(parts) + ".")
+            if asks_requirements:
+                lines.append("  Requisitos: " + self._format_curriculum_requirements(course, courses))
 
-            missing_note = self._build_missing_requirement_note(course_data, passed_codes)
-            if missing_note:
-                lines.append(f"  - {missing_note}")
+        if asks_requirements:
+            lines.append(f"Valida tu caso personal y cursos permitidos en Campus Virtual PUCP: {self.CAMPUS_URL}")
+        return "\n".join(lines) if lines else None
 
-        if any(ref.get("codigo") == "1INF54" for ref in course_refs) or "proyecto de diseno" in self._normalize_for_course_matching(pregunta):
-            lines.append("Nota: Proyecto de Diseño y Desarrollo de Software es 1INF54; no es lo mismo que Diseño de Software (1INF50) en los sílabos cargados.")
-        elif "diseno" in self._normalize_for_course_matching(pregunta) and not any(ref.get("codigo") in {"1INF50", "1INF54"} for ref in course_refs):
-            lines.append("Si solo dices 'diseño', necesito que precises si te refieres a Diseño de Software o a Proyecto de Diseño y Desarrollo de Software.")
+    def _load_curriculum(self) -> dict[str, Any]:
+        if not self.CURRICULUM_PATH.exists():
+            return {}
+        try:
+            return json.loads(self.CURRICULUM_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {}
 
-        lines.append(f"No puedo confirmar tu matrícula personal; revisa tus cursos permitidos en Campus Virtual PUCP: {self.CAMPUS_URL}")
+    def _extract_curriculum_cycle(self, normalized_question: str) -> str | None:
+        word_cycles = {
+            "quinto": "5", "quinta": "5", "5to": "5", "5": "5",
+            "sexto": "6", "sexta": "6", "6to": "6", "6": "6",
+            "septimo": "7", "setimo": "7", "septima": "7", "7mo": "7", "7": "7",
+            "octavo": "8", "octava": "8", "8vo": "8", "8": "8",
+            "noveno": "9", "novena": "9", "9no": "9", "9": "9",
+            "decimo": "10", "decima": "10", "10mo": "10", "10": "10",
+        }
+        match = re.search(r"\b(?:ciclo\s*)?(5|6|7|8|9|10)(?:to|mo|no|vo)?\b", normalized_question)
+        if match:
+            return match.group(1)
+        for term, cycle in word_cycles.items():
+            if re.search(rf"\b{term}\b", normalized_question):
+                return cycle
+        return None
+
+    def _answer_curriculum_cycle(self, cycle: str, curriculum: dict[str, Any]) -> str | None:
+        codes = curriculum.get("ciclos", {}).get(str(cycle), [])
+        courses = curriculum.get("cursos", {})
+        if not codes:
+            return None
+        lines = [f"Cursos del ciclo {cycle} en la malla de Ingeniería Informática PUCP:"]
+        for code in codes:
+            course = courses.get(code, {})
+            credit_text = f", {course.get('creditos')} créditos" if course.get("creditos") else ""
+            lines.append(f"- {course.get('nombre', code)} ({code}){credit_text}.")
         return "\n".join(lines)
 
-    def _build_missing_requirement_note(self, course_data: dict[str, Any], passed_codes: set[str]) -> str | None:
-        if not passed_codes:
-            return None
-        remaining = []
-        for req in course_data.get("requisitos", []):
-            req_code = req.get("codigo")
-            if req_code and req_code in passed_codes:
+    def _merge_curriculum_name_references(self, normalized_question: str, refs: list[dict[str, Any]], curriculum: dict[str, Any]) -> list[dict[str, Any]]:
+        merged = list(refs)
+        seen = {ref.get("codigo") for ref in merged}
+        for course in curriculum.get("cursos", {}).values():
+            code = course.get("codigo")
+            if code in seen:
                 continue
-            remaining.append(req)
-        if not remaining:
-            return "Con lo que indicas, los requisitos listados estarían cubiertos; igual debes validarlo en Campus Virtual."
-        remaining_text = []
-        for req in remaining:
-            req_code = req.get("codigo", "")
-            req_name = req.get("nombre", "")
-            remaining_text.append(f"{req_name} ({req_code})" if req_code else req_name)
-        return "Si ya aprobaste lo que indicas, aún debes verificar: " + ", ".join(remaining_text) + "."
+            if self._contains_course_term(normalized_question, course.get("nombre", "")) or self._contains_course_term(normalized_question, code or ""):
+                merged.append(course)
+                seen.add(code)
+        return merged
 
-    def _load_course_requirements(self) -> dict[str, Any]:
-        if not self.COURSE_REQUIREMENTS_PATH.exists():
-            return {}
-        try:
-            return json.loads(self.COURSE_REQUIREMENTS_PATH.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            return {}
-
-    def _load_course_alias_records_by_alias(self) -> dict[str, dict[str, Any]]:
-        if not self.COURSE_ALIASES_PATH.exists():
-            return {}
-        try:
-            records = json.loads(self.COURSE_ALIASES_PATH.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            return {}
-
-        aliases = {}
-        for record in records:
-            if not isinstance(record, dict):
-                continue
-            alias = self._normalize_for_course_matching(str(record.get("alias", "")))
-            name = str(record.get("nombre", "")).strip()
-            if alias and name:
-                aliases[alias] = record
-        return aliases
-
-    def _find_course_references(self, question: str) -> list[dict[str, Any]]:
-        normalized_question = self._normalize_for_course_matching(question)
-        aliases = self._load_course_alias_records_by_alias()
-        matches = []
-        seen_codes = set()
-        for alias, record in aliases.items():
-            name = self._normalize_for_course_matching(str(record.get("nombre", "")))
-            terms = {alias, name}
-            if not any(self._contains_course_term(normalized_question, term) for term in terms):
-                continue
-            code = record.get("codigo", "")
-            key = code or name or alias
-            if key in seen_codes:
-                continue
-            seen_codes.add(key)
-            matches.append(record)
-        return matches
-
-    def _find_passed_course_references(self, question: str) -> list[dict[str, Any]]:
-        normalized_question = self._normalize_for_course_matching(question)
-        passed_refs = []
-        for ref in self._find_course_references(question):
-            terms = [ref.get("alias", ""), ref.get("nombre", "")]
-            for term in terms:
-                normalized_term = self._normalize_for_course_matching(str(term))
-                if not normalized_term:
-                    continue
-                pattern = rf"\b(?:pase|pasee|pasado|aprobe|aprobado|acabo de pasar|ya pase|ya aprobe)\b(?:\s+\w+){{0,4}}\s+{re.escape(normalized_term)}\b"
-                if re.search(pattern, normalized_question):
-                    passed_refs.append(ref)
-                    break
-        return passed_refs
-
-    def _normalize_for_course_matching(self, text: str) -> str:
-        normalized = unicodedata.normalize("NFKD", text or "")
-        normalized = "".join(char for char in normalized if not unicodedata.combining(char))
-        normalized = re.sub(r"[^a-zA-Z0-9\s]", " ", normalized.lower())
-        return re.sub(r"\s+", " ", normalized).strip()
-
-    def _contains_course_term(self, normalized_text: str, term: str) -> bool:
-        normalized_term = self._normalize_for_course_matching(term)
-        if not normalized_term:
-            return False
-        return re.search(rf"(?<![a-z0-9]){re.escape(normalized_term)}(?![a-z0-9])", normalized_text) is not None
+    def _format_curriculum_requirements(self, course: dict[str, Any], courses: dict[str, Any]) -> str:
+        req_text = course.get("requisitos_texto") or "sin requisitos registrados en la malla"
+        for code in sorted(set(course.get("requisitos_codigos", [])), key=len, reverse=True):
+            req_course = courses.get(code)
+            if req_course:
+                req_text = re.sub(rf"(?<![A-Z0-9]){re.escape(code)}(?![A-Z0-9])", f"{req_course['nombre']} ({code})", req_text)
+        return req_text + "."
 
     def _preflight_course_load_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)
@@ -513,6 +481,69 @@ class LanguageModel(object):
         requested_course = re.sub(r"[^a-z0-9\s]", " ", requested_course)
         requested_course = re.sub(r"\s+", " ", requested_course).strip()
         return requested_course or None
+
+    def _load_course_alias_records_by_alias(self) -> dict[str, dict[str, Any]]:
+        if not self.COURSE_ALIASES_PATH.exists():
+            return {}
+        try:
+            records = json.loads(self.COURSE_ALIASES_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {}
+
+        aliases = {}
+        for record in records:
+            if not isinstance(record, dict):
+                continue
+            alias = self._normalize_for_course_matching(str(record.get("alias", "")))
+            name = str(record.get("nombre", "")).strip()
+            if alias and name:
+                aliases[alias] = record
+        return aliases
+
+    def _find_course_references(self, question: str) -> list[dict[str, Any]]:
+        normalized_question = self._normalize_for_course_matching(question)
+        aliases = self._load_course_alias_records_by_alias()
+        matches = []
+        seen_codes = set()
+        for alias, record in aliases.items():
+            name = self._normalize_for_course_matching(str(record.get("nombre", "")))
+            terms = {alias, name}
+            if not any(self._contains_course_term(normalized_question, term) for term in terms):
+                continue
+            code = record.get("codigo", "")
+            key = code or name or alias
+            if key in seen_codes:
+                continue
+            seen_codes.add(key)
+            matches.append(record)
+        return matches
+
+    def _find_passed_course_references(self, question: str) -> list[dict[str, Any]]:
+        normalized_question = self._normalize_for_course_matching(question)
+        passed_refs = []
+        for ref in self._find_course_references(question):
+            terms = [ref.get("alias", ""), ref.get("nombre", "")]
+            for term in terms:
+                normalized_term = self._normalize_for_course_matching(str(term))
+                if not normalized_term:
+                    continue
+                pattern = rf"\b(?:pase|pasee|pasado|aprobe|aprobado|acabo de pasar|ya pase|ya aprobe)\b(?:\s+\w+){{0,4}}\s+{re.escape(normalized_term)}\b"
+                if re.search(pattern, normalized_question):
+                    passed_refs.append(ref)
+                    break
+        return passed_refs
+
+    def _normalize_for_course_matching(self, text: str) -> str:
+        normalized = unicodedata.normalize("NFKD", text or "")
+        normalized = "".join(char for char in normalized if not unicodedata.combining(char))
+        normalized = re.sub(r"[^a-zA-Z0-9\s]", " ", normalized.lower())
+        return re.sub(r"\s+", " ", normalized).strip()
+
+    def _contains_course_term(self, normalized_text: str, term: str) -> bool:
+        normalized_term = self._normalize_for_course_matching(term)
+        if not normalized_term:
+            return False
+        return re.search(rf"(?<![a-z0-9]){re.escape(normalized_term)}(?![a-z0-9])", normalized_text) is not None
 
     def _load_course_aliases(self) -> dict[str, str]:
         if not self.COURSE_ALIASES_PATH.exists():
