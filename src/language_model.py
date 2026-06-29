@@ -130,14 +130,15 @@ class LanguageModel(object):
 
         if normalized_question in greetings:
             return (
-                "Hola. Te puedo ayudar con información que esté en mi base sobre matrícula, calendario académico, "
-                "trámites de la Facultad, PSP/convenios, malla, sílabos y consultas históricas del Discord cargado. "
-                "Si es sobre otro proceso o información externa, te lo diré y te derivaré al canal correspondiente."
+                "Hola. Te puedo ayudar con información cargada sobre procesos de Ingeniería Informática PUCP: "
+                "matrícula, calendario académico, trámites relevantes de la carrera, PSP/convenios, malla, sílabos "
+                "y consultas históricas del Discord cargado. Si es sobre otro proceso de la PUCP o información externa, "
+                "te lo diré y te derivaré al canal correspondiente."
             )
         if normalized_question in thanks:
-            return "De nada. Recuerda que puedo apoyarte solo con los procesos cubiertos por la información cargada."
+            return "De nada. Recuerda que puedo apoyarte solo con procesos de Ingeniería Informática PUCP cubiertos por la información cargada."
         if normalized_question in farewells:
-            return "Hasta luego. Si tienes otra duda sobre matrícula, trámites, malla, sílabos o PSP, me escribes."
+            return "Hasta luego. Si tienes otra duda sobre matrícula, trámites, malla, sílabos o PSP de Ingeniería Informática PUCP, me escribes."
 
         return None
 
@@ -154,8 +155,8 @@ class LanguageModel(object):
     def _safe_out_of_scope_derivation(self) -> str:
         return (
             "No puedo tomar postura ni dar recomendaciones sobre protestas, tomas de edificios o decisiones políticas/personales. "
-            "Mi alcance es apoyar con información cargada sobre matrícula, calendario académico, trámites de la Facultad, PSP/convenios, malla y sílabos. "
-            "Para orientación institucional, consulta directamente con los canales oficiales de la PUCP."
+            "Mi alcance es apoyar con información cargada sobre procesos de Ingeniería Informática PUCP: matrícula, calendario académico, trámites relevantes de la carrera, PSP/convenios, malla y sílabos. "
+            "Para orientación institucional fuera de ese alcance, consulta directamente con los canales oficiales de la PUCP o de la carrera."
         )
 
     def _contains_false_identity_claim(self, answer: str) -> bool:
@@ -168,6 +169,17 @@ class LanguageModel(object):
 
     def _preflight_meta_scope_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)
+        asks_about_scope = any(phrase in normalized_question for phrase in [
+            "cual es tu alcance", "cual es tu funcion", "sobre que respondes",
+            "eres de la pucp", "eres un bot de la pucp", "que temas cubres",
+        ])
+        if asks_about_scope:
+            return (
+                "Soy un asistente virtual de apoyo para Ingeniería Informática PUCP. "
+                "No soy un bot general de toda la PUCP ni una oficina oficial. "
+                "Respondo con la información cargada sobre matrícula, calendario académico, trámites relevantes de la carrera, PSP/convenios, malla, sílabos y consultas históricas del Discord cargado."
+            )
+
         asks_about_docs = any(phrase in normalized_question for phrase in [
             "fuera de tus documentos", "no este en tus documentos", "no esta en tus documentos",
             "algo que no este", "algo que no esta", "puedes responder algo",
@@ -175,7 +187,7 @@ class LanguageModel(object):
         if not asks_about_docs:
             return None
         return (
-            "No. Debo responder solo con la información cargada en mis documentos y contexto. "
+            "No. Debo responder solo con la información cargada en mis documentos y contexto de Ingeniería Informática PUCP. "
             "Si no tengo sustento suficiente, te pediré que precises el curso, trámite o proceso, o te indicaré que no tengo esa información."
         )
 
