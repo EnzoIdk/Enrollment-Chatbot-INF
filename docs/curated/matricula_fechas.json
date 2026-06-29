@@ -1,0 +1,67 @@
+{
+  "source_note": "Datos curados desde documentos oficiales cargados en el repositorio. No agregar fechas sin fuente oficial.",
+  "cycles": {
+    "2026-1": {
+      "source_url": "https://estudiante.pucp.edu.pe/calendario-academico/2026-1/",
+      "source_file": "docs/dynamic/CalendarioDeMatriculaCiclo20261.PDF",
+      "status": "official",
+      "events": [
+        {
+          "key": "publication_schedules",
+          "label": "Publicación de horarios en Web",
+          "start_date": "2026-03-05",
+          "end_date": "2026-03-05"
+        },
+        {
+          "key": "publication_turns",
+          "label": "Publicación de turnos de matrícula",
+          "start_date": "2026-03-10",
+          "end_date": "2026-03-10"
+        },
+        {
+          "key": "regular_enrollment",
+          "label": "Matrícula vía Campus Virtual",
+          "start_date": "2026-03-10",
+          "end_date": "2026-03-12",
+          "end_time": "21:00"
+        },
+        {
+          "key": "exception_requests",
+          "label": "Registro de solicitudes de excepción",
+          "start_date": "2026-03-10",
+          "end_date": "2026-03-12",
+          "end_time": "21:00"
+        },
+        {
+          "key": "extemporaneous_enrollment",
+          "label": "Matrícula extemporánea",
+          "start_date": "2026-03-16",
+          "start_time": "08:00",
+          "end_date": "2026-03-17",
+          "end_time": "21:00"
+        },
+        {
+          "key": "extemporaneous_results",
+          "label": "Resultados de matrícula extemporánea",
+          "start_date": "2026-03-19",
+          "start_time": "08:00"
+        },
+        {
+          "key": "classes_start",
+          "label": "Inicio de clases",
+          "start_date": "2026-03-23"
+        },
+        {
+          "key": "semester_end",
+          "label": "Fin del semestre",
+          "start_date": "2026-07-18"
+        }
+      ]
+    },
+    "2026-2": {
+      "source_url": "https://estudiante.pucp.edu.pe/",
+      "status": "not_available",
+      "note": "No hay fecha oficial confirmada de matrícula 2026-2 en el contexto cargado. No inventar fechas."
+    }
+  }
+}

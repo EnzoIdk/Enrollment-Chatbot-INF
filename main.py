@@ -34,6 +34,15 @@ def read_web_documents(embedder: Embedder) -> None:
     embedder.embed_and_store(chunks = chunks, database_name = "static")
     print("Documentos web leídos")
 
+def read_curated_documents(embedder: Embedder) -> None:
+    curated_docs_dir = os.getenv("CURATED_DOCS_DIR", "./docs/curated")
+    if not os.path.exists(curated_docs_dir):
+        print("No se detectó carpeta de documentos curados")
+        return
+    chunks = embedder.read_text_documents(curated_docs_dir)
+    embedder.embed_and_store(chunks = chunks, database_name = "static")
+    print("Documentos curados leídos")
+
 
 import discord
 
@@ -105,6 +114,7 @@ def setup_chatbot() -> LanguageModel:
         print(f"No se detectó base de datos en '{db_dir}'. Generando embeddings...")
         read_static_documents(embedder)
         read_dynamic_documents(embedder)
+        read_curated_documents(embedder)
         read_historical_documents(embedder)
         read_web_documents(embedder)
         print("Embeddings generados exitosamente.")

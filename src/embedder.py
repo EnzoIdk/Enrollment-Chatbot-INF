@@ -2,7 +2,7 @@ import json
 
 from langchain_chroma import Chroma
 from langchain_classic.retrievers import EnsembleRetriever
-from langchain_community.document_loaders import PyPDFDirectoryLoader, DirectoryLoader, CSVLoader, WebBaseLoader
+from langchain_community.document_loaders import DirectoryLoader, CSVLoader, WebBaseLoader, PyPDFLoader, TextLoader
 from langchain_core.documents.base import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -23,7 +23,7 @@ class Embedder(object):
         assert database_path is not None, "Database path cannot be None"
 
         try:
-            __loaded_model = HuggingFaceEmbeddings(model_name = model_name)
+            __loaded_model = HuggingFaceEmbeddings(model_name = model_name, model_kwargs = {"device": "cpu"})
         except Exception as e:
             print(f"Error loading model: {e}")
             raise e
@@ -41,8 +41,11 @@ class Embedder(object):
     def read_pdf_documents(self, documents_path: str) -> list[Document]:
         assert documents_path is not None, "Documents path cannot be None"
 
-        loader = PyPDFDirectoryLoader(documents_path)    
-        documents = loader.load()
+        pdf_files = sorted(Path(documents_path).glob("**/*.[pP][dD][fF]"))
+        documents = []
+        for pdf_file in pdf_files:
+            loader = PyPDFLoader(str(pdf_file))
+            documents.extend(loader.load())
 
         if len(documents) == 0:
             raise ValueError("No documents found in the specified path.")
@@ -62,6 +65,24 @@ class Embedder(object):
         return self._create_chunks(documents)
     
     
+    def read_text_documents(self, documents_path: str) -> list[Document]:
+        assert documents_path is not None, "Documents path cannot be None"
+
+        text_files = [
+            path for pattern in ("**/*.md", "**/*.txt")
+            for path in Path(documents_path).glob(pattern)
+        ]
+        documents = []
+        for text_file in sorted(text_files):
+            loader = TextLoader(str(text_file), encoding="utf-8")
+            documents.extend(loader.load())
+
+        if len(documents) == 0:
+            raise ValueError("No documents found in the specified path.")
+
+        return self._create_chunks(documents)
+
+
     def read_json_documents(self, documents_path: str) -> list[Document]:
         assert documents_path is not None, "Documents path cannot be None"
 
