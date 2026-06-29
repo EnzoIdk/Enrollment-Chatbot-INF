@@ -1,7 +1,67 @@
 # Vocabulario de cursos y abreviaturas
 
-- ADSO: Administración de Sistemas Operativos.
-- TP: Técnicas de Programación.
-- Sistemas Operativos: nombre de curso usado por estudiantes sin sigla adicional.
+Archivo generado por `scripts/preprocess_discord_courses.py` a partir de sílabos y del histórico de Discord cargado.
+Las abreviaturas se usan para normalizar preguntas; no autorizan matrícula ni reemplazan la validación del Campus Virtual.
 
-Estas abreviaturas son vocabulario estudiantil. Si una pregunta usa una abreviatura cargada, se puede expandir el nombre del curso, pero no se debe inventar disponibilidad, prerrequisitos, vacantes ni permisos de matrícula sin evidencia recuperada.
+- pei: Planeamiento Estratégico en Informática. Menciones DC: 32. Fuente: histórico Discord.
+- tecnicas de programacion: Técnicas de Programación. Menciones DC: 2. Fuente: vocabulario estudiantil validado.
+- tp: Técnicas de Programación. Menciones DC: 3. Fuente: vocabulario estudiantil validado.
+- contabilidad y finanzas: Contabilidad Y Finanzas (1CON27). Menciones DC: 30. Fuente: sílabo 1CON27-2026-1-SILABO.PDF.
+- arquitectura de computadoras: Arquitectura De Computadoras (1ELE01). Menciones DC: 26. Fuente: sílabo 1ELE01-2026-1-SILABO.PDF.
+- experimentacion numerica: Experimentación Numérica (1EST14). Menciones DC: 32. Fuente: sílabo 1EST14-2026-1-SILABO.PDF.
+- probabilidad y estadistica: Probabilidad Y Estadística (1EST22). Menciones DC: 13. Fuente: sílabo 1EST22-2026-1-SILABO.PDF.
+- taller de habilidades interpersonales: Taller De Habilidades Interpersonales (1GES92). Menciones DC: 0. Fuente: sílabo 1GES92-2026-1-SILABO.PDF.
+- empresa y su entorno: Empresa Y Su Entorno (1IND90). Menciones DC: 1. Fuente: sílabo 1IND90-2026-1-SILABO.PDF.
+- ia: Inteligencia Artificial (1INF24). Menciones DC: 49. Fuente: sílabo 1INF24.
+- inteligencia artificial: Inteligencia Artificial (1INF24). Menciones DC: 18. Fuente: sílabo 1INF24-2026-1-SILABO.PDF.
+- programacion 2: Programación 2 (1INF25). Menciones DC: 7. Fuente: sílabo 1INF25-2026-1-SILABO.PDF.
+- dp1: Formulación de Proyecto de Fin de Carrera (1INF26). Menciones DC: 37. Fuente: sílabo 1INF26 e histórico Discord.
+- formulacion: Formulación de Proyecto de Fin de Carrera (1INF26). Menciones DC: 32. Fuente: histórico Discord.
+- formulacion de proyecto de fin de carrera: Formulación De Proyecto De Fin De Carrera (1INF26). Menciones DC: 21. Fuente: sílabo 1INF26-2026-1-SILABO.PDF.
+- algoritmia y estructura de datos: Algoritmia Y Estructura De Datos (1INF27). Menciones DC: 1. Fuente: sílabo 1INF27-2026-1-SILABO.PDF.
+- fundamentos de sistemas de informacion: Fundamentos De Sistemas De Información (1INF28). Menciones DC: 4. Fuente: sílabo 1INF28-2026-1-SILABO.PDF.
+- sistemas operativos: Sistemas Operativos (1INF29). Menciones DC: 51. Fuente: sílabo 1INF29-2026-1-SILABO.PDF.
+- so: Sistemas Operativos (1INF29). Menciones DC: 57. Fuente: sílabo 1INF29 e histórico Discord.
+- p3: Programación 3 (1INF30). Menciones DC: 19. Fuente: vocabulario estudiantil validado.
+- programacion 3: Programación 3 (1INF30). Menciones DC: 19. Fuente: sílabo 1INF30-2026-1-SILABO.PDF.
+- arquitectura de software: Arquitectura De Software (1INF31). Menciones DC: 22. Fuente: sílabo 1INF31-2026-1-SILABO.PDF.
+- algoritmos avanzados: Algoritmos Avanzados (1INF32). Menciones DC: 22. Fuente: sílabo 1INF32-2026-1-SILABO.PDF.
+- base de datos: Base De Datos (1INF33). Menciones DC: 25. Fuente: sílabo 1INF33-2026-1-SILABO.PDF.
+- bd: Base de Datos (1INF33). Menciones DC: 27. Fuente: sílabo 1INF33.
+- modelado y automatizacion de procesos empresariales: Modelado Y Automatización De Procesos Empresariales (1INF34). Menciones DC: 9. Fuente: sílabo 1INF34-2026-1-SILABO.PDF.
+- administracion de sistemas operativos: Administración De Sistemas Operativos (1INF35). Menciones DC: 17. Fuente: sílabo 1INF35-2026-1-SILABO.PDF.
+- adso: Administración de Sistemas Operativos (1INF35). Menciones DC: 23. Fuente: sílabo 1INF35 e histórico Discord.
+- aso: Administración de Sistemas Operativos (1INF35). Menciones DC: 19. Fuente: sílabo 1INF35.
+- ingenieria de software: Ingeniería De Software (1INF37). Menciones DC: 20. Fuente: sílabo 1INF37-2026-1-SILABO.PDF.
+- ingesoft: Ingeniería de Software (1INF37). Menciones DC: 26. Fuente: sílabo 1INF37 e histórico Discord.
+- innovacion y emprendimiento con tecnologias de: Innovación Y Emprendimiento Con Tecnologías De (1INF38). Menciones DC: 8. Fuente: sílabo 1INF38-2026-1-SILABO.PDF.
+- gobierno y gestion de tecnologias de informacion: Gobierno Y Gestión De Tecnologías De Información (1INF39). Menciones DC: 15. Fuente: sílabo 1INF39-2026-1-SILABO.PDF.
+- tecnologias de informacion para los negocios: Tecnologías De Información Para Los Negocios (1INF40). Menciones DC: 27. Fuente: sílabo 1INF40-2026-1-SILABO.PDF.
+- seguridad de informacion: Seguridad De Información (1INF41). Menciones DC: 51. Fuente: sílabo 1INF41-2026-1-SILABO.PDF.
+- proyecto de fin de carrera 1: Proyecto De Fin De Carrera 1 (1INF42). Menciones DC: 10. Fuente: sílabo 1INF42-2026-1-SILABO.PDF.
+- arquitectura empresarial: Arquitectura Empresarial (1INF44). Menciones DC: 21. Fuente: sílabo 1INF44-2026-1-SILABO.PDF.
+- implantacion de sistemas de informacion: Implantación De Sistemas De Información (1INF45). Menciones DC: 12. Fuente: sílabo 1INF45-2026-1-SILABO.PDF.
+- proyecto de fin de carrera 2: Proyecto De Fin De Carrera 2 (1INF46). Menciones DC: 3. Fuente: sílabo 1INF46-2026-1-SILABO.PDF.
+- dp2: Proyecto de Implementación de Software (1INF47). Menciones DC: 31. Fuente: sílabo 1INF47 e histórico Discord.
+- proyecto de implementacion de software: Proyecto De Implementación De Software (1INF47). Menciones DC: 6. Fuente: sílabo 1INF47-2026-1-SILABO.PDF.
+- estrategia y gestion de sistemas de informacion: Estrategia Y Gestión De Sistemas De Información (1INF48). Menciones DC: 6. Fuente: sílabo 1INF48-2026-1-SILABO.PDF.
+- ingenieria de requisitos: Ingeniería De Requisitos (1INF49). Menciones DC: 4. Fuente: sílabo 1INF49-2026-1-SILABO.PDF.
+- diseno: Diseño de Software (1INF50). Menciones DC: 50. Fuente: sílabo 1INF50 e histórico Discord.
+- diseno de software: Diseño De Software (1INF50). Menciones DC: 34. Fuente: sílabo 1INF50-2026-1-SILABO.PDF.
+- deep learning: Deep Learning (1INF52). Menciones DC: 25. Fuente: sílabo 1INF52-2026-1-SILABO.PDF.
+- proyecto de diseno y desarrollo de software: Proyecto De Diseño Y Desarrollo De Software (1INF54). Menciones DC: 2. Fuente: sílabo 1INF54-2026-1-SILABO.PDF.
+- rediseno de interfaces graficas en sistemas de: Rediseño De Interfaces Gráficas En Sistemas De (1INF55). Menciones DC: 0. Fuente: sílabo 1INF55-2026-1-SILABO.PDF.
+- procesamiento de lenguaje natural: Procesamiento De Lenguaje Natural (1INF59). Menciones DC: 17. Fuente: sílabo 1INF59-2026-1-SILABO.PDF.
+- temas avanzados de inteligencia artificial: Temas Avanzados De Inteligencia Artificial (1INF61). Menciones DC: 1. Fuente: sílabo 1INF61-2026-1-SILABO.PDF.
+- inteligencia artificial aplicada: Inteligencia Artificial Aplicada (1INF62). Menciones DC: 2. Fuente: sílabo 1INF62-2026-1-SILABO.PDF.
+- introduccion a los sistemas de informacion: Introducción A Los Sistemas De Información (1INF63). Menciones DC: 6. Fuente: sílabo 1INF63-2026-1-SILABO.PDF.
+- derecho para ingenieros informaticos: Derecho Para Ingenieros Informáticos (DER349). Menciones DC: 1. Fuente: sílabo DER349-2026-1-SILABO.PDF.
+- ingenieria economica: Ingeniería Económica (IND231). Menciones DC: 10. Fuente: sílabo IND231-2026-1-SILABO.PDF.
+- gestion de proyectos: Gestión De Proyectos (IND328). Menciones DC: 29. Fuente: sílabo IND328-2026-1-SILABO.PDF.
+- practica supervisada preprofesional: Práctica Supervisada Preprofesional (INF008). Menciones DC: 4. Fuente: sílabo INF008-2026-1-SILABO.PDF.
+- psp: Práctica Supervisada Preprofesional (INF008). Menciones DC: 42. Fuente: sílabo INF008 e histórico PSP.
+- redes de computadoras: Redes De Computadoras (INF238). Menciones DC: 23. Fuente: sílabo INF238-2026-1-SILABO.PDF.
+- desarrollo de videojuegos: Desarrollo De Videojuegos (INF309). Menciones DC: 7. Fuente: sílabo INF309-2026-1-SILABO.PDF.
+- continuidad de las tecnologias de informacion: Continuidad De Las Tecnologías De Información (INF390). Menciones DC: 5. Fuente: sílabo INF390-2026-1-SILABO.PDF.
+
+Si una abreviatura no aparece en este vocabulario ni en el contexto recuperado, no inventar su significado; pedir el nombre oficial del curso o trámite.

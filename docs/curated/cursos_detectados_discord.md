@@ -1,0 +1,60 @@
+# Cursos detectados en el histórico de Discord
+
+- so: Sistemas Operativos (1INF29) - 57 menciones
+- seguridad de informacion: Seguridad De Información (1INF41) - 51 menciones
+- sistemas operativos: Sistemas Operativos (1INF29) - 51 menciones
+- diseno: Diseño de Software (1INF50) - 50 menciones
+- ia: Inteligencia Artificial (1INF24) - 49 menciones
+- psp: Práctica Supervisada Preprofesional (INF008) - 42 menciones
+- dp1: Formulación de Proyecto de Fin de Carrera (1INF26) - 37 menciones
+- diseno de software: Diseño De Software (1INF50) - 34 menciones
+- experimentacion numerica: Experimentación Numérica (1EST14) - 32 menciones
+- formulacion: Formulación de Proyecto de Fin de Carrera (1INF26) - 32 menciones
+- pei: Planeamiento Estratégico en Informática - 32 menciones
+- dp2: Proyecto de Implementación de Software (1INF47) - 31 menciones
+- contabilidad y finanzas: Contabilidad Y Finanzas (1CON27) - 30 menciones
+- gestion de proyectos: Gestión De Proyectos (IND328) - 29 menciones
+- bd: Base de Datos (1INF33) - 27 menciones
+- tecnologias de informacion para los negocios: Tecnologías De Información Para Los Negocios (1INF40) - 27 menciones
+- arquitectura de computadoras: Arquitectura De Computadoras (1ELE01) - 26 menciones
+- ingesoft: Ingeniería de Software (1INF37) - 26 menciones
+- base de datos: Base De Datos (1INF33) - 25 menciones
+- deep learning: Deep Learning (1INF52) - 25 menciones
+- adso: Administración de Sistemas Operativos (1INF35) - 23 menciones
+- redes de computadoras: Redes De Computadoras (INF238) - 23 menciones
+- algoritmos avanzados: Algoritmos Avanzados (1INF32) - 22 menciones
+- arquitectura de software: Arquitectura De Software (1INF31) - 22 menciones
+- arquitectura empresarial: Arquitectura Empresarial (1INF44) - 21 menciones
+- formulacion de proyecto de fin de carrera: Formulación De Proyecto De Fin De Carrera (1INF26) - 21 menciones
+- ingenieria de software: Ingeniería De Software (1INF37) - 20 menciones
+- aso: Administración de Sistemas Operativos (1INF35) - 19 menciones
+- p3: Programación 3 (1INF30) - 19 menciones
+- programacion 3: Programación 3 (1INF30) - 19 menciones
+- inteligencia artificial: Inteligencia Artificial (1INF24) - 18 menciones
+- administracion de sistemas operativos: Administración De Sistemas Operativos (1INF35) - 17 menciones
+- procesamiento de lenguaje natural: Procesamiento De Lenguaje Natural (1INF59) - 17 menciones
+- gobierno y gestion de tecnologias de informacion: Gobierno Y Gestión De Tecnologías De Información (1INF39) - 15 menciones
+- probabilidad y estadistica: Probabilidad Y Estadística (1EST22) - 13 menciones
+- implantacion de sistemas de informacion: Implantación De Sistemas De Información (1INF45) - 12 menciones
+- ingenieria economica: Ingeniería Económica (IND231) - 10 menciones
+- proyecto de fin de carrera 1: Proyecto De Fin De Carrera 1 (1INF42) - 10 menciones
+- modelado y automatizacion de procesos empresariales: Modelado Y Automatización De Procesos Empresariales (1INF34) - 9 menciones
+- innovacion y emprendimiento con tecnologias de: Innovación Y Emprendimiento Con Tecnologías De (1INF38) - 8 menciones
+- desarrollo de videojuegos: Desarrollo De Videojuegos (INF309) - 7 menciones
+- programacion 2: Programación 2 (1INF25) - 7 menciones
+- estrategia y gestion de sistemas de informacion: Estrategia Y Gestión De Sistemas De Información (1INF48) - 6 menciones
+- introduccion a los sistemas de informacion: Introducción A Los Sistemas De Información (1INF63) - 6 menciones
+- proyecto de implementacion de software: Proyecto De Implementación De Software (1INF47) - 6 menciones
+- continuidad de las tecnologias de informacion: Continuidad De Las Tecnologías De Información (INF390) - 5 menciones
+- fundamentos de sistemas de informacion: Fundamentos De Sistemas De Información (1INF28) - 4 menciones
+- ingenieria de requisitos: Ingeniería De Requisitos (1INF49) - 4 menciones
+- practica supervisada preprofesional: Práctica Supervisada Preprofesional (INF008) - 4 menciones
+- proyecto de fin de carrera 2: Proyecto De Fin De Carrera 2 (1INF46) - 3 menciones
+- tp: Técnicas de Programación - 3 menciones
+- inteligencia artificial aplicada: Inteligencia Artificial Aplicada (1INF62) - 2 menciones
+- proyecto de diseno y desarrollo de software: Proyecto De Diseño Y Desarrollo De Software (1INF54) - 2 menciones
+- tecnicas de programacion: Técnicas de Programación - 2 menciones
+- algoritmia y estructura de datos: Algoritmia Y Estructura De Datos (1INF27) - 1 menciones
+- derecho para ingenieros informaticos: Derecho Para Ingenieros Informáticos (DER349) - 1 menciones
+- empresa y su entorno: Empresa Y Su Entorno (1IND90) - 1 menciones
+- temas avanzados de inteligencia artificial: Temas Avanzados De Inteligencia Artificial (1INF61) - 1 menciones

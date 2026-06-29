@@ -239,6 +239,11 @@ class LanguageModel(object):
             return None
 
         if mentions_third_time:
+            course = self._extract_course_after_slang(normalized_question)
+            requested_course = self._extract_requested_course_in_slang_question(normalized_question)
+            course_display = self._format_course_alias(course) if course else None
+            requested_course_display = self._format_course_alias(requested_course) if requested_course else None
+
             if asks_credit_limit and not asks_course_count:
                 return "Si te matriculas en un curso por tercera vez, puedes llevar como máximo 15 créditos en el semestre."
             if asks_course_count:
@@ -247,6 +252,23 @@ class LanguageModel(object):
                     "Además, solo puedes llevar un curso por segunda vez y el máximo total es 15 créditos en el semestre. "
                     "La cantidad exacta de cursos depende de los créditos de cada curso."
                 )
+
+            if asks_can_take_course and course_display and requested_course_display:
+                return (
+                    f"Si estás llevando {course_display} por tercera vez y quieres llevar {requested_course_display}, "
+                    "considera que en ese semestre puedes llevar como máximo 15 créditos, no puedes matricularte en más "
+                    "de un curso por tercera vez y solo puedes llevar un curso por segunda vez. "
+                    "No puedo confirmar si ese curso te aparecerá permitido solo con la pregunta; verifícalo en "
+                    f"Campus Virtual PUCP: {self.CAMPUS_URL}"
+                )
+
+            if asks_can_take_course and requested_course_display:
+                return (
+                    f"Si llevas un curso por tercera vez y quieres llevar {requested_course_display}, considera estas restricciones: "
+                    "máximo total de 15 créditos en el semestre, no más de un curso por tercera vez y solo un curso por segunda vez. "
+                    f"Verifica si el curso específico te aparece permitido en Campus Virtual PUCP: {self.CAMPUS_URL}"
+                )
+
             return (
                 "Si llevas un curso por tercera vez, debes considerar estas restricciones: máximo total de 15 créditos en el semestre, "
                 "no más de un curso por tercera vez y solo un curso por segunda vez. Verifica si el curso específico te aparece permitido en "

@@ -1,27 +1,538 @@
 [
   {
-    "alias": "adso",
-    "nombre": "Administración de Sistemas Operativos",
-    "tipo": "curso"
-  },
-  {
-    "alias": "tp",
-    "nombre": "Técnicas de Programación",
-    "tipo": "curso"
-  },
-  {
-    "alias": "sistemas operativos",
-    "nombre": "Sistemas Operativos",
-    "tipo": "curso"
-  },
-  {
-    "alias": "administracion de sistemas operativos",
-    "nombre": "Administración de Sistemas Operativos",
-    "tipo": "curso"
+    "alias": "pei",
+    "nombre": "Planeamiento Estratégico en Informática",
+    "codigo": "",
+    "tipo": "curso",
+    "fuente": "histórico Discord",
+    "menciones_discord": 32,
+    "ejemplo_discord": "Buenos días [DIRECTOR], ¿es posible aumentar la cantidad de vacantes de DP1 y Planeamiento Estratégico en Informática? Hay pocos que por el momento están fuera en la posición relativa 🥺"
   },
   {
     "alias": "tecnicas de programacion",
     "nombre": "Técnicas de Programación",
-    "tipo": "curso"
+    "tipo": "curso",
+    "menciones_discord": 2,
+    "ejemplo_discord": "Buenas tardes ingeniero [DIRECTOR].Soy el alumno [ALUMNO] con código de alumno ******** ,el motivo del presente correo es para consultarle sobre la cantidad mínima de créditos que la universidad me permite llevar el presente semestre 2023-1",
+    "fuente": "vocabulario estudiantil validado"
+  },
+  {
+    "alias": "tp",
+    "nombre": "Técnicas de Programación",
+    "tipo": "curso",
+    "menciones_discord": 3,
+    "ejemplo_discord": "Buenas tardes [DIRECTOR] , una consulta, un compañero se cambió a Informática formalmente y al momento de inscribirse en los cursos sale como que no pertenece al plan de estudios de informática, por ende no puede llevar los cursos de TP y E",
+    "fuente": "vocabulario estudiantil validado"
+  },
+  {
+    "alias": "contabilidad y finanzas",
+    "nombre": "Contabilidad Y Finanzas",
+    "codigo": "1CON27",
+    "tipo": "curso",
+    "fuente": "sílabo 1CON27-2026-1-SILABO.PDF",
+    "menciones_discord": 30,
+    "ejemplo_discord": "Disculpe, una pregunta. Existe el plan de que CGI y/o INGECO convaliden Contabilidad y Finanzas? O aún no se tiene una idea?"
+  },
+  {
+    "alias": "arquitectura de computadoras",
+    "nombre": "Arquitectura De Computadoras",
+    "codigo": "1ELE01",
+    "tipo": "curso",
+    "fuente": "sílabo 1ELE01-2026-1-SILABO.PDF",
+    "menciones_discord": 26,
+    "ejemplo_discord": "Buenas noches profesor, en lo que se mostró como nueva malla en la reunión, no aparece el curso de electrónica digital. Debería dejar ese curso y esperar la nueva malla? O si lo llevo ahora igual tendrá validez y se convalidará con lo nuevo"
+  },
+  {
+    "alias": "experimentacion numerica",
+    "nombre": "Experimentación Numérica",
+    "codigo": "1EST14",
+    "tipo": "curso",
+    "fuente": "sílabo 1EST14-2026-1-SILABO.PDF",
+    "menciones_discord": 32,
+    "ejemplo_discord": "[DIRECTOR] profesor buenas tardes, disculpe, parece que hay un cruce entre los horarios de Experimentación numérica y Sistemas operativos. Se podría hacer algo al respecto?😢"
+  },
+  {
+    "alias": "probabilidad y estadistica",
+    "nombre": "Probabilidad Y Estadística",
+    "codigo": "1EST22",
+    "tipo": "curso",
+    "fuente": "sílabo 1EST22-2026-1-SILABO.PDF",
+    "menciones_discord": 13,
+    "ejemplo_discord": "Ninguno de estos cursos se van a eliminar de la malla, creo yo, estoy en lo correcto? #estadistica para ingeniería #control y gestion industrial #etica profesional #modelos y simulacion empresarial"
+  },
+  {
+    "alias": "taller de habilidades interpersonales",
+    "nombre": "Taller De Habilidades Interpersonales",
+    "codigo": "1GES92",
+    "tipo": "curso",
+    "fuente": "sílabo 1GES92-2026-1-SILABO.PDF",
+    "menciones_discord": 0
+  },
+  {
+    "alias": "empresa y su entorno",
+    "nombre": "Empresa Y Su Entorno",
+    "codigo": "1IND90",
+    "tipo": "curso",
+    "fuente": "sílabo 1IND90-2026-1-SILABO.PDF",
+    "menciones_discord": 1,
+    "ejemplo_discord": "Buenas noches profesor, cómo podríamos tener acceso a esa lista de cursos de verano? Está publicada? O la podría compartir?"
+  },
+  {
+    "alias": "ia",
+    "nombre": "Inteligencia Artificial",
+    "codigo": "1INF24",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF24",
+    "menciones_discord": 49,
+    "ejemplo_discord": "Buenos días [DIRECTOR] , para obtener la concentración de Inteligencia Artificial también se podría llevar el curso de maestría 1INF17 - Bases de datos no estructuradas? Y cual sería la solicitud para poder llevar el curso?"
+  },
+  {
+    "alias": "inteligencia artificial",
+    "nombre": "Inteligencia Artificial",
+    "codigo": "1INF24",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF24-2026-1-SILABO.PDF",
+    "menciones_discord": 18,
+    "ejemplo_discord": "Buenos días [DIRECTOR] , para obtener la concentración de Inteligencia Artificial también se podría llevar el curso de maestría 1INF17 - Bases de datos no estructuradas? Y cual sería la solicitud para poder llevar el curso?"
+  },
+  {
+    "alias": "programacion 2",
+    "nombre": "Programación 2",
+    "codigo": "1INF25",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF25-2026-1-SILABO.PDF",
+    "menciones_discord": 7,
+    "ejemplo_discord": "[DIRECTOR] se puede solicitar una excepción para llevar Programación 2 a la par que Algoritmos Avanzados?"
+  },
+  {
+    "alias": "dp1",
+    "nombre": "Formulación de Proyecto de Fin de Carrera",
+    "codigo": "1INF26",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF26 e histórico Discord",
+    "menciones_discord": 37,
+    "ejemplo_discord": "Buenas noches, tengo una consulta, ¿Cuáles cursos serán presenciales? ¿Dónde se ve eso?"
+  },
+  {
+    "alias": "formulacion",
+    "nombre": "Formulación de Proyecto de Fin de Carrera",
+    "codigo": "1INF26",
+    "tipo": "curso",
+    "fuente": "histórico Discord",
+    "menciones_discord": 32,
+    "ejemplo_discord": "Se podría abrir Tesis 1 ? en verano"
+  },
+  {
+    "alias": "formulacion de proyecto de fin de carrera",
+    "nombre": "Formulación De Proyecto De Fin De Carrera",
+    "codigo": "1INF26",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF26-2026-1-SILABO.PDF",
+    "menciones_discord": 21,
+    "ejemplo_discord": "Buenos días [DIRECTOR] , seria posible llevar tesis 1 (de la nueva malla) en 24-1 teniendo solo como curso pendiente Sistemas Operativos y ya habiendo aprobado todos los demás curso de 8vo ciclo y algunos de 9no?"
+  },
+  {
+    "alias": "algoritmia y estructura de datos",
+    "nombre": "Algoritmia Y Estructura De Datos",
+    "codigo": "1INF27",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF27-2026-1-SILABO.PDF",
+    "menciones_discord": 1,
+    "ejemplo_discord": "Gracias por su respuesta Profesor. Tenía otra consulta también, hay alguna posibilidad de que se pueda mover el examen de \"Modelado y automatización de procesos empresariales\", ya que coincide con el de \"Algoritmia y estructura de datos\", l"
+  },
+  {
+    "alias": "fundamentos de sistemas de informacion",
+    "nombre": "Fundamentos De Sistemas De Información",
+    "codigo": "1INF28",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF28-2026-1-SILABO.PDF",
+    "menciones_discord": 4,
+    "ejemplo_discord": "Buenas tardes [DIRECTOR] . Mi consulta es respecto a la convalidación de Base de Datos. ¿Por qué se convalida únicamente con el nuevo curso de Base de Datos y no con su prerrequisito que es Fundamentos de Sistemas de Información?"
+  },
+  {
+    "alias": "sistemas operativos",
+    "nombre": "Sistemas Operativos",
+    "tipo": "curso",
+    "codigo": "1INF29",
+    "fuente": "sílabo 1INF29-2026-1-SILABO.PDF",
+    "menciones_discord": 51,
+    "ejemplo_discord": "Buenas tardes [DIRECTOR]. Sería posible ampliar la cantidad de vacantes tanto del curso de sistemas operativos y sistemas de información 2? Debido a que se tiene demasiada demanda para 25 vacantes con un solo profesor disponible en cada cur"
+  },
+  {
+    "alias": "so",
+    "nombre": "Sistemas Operativos",
+    "codigo": "1INF29",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF29 e histórico Discord",
+    "menciones_discord": 57,
+    "ejemplo_discord": "Buenas tardes [DIRECTOR]. Sería posible ampliar la cantidad de vacantes tanto del curso de sistemas operativos y sistemas de información 2? Debido a que se tiene demasiada demanda para 25 vacantes con un solo profesor disponible en cada cur"
+  },
+  {
+    "alias": "p3",
+    "nombre": "Programación 3",
+    "codigo": "1INF30",
+    "tipo": "curso",
+    "menciones_discord": 19,
+    "ejemplo_discord": "Buenas tardes profesor, habrán más vacantes para programación 3? 😢",
+    "fuente": "vocabulario estudiantil validado"
+  },
+  {
+    "alias": "programacion 3",
+    "nombre": "Programación 3",
+    "codigo": "1INF30",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF30-2026-1-SILABO.PDF",
+    "menciones_discord": 19,
+    "ejemplo_discord": "Buenas tardes profesor, habrán más vacantes para programación 3? 😢"
+  },
+  {
+    "alias": "arquitectura de software",
+    "nombre": "Arquitectura De Software",
+    "codigo": "1INF31",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF31-2026-1-SILABO.PDF",
+    "menciones_discord": 22,
+    "ejemplo_discord": "[DIRECTOR] profesor, respecto al problema de la convalidación de arquitectura de software con sis1. Tendríamos que pedir excepción para matricularnos en diseño de software no?"
+  },
+  {
+    "alias": "algoritmos avanzados",
+    "nombre": "Algoritmos Avanzados",
+    "codigo": "1INF32",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF32-2026-1-SILABO.PDF",
+    "menciones_discord": 22,
+    "ejemplo_discord": "Cual sería el contenido de Algoritmia Avanzada? Para ver si conviene llevar Aplica y convalidar Algoritmia Avanzada"
+  },
+  {
+    "alias": "base de datos",
+    "nombre": "Base De Datos",
+    "codigo": "1INF33",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF33-2026-1-SILABO.PDF",
+    "menciones_discord": 25,
+    "ejemplo_discord": "Buenas tardes [DIRECTOR] 😄 , queria consultarle lo siguiente: ¿Existe algun requisito para llevar el curso de Base de Datos No Estructuradas (1INF17)? Es un electivo de postgrado"
+  },
+  {
+    "alias": "bd",
+    "nombre": "Base de Datos",
+    "codigo": "1INF33",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF33",
+    "menciones_discord": 27,
+    "ejemplo_discord": "Buenas tardes [DIRECTOR] 😄 , queria consultarle lo siguiente: ¿Existe algun requisito para llevar el curso de Base de Datos No Estructuradas (1INF17)? Es un electivo de postgrado"
+  },
+  {
+    "alias": "modelado y automatizacion de procesos empresariales",
+    "nombre": "Modelado Y Automatización De Procesos Empresariales",
+    "codigo": "1INF34",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF34-2026-1-SILABO.PDF",
+    "menciones_discord": 9,
+    "ejemplo_discord": "Buenas noches Profesor, si hemos aprobado el curso \"Sistemas de información 1\", podemos llevar \"Modelado y automatización de procesos empresariales\"?"
+  },
+  {
+    "alias": "administracion de sistemas operativos",
+    "nombre": "Administración De Sistemas Operativos",
+    "tipo": "curso",
+    "codigo": "1INF35",
+    "fuente": "sílabo 1INF35-2026-1-SILABO.PDF",
+    "menciones_discord": 17,
+    "ejemplo_discord": "[DIRECTOR] profesor buenas tardes. Hay un cruce entre los horarios de las clases de los cursos Temas Avanzados de Sistemas de Información 1 y Administración de Sistemas Operativos y Bases de Datos. ¿Habría la posibilidad de cambiar alguno d"
+  },
+  {
+    "alias": "adso",
+    "nombre": "Administración de Sistemas Operativos",
+    "tipo": "curso",
+    "codigo": "1INF35",
+    "fuente": "sílabo 1INF35 e histórico Discord",
+    "menciones_discord": 23,
+    "ejemplo_discord": "[DIRECTOR] profesor buenas tardes. Hay un cruce entre los horarios de las clases de los cursos Temas Avanzados de Sistemas de Información 1 y Administración de Sistemas Operativos y Bases de Datos. ¿Habría la posibilidad de cambiar alguno d"
+  },
+  {
+    "alias": "aso",
+    "nombre": "Administración de Sistemas Operativos",
+    "codigo": "1INF35",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF35",
+    "menciones_discord": 19,
+    "ejemplo_discord": "[DIRECTOR] profesor buenas tardes. Hay un cruce entre los horarios de las clases de los cursos Temas Avanzados de Sistemas de Información 1 y Administración de Sistemas Operativos y Bases de Datos. ¿Habría la posibilidad de cambiar alguno d"
+  },
+  {
+    "alias": "ingenieria de software",
+    "nombre": "Ingeniería De Software",
+    "codigo": "1INF37",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF37-2026-1-SILABO.PDF",
+    "menciones_discord": 20,
+    "ejemplo_discord": "Profesor, disculpe, qué cursos serían requisitos de ese electivo?"
+  },
+  {
+    "alias": "ingesoft",
+    "nombre": "Ingeniería de Software",
+    "codigo": "1INF37",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF37 e histórico Discord",
+    "menciones_discord": 26,
+    "ejemplo_discord": "Profesor, disculpe, qué cursos serían requisitos de ese electivo?"
+  },
+  {
+    "alias": "innovacion y emprendimiento con tecnologias de",
+    "nombre": "Innovación Y Emprendimiento Con Tecnologías De",
+    "codigo": "1INF38",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF38-2026-1-SILABO.PDF",
+    "menciones_discord": 8,
+    "ejemplo_discord": "[DIRECTOR], debido a la sobredemanda de existe actualmente en INNOVACIÓN Y EMPRENDIMIENTO CON TECNOLOGÍAS DE INFORMACIÓN ¿se tiene planteado ampliar las vacantes para el curso o la creación de un nuevo horario?"
+  },
+  {
+    "alias": "gobierno y gestion de tecnologias de informacion",
+    "nombre": "Gobierno Y Gestión De Tecnologías De Información",
+    "codigo": "1INF39",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF39-2026-1-SILABO.PDF",
+    "menciones_discord": 15,
+    "ejemplo_discord": "Profesor, van a abrir otro horario de GOBIERNO Y GESTIÓN DE TECNOLOGÍAS DE INFORMACIÓN?"
+  },
+  {
+    "alias": "tecnologias de informacion para los negocios",
+    "nombre": "Tecnologías De Información Para Los Negocios",
+    "codigo": "1INF40",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF40-2026-1-SILABO.PDF",
+    "menciones_discord": 27,
+    "ejemplo_discord": "Ninguno de estos cursos se van a eliminar de la malla, creo yo, estoy en lo correcto? #estadistica para ingeniería #control y gestion industrial #etica profesional #modelos y simulacion empresarial"
+  },
+  {
+    "alias": "seguridad de informacion",
+    "nombre": "Seguridad De Información",
+    "codigo": "1INF41",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF41-2026-1-SILABO.PDF",
+    "menciones_discord": 51,
+    "ejemplo_discord": "Buenos días profesor, el curso electivo de seguridad de la información de este ciclo se podrá convalidar con el de la nueva malla?"
+  },
+  {
+    "alias": "proyecto de fin de carrera 1",
+    "nombre": "Proyecto De Fin De Carrera 1",
+    "codigo": "1INF42",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF42-2026-1-SILABO.PDF",
+    "menciones_discord": 10,
+    "ejemplo_discord": "Buenos días, profesor. En mi caso, chocarían las clases de Tecnología de Información para los Negocios con el curso de Proyecto de Fin de Carrera 1 y el Proyecto de Implementacion. Ambos tienen clases el lunes por la noche"
+  },
+  {
+    "alias": "arquitectura empresarial",
+    "nombre": "Arquitectura Empresarial",
+    "codigo": "1INF44",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF44-2026-1-SILABO.PDF",
+    "menciones_discord": 21,
+    "ejemplo_discord": "[DIRECTOR] Buenos días profesor, se abrirán más electivos? como por ejemplo aquellos que serán cursos obligatorios el próximo ciclo, como seguridad de información o arquitectura empresarial"
+  },
+  {
+    "alias": "implantacion de sistemas de informacion",
+    "nombre": "Implantación De Sistemas De Información",
+    "codigo": "1INF45",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF45-2026-1-SILABO.PDF",
+    "menciones_discord": 12,
+    "ejemplo_discord": "Y el curso que abre, que es Implantación de Sistemas de Información de qué trata??"
+  },
+  {
+    "alias": "proyecto de fin de carrera 2",
+    "nombre": "Proyecto De Fin De Carrera 2",
+    "codigo": "1INF46",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF46-2026-1-SILABO.PDF",
+    "menciones_discord": 3,
+    "ejemplo_discord": "buenos días [DIRECTOR] este formulario ya se encuentra?"
+  },
+  {
+    "alias": "dp2",
+    "nombre": "Proyecto de Implementación de Software",
+    "codigo": "1INF47",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF47 e histórico Discord",
+    "menciones_discord": 31,
+    "ejemplo_discord": "Buenas noches, tengo una consulta, ¿Cuáles cursos serán presenciales? ¿Dónde se ve eso?"
+  },
+  {
+    "alias": "proyecto de implementacion de software",
+    "nombre": "Proyecto De Implementación De Software",
+    "codigo": "1INF47",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF47-2026-1-SILABO.PDF",
+    "menciones_discord": 6,
+    "ejemplo_discord": "[DIRECTOR] como quedo el tema del choque de horarios del laboratorio de implantación de sistemas de información con el horario de clase de proyecto de implementación de software? Le comentaron algo los responsables de horarios?"
+  },
+  {
+    "alias": "estrategia y gestion de sistemas de informacion",
+    "nombre": "Estrategia Y Gestión De Sistemas De Información",
+    "codigo": "1INF48",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF48-2026-1-SILABO.PDF",
+    "menciones_discord": 6,
+    "ejemplo_discord": "Buenos días [DIRECTOR] , el curso de IMPLANTACIÓN DE SISTEMAS DE INFORMACIÓN, tiene su laboratorio justo a la hora de DP2 y la clase se cruza con dos horarios de ESTRATEGIA Y GESTIÓN DE SISTEMAS DE INFORMACIÓN. Podría revisarse, por favor?"
+  },
+  {
+    "alias": "ingenieria de requisitos",
+    "nombre": "Ingeniería De Requisitos",
+    "codigo": "1INF49",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF49-2026-1-SILABO.PDF",
+    "menciones_discord": 4,
+    "ejemplo_discord": "Buenos días, [DIRECTOR] salgo como infractor al matricularme en arquitectura de software, yo ya pase gyde, y tdv me sale como infractor, tdv no me convalidan gyde con ingereq"
+  },
+  {
+    "alias": "diseno",
+    "nombre": "Diseño de Software",
+    "codigo": "1INF50",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF50 e histórico Discord",
+    "menciones_discord": 50,
+    "ejemplo_discord": "Buenos días, [DIRECTOR] . El cuatrimestre entrante desearía matricularme en cursos de las facultades de Arte y Diseño, y Generales Letras, los cuales en suma hacen 10 créditos. FCI ya me reconoció 4 créditos de libre disponibilidad en el 20"
+  },
+  {
+    "alias": "diseno de software",
+    "nombre": "Diseño De Software",
+    "codigo": "1INF50",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF50-2026-1-SILABO.PDF",
+    "menciones_discord": 34,
+    "ejemplo_discord": "[DIRECTOR] profesor, respecto al problema de la convalidación de arquitectura de software con sis1. Tendríamos que pedir excepción para matricularnos en diseño de software no?"
+  },
+  {
+    "alias": "deep learning",
+    "nombre": "Deep Learning",
+    "codigo": "1INF52",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF52-2026-1-SILABO.PDF",
+    "menciones_discord": 25,
+    "ejemplo_discord": "[DIRECTOR] el programa analitico de deep learning para el 2024-1 indica que solo habran 2 practicas tipo B, esto es incorrecto cierto?"
+  },
+  {
+    "alias": "proyecto de diseno y desarrollo de software",
+    "nombre": "Proyecto De Diseño Y Desarrollo De Software",
+    "codigo": "1INF54",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF54-2026-1-SILABO.PDF",
+    "menciones_discord": 2,
+    "ejemplo_discord": "En la generación de horarios no me aparece \"PROYECTO DE DISEÑO Y DESARROLLO DE SOFTWARE\" tampoco"
+  },
+  {
+    "alias": "rediseno de interfaces graficas en sistemas de",
+    "nombre": "Rediseño De Interfaces Gráficas En Sistemas De",
+    "codigo": "1INF55",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF55-2026-1-SILABO.PDF",
+    "menciones_discord": 0
+  },
+  {
+    "alias": "procesamiento de lenguaje natural",
+    "nombre": "Procesamiento De Lenguaje Natural",
+    "codigo": "1INF59",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF59-2026-1-SILABO.PDF",
+    "menciones_discord": 17,
+    "ejemplo_discord": "Y el de 1INF59 PROCESAMIENTO DE LENGUAJE NATURAL?"
+  },
+  {
+    "alias": "temas avanzados de inteligencia artificial",
+    "nombre": "Temas Avanzados De Inteligencia Artificial",
+    "codigo": "1INF61",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF61-2026-1-SILABO.PDF",
+    "menciones_discord": 1,
+    "ejemplo_discord": "[DIRECTOR] Buenas tardes profesor, es posible cambiar el horario de TEMAS AVANZADOS DE INTELIGENCIA ARTIFICIAL 1INF61 a las 4pm - 7pm (una hora más temprano) para que no se cruce con dos de los horarios de ARQUITECTURA EMPRESARIAL 1INF44 ?"
+  },
+  {
+    "alias": "inteligencia artificial aplicada",
+    "nombre": "Inteligencia Artificial Aplicada",
+    "codigo": "1INF62",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF62-2026-1-SILABO.PDF",
+    "menciones_discord": 2,
+    "ejemplo_discord": "Buenos días, profesorLuis [DIRECTOR] , dónde se puede ver el plan analítico de INTELIGENCIA ARTIFICIAL APLICADA (1INF62) , no sale en el campus 😦"
+  },
+  {
+    "alias": "introduccion a los sistemas de informacion",
+    "nombre": "Introducción A Los Sistemas De Información",
+    "codigo": "1INF63",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF63-2026-1-SILABO.PDF",
+    "menciones_discord": 6,
+    "ejemplo_discord": "Buenos dias [DIRECTOR] . Se abrira con suerte un horario para el electivo de \"introduccion a los sistemas de informacion hospitalarios\"? Es que se cruza con tesis 2 y ese es el unico horario"
+  },
+  {
+    "alias": "derecho para ingenieros informaticos",
+    "nombre": "Derecho Para Ingenieros Informáticos",
+    "codigo": "DER349",
+    "tipo": "curso",
+    "fuente": "sílabo DER349-2026-1-SILABO.PDF",
+    "menciones_discord": 1,
+    "ejemplo_discord": "Buenos dias, profesor, [DIRECTOR] . Disculpe, subiran el silabus de \"Introduccion a los sistemas hospitalarios\" y de \"Derecho para Ingenieros Informaticos\"???"
+  },
+  {
+    "alias": "ingenieria economica",
+    "nombre": "Ingeniería Económica",
+    "codigo": "IND231",
+    "tipo": "curso",
+    "fuente": "sílabo IND231-2026-1-SILABO.PDF",
+    "menciones_discord": 10,
+    "ejemplo_discord": "[DIRECTOR] profesor me gustaría saber si el curso ingeniería económica abrirá en verano"
+  },
+  {
+    "alias": "gestion de proyectos",
+    "nombre": "Gestión De Proyectos",
+    "codigo": "IND328",
+    "tipo": "curso",
+    "fuente": "sílabo IND328-2026-1-SILABO.PDF",
+    "menciones_discord": 29,
+    "ejemplo_discord": "[DIRECTOR] estimado profesor, en caso quiera llevar gestión de proyectos de la maestría, podría convalidarlo como un electivo de pregrado en informática?"
+  },
+  {
+    "alias": "practica supervisada preprofesional",
+    "nombre": "Práctica Supervisada Preprofesional",
+    "codigo": "INF008",
+    "tipo": "curso",
+    "fuente": "sílabo INF008-2026-1-SILABO.PDF",
+    "menciones_discord": 4,
+    "ejemplo_discord": "[DIRECTOR] Buenas tardes, quisiera matricularme para el curso de INF008 - PRÁCTICA SUPERVISADA PREPROFESIONAL para el ciclo de verano, sin embargo, se cruza con horario de trabajo, ¿Es posible aprobarlo? No logro contactarme con el profesor"
+  },
+  {
+    "alias": "psp",
+    "nombre": "Práctica Supervisada Preprofesional",
+    "codigo": "INF008",
+    "tipo": "curso/trámite",
+    "fuente": "sílabo INF008 e histórico PSP",
+    "menciones_discord": 42,
+    "ejemplo_discord": "[DIRECTOR] aún se puede egresar este ciclo 2022-2 sin psp?"
+  },
+  {
+    "alias": "redes de computadoras",
+    "nombre": "Redes De Computadoras",
+    "codigo": "INF238",
+    "tipo": "curso",
+    "fuente": "sílabo INF238-2026-1-SILABO.PDF",
+    "menciones_discord": 23,
+    "ejemplo_discord": "Buenos días, puedo pedir excepción de matrícula para llevar Redes de Computadoras y Sistemas Operativos juntos, sin llevar ni haber llevado Teoría de comunicaciones? porque en la nueva malla SO ya no es requisito para redes y ya no hay Teor"
+  },
+  {
+    "alias": "desarrollo de videojuegos",
+    "nombre": "Desarrollo De Videojuegos",
+    "codigo": "INF309",
+    "tipo": "curso",
+    "fuente": "sílabo INF309-2026-1-SILABO.PDF",
+    "menciones_discord": 7,
+    "ejemplo_discord": "Buenos dias [DIRECTOR] ,existe un cruce entre los examenes de etica y el electivo de desarrollo de videojuegos, no se si podria brindar una solución al respecto a pesar de la diferencia de un ciclo."
+  },
+  {
+    "alias": "continuidad de las tecnologias de informacion",
+    "nombre": "Continuidad De Las Tecnologías De Información",
+    "codigo": "INF390",
+    "tipo": "curso",
+    "fuente": "sílabo INF390-2026-1-SILABO.PDF",
+    "menciones_discord": 5,
+    "ejemplo_discord": "Buenos días [DIRECTOR] , el curso CONTINUIDAD DE LAS TECNOLOGÍAS DE INFORMACIÓN podría ampliarse hasta 35 vacantes ?"
   }
 ]

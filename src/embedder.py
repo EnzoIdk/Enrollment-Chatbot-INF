@@ -1,4 +1,6 @@
 import json
+import re
+import unicodedata
 
 from langchain_chroma import Chroma
 from langchain_classic.retrievers import EnsembleRetriever
@@ -140,11 +142,14 @@ class Embedder(object):
             return None
             # raise ValueError("All fields 'pregunta', 'respuesta', and 'ciclo' must be provided.")
 
+        course_context = self._build_course_alias_context(pregunta, respuesta)
         page_content = (
             f"Ciclo: {ciclo}\n"
             f"Pregunta del alumno: {pregunta}\n"
             f"Respuesta del director de carrera: {respuesta}"
         )
+        if course_context:
+            page_content += f"\n{course_context}"
 
         metadata = {
             "source": source,
@@ -153,6 +158,62 @@ class Embedder(object):
         }
 
         return [Document(page_content = page_content, metadata = metadata)]
+
+
+    def _build_course_alias_context(self, *texts: str) -> str:
+        aliases = self._load_course_alias_records()
+        if not aliases:
+            return ""
+
+        normalized_text = self._normalize_for_alias_matching(" ".join(texts))
+        matches = []
+        seen = set()
+        for record in aliases:
+            alias = record.get("alias", "")
+            name = record.get("nombre", "")
+            code = record.get("codigo", "")
+            if not alias or not name:
+                continue
+            terms = {alias, name}
+            if not any(self._contains_alias_term(normalized_text, term) for term in terms):
+                continue
+            key = (self._normalize_for_alias_matching(name), code)
+            if key in seen:
+                continue
+            seen.add(key)
+            code_text = f" ({code})" if code else ""
+            matches.append(f"- {alias} => {name}{code_text}")
+
+        if not matches:
+            return ""
+        return "Vocabulario de cursos detectado en esta conversación:\n" + "\n".join(matches)
+
+
+    def _load_course_alias_records(self) -> list[dict]:
+        path = Path("docs/curated/vocabulario_cursos.json")
+        if not path.exists():
+            return []
+        try:
+            records = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return []
+        if not isinstance(records, list):
+            return []
+        return [record for record in records if isinstance(record, dict)]
+
+
+    def _normalize_for_alias_matching(self, text: str) -> str:
+        normalized = unicodedata.normalize("NFKD", text or "")
+        normalized = "".join(char for char in normalized if not unicodedata.combining(char))
+        normalized = re.sub(r"[^a-zA-Z0-9\s]", " ", normalized.lower())
+        return re.sub(r"\s+", " ", normalized).strip()
+
+
+    def _contains_alias_term(self, normalized_text: str, term: str) -> bool:
+        normalized_term = self._normalize_for_alias_matching(term)
+        if not normalized_term:
+            return False
+        return re.search(rf"(?<![a-z0-9]){re.escape(normalized_term)}(?![a-z0-9])", normalized_text) is not None
 
 
     def _valid_collection_names(self) -> list[str]:
