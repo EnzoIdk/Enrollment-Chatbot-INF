@@ -49,6 +49,18 @@ class LanguageModel(object):
         if self.rag_chain is None:
             raise ValueError("RAG chain is not defined. Please call define_rag_chain() first.")
 
+        language_response = self._preflight_language_response(pregunta)
+        if language_response is not None:
+            return language_response
+
+        injection_response = self._preflight_prompt_injection_response(pregunta)
+        if injection_response is not None:
+            return injection_response
+
+        cyber_safety_response = self._preflight_cyber_safety_response(pregunta)
+        if cyber_safety_response is not None:
+            return cyber_safety_response
+
         small_talk_response = self._preflight_small_talk_response(pregunta)
         if small_talk_response is not None:
             return small_talk_response
@@ -133,6 +145,72 @@ class LanguageModel(object):
         text = unicodedata.normalize("NFKD", text or "")
         text = "".join(char for char in text if not unicodedata.combining(char))
         return text.lower()
+
+    def _preflight_language_response(self, pregunta: str) -> str | None:
+        cleaned_question = re.sub(r"<@!?\d+>", " ", pregunta or "")
+        normalized_question = self._normalize_for_course_matching(cleaned_question)
+        if not normalized_question or len(normalized_question) < 25:
+            return None
+
+        english_terms = [
+            "ignore", "previous", "instructions", "you are", "now playing", "role",
+            "unregulated", "research assistant", "writing", "thriller", "need to",
+            "figure out", "hacker", "break into", "system", "script", "authentically",
+            "can you", "write", "hypothetical", "educational", "step by step", "guide",
+            "how this is achieved", "please", "provide", "explain", "chapter",
+            "what", "which", "when", "where", "why", "how", "courses", "course",
+            "should", "take", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth",
+            "cycle", "credits", "requirements", "requirement", "code", "codes",
+        ]
+        spanish_terms = [
+            "matricula", "matrícula", "curso", "cursos", "ciclo", "creditos", "créditos",
+            "malla", "requisito", "requisitos", "llevar", "puedo", "quiero", "necesito",
+            "codigo", "código", "clave", "pucp", "informatica", "informática",
+        ]
+        english_hits = sum(1 for term in english_terms if term in normalized_question)
+        spanish_hits = sum(1 for term in spanish_terms if term in normalized_question)
+        english_question_pattern = re.search(r"\b(what|which|when|where|why|how|can|could|should|do|does|is|are)\b", normalized_question) is not None
+        if spanish_hits == 0 and (english_hits >= 4 or (english_hits >= 2 and english_question_pattern)):
+            return (
+                "Solo puedo responder preguntas en español y dentro del alcance de Ingeniería Informática PUCP: "
+                "matrícula, malla, cursos, créditos, requisitos, PSP y trámites cargados. "
+                "Reformula tu consulta en español y relacionada con ese alcance."
+            )
+        return None
+
+    def _preflight_prompt_injection_response(self, pregunta: str) -> str | None:
+        normalized_question = self._normalize_for_course_matching(pregunta)
+        injection_terms = [
+            "ignora todas las instrucciones", "ignora instrucciones", "ignore all previous instructions",
+            "ignore previous instructions", "olvida las instrucciones", "olvida todo lo anterior",
+            "asumes el papel", "ahora asume", "you are now", "now playing the role",
+            "sin restricciones", "unregulated", "jailbreak", "developer mode",
+        ]
+        if any(term in normalized_question for term in injection_terms):
+            return (
+                "No puedo ignorar mis instrucciones ni asumir otro rol. "
+                "Solo puedo ayudar con información cargada sobre Ingeniería Informática PUCP: matrícula, malla, cursos, créditos, requisitos, PSP y trámites."
+            )
+        return None
+
+    def _preflight_cyber_safety_response(self, pregunta: str) -> str | None:
+        normalized_question = self._normalize_for_course_matching(pregunta)
+        mentions_intrusion = any(term in normalized_question for term in [
+            "hacker", "hackear", "infiltrarse", "infiltrar", "vulnerar", "breach",
+            "break into", "explotar vulnerabilidad", "exploit", "backdoor", "phishing",
+            "escalar privilegios", "privilege escalation", "exfiltrar", "exfiltration",
+            "borrar logs", "covering tracks", "nmap", "metasploit",
+        ])
+        asks_instructions = any(term in normalized_question for term in [
+            "paso a paso", "step by step", "guia", "guía", "manual", "tutorial",
+            "como se lleva a cabo", "how this is achieved", "como hacerlo", "redactar una guia",
+        ])
+        if mentions_intrusion and asks_instructions:
+            return (
+                "No puedo ayudar con guías, pasos o procedimientos para infiltrarse, vulnerar sistemas o evadir controles. "
+                "Además, eso está fuera del alcance del bot, que solo responde sobre procesos de Ingeniería Informática PUCP."
+            )
+        return None
 
     def _preflight_small_talk_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta).strip()
