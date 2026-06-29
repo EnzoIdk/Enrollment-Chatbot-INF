@@ -34,6 +34,15 @@
     "ejemplo_discord": "Disculpe, una pregunta. Existe el plan de que CGI y/o INGECO convaliden Contabilidad y Finanzas? O aún no se tiene una idea?"
   },
   {
+    "alias": "arquicom",
+    "nombre": "Arquitectura de Computadoras",
+    "codigo": "1ELE01",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 26,
+    "ejemplo_discord": "Buenas noches profesor, en lo que se mostró como nueva malla en la reunión, no aparece el curso de electrónica digital. Debería dejar ese curso y esperar la nueva malla? O si lo llevo ahora igual tendrá validez y se convalidará con lo nuevo"
+  },
+  {
     "alias": "arquitectura de computadoras",
     "nombre": "Arquitectura De Computadoras",
     "codigo": "1ELE01",
@@ -177,6 +186,24 @@
     "fuente": "vocabulario estudiantil validado"
   },
   {
+    "alias": "prog3",
+    "nombre": "Programación 3",
+    "codigo": "1INF30",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 21,
+    "ejemplo_discord": "Buenas tardes profesor, habrán más vacantes para programación 3? 😢"
+  },
+  {
+    "alias": "progra3",
+    "nombre": "Programación 3",
+    "codigo": "1INF30",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 21,
+    "ejemplo_discord": "Buenas tardes profesor, habrán más vacantes para programación 3? 😢"
+  },
+  {
     "alias": "programacion 3",
     "nombre": "Programación 3",
     "codigo": "1INF30",
@@ -273,6 +300,15 @@
     "tipo": "curso",
     "fuente": "sílabo 1INF37 e histórico Discord",
     "menciones_discord": 26,
+    "ejemplo_discord": "Profesor, disculpe, qué cursos serían requisitos de ese electivo?"
+  },
+  {
+    "alias": "ingsoft",
+    "nombre": "Ingeniería de Software",
+    "codigo": "1INF37",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 21,
     "ejemplo_discord": "Profesor, disculpe, qué cursos serían requisitos de ese electivo?"
   },
   {
@@ -382,15 +418,6 @@
     "fuente": "sílabo 1INF49-2026-1-SILABO.PDF",
     "menciones_discord": 4,
     "ejemplo_discord": "Buenos días, [DIRECTOR] salgo como infractor al matricularme en arquitectura de software, yo ya pase gyde, y tdv me sale como infractor, tdv no me convalidan gyde con ingereq"
-  },
-  {
-    "alias": "diseno",
-    "nombre": "Diseño de Software",
-    "codigo": "1INF50",
-    "tipo": "curso",
-    "fuente": "sílabo 1INF50 e histórico Discord",
-    "menciones_discord": 50,
-    "ejemplo_discord": "Buenos días, [DIRECTOR] . El cuatrimestre entrante desearía matricularme en cursos de las facultades de Arte y Diseño, y Generales Letras, los cuales en suma hacen 10 créditos. FCI ya me reconoció 4 créditos de libre disponibilidad en el 20"
   },
   {
     "alias": "diseno de software",

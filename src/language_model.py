@@ -18,6 +18,7 @@ class LanguageModel(object):
     CALENDAR_2026_1_URL = "https://estudiante.pucp.edu.pe/calendario-academico/2026-1/"
     MATRICULA_FACTS_PATH = Path("docs/curated/matricula_fechas.json")
     COURSE_ALIASES_PATH = Path("docs/curated/vocabulario_cursos.json")
+    COURSE_REQUIREMENTS_PATH = Path("docs/curated/requisitos_cursos.json")
 
     def __init__(self, model_name: str, initial_prompt: str, temperature: float = 0.1):
         assert model_name is not None, "Model name cannot be None"
@@ -76,6 +77,10 @@ class LanguageModel(object):
         if ambiguous_slang_response is not None:
             return ambiguous_slang_response
 
+        course_requirements_response = self._preflight_course_requirements_response(pregunta)
+        if course_requirements_response is not None:
+            return course_requirements_response
+
         psp_response = self._preflight_psp_response(pregunta)
         if psp_response is not None:
             return psp_response
@@ -115,6 +120,8 @@ class LanguageModel(object):
                 return self._safe_generic_unknown_response()
             if self._contains_unsupported_plan_issue_derivation(pregunta, answer):
                 return self._answer_plan_issue()
+            if self._contains_invented_course_name(answer):
+                return self._safe_invented_course_name_response()
 
             return answer
         except Exception as e:
@@ -220,6 +227,152 @@ class LanguageModel(object):
                 "Revisa el sílabo o consulta directamente al docente antes de usar cualquier herramienta en una evaluación."
             )
         return None
+
+    def _preflight_course_requirements_response(self, pregunta: str) -> str | None:
+        normalized_question = self._normalize_text(pregunta)
+        asks_requirements = any(phrase in normalized_question for phrase in [
+            "que me falta", "qué me falta", "requisito", "requisitos", "necesito",
+            "puedo adelantar", "puedo llevar", "debo pasar", "tengo que pasar",
+            "si o si pasarlo", "sí o sí pasarlo", "si o si aprobar", "sí o sí aprobar",
+        ])
+        if not asks_requirements:
+            return None
+
+        course_refs = self._find_course_references(normalized_question)
+        if not course_refs:
+            return None
+
+        requirements = self._load_course_requirements()
+        passed_refs = self._find_passed_course_references(normalized_question)
+        passed_codes = {ref.get("codigo") for ref in passed_refs}
+        target_refs = [
+            ref for ref in course_refs
+            if ref.get("codigo") in requirements and ref.get("codigo") not in passed_codes
+        ]
+        if not target_refs:
+            target_refs = [ref for ref in course_refs if ref.get("codigo") in requirements]
+        if not target_refs:
+            return None
+
+        lines = ["Según los sílabos cargados:"]
+
+        for ref in target_refs[:3]:
+            course_code = ref.get("codigo")
+            course_data = requirements.get(course_code, {})
+            course_name = course_data.get("nombre") or ref.get("nombre")
+            lines.append(f"- Para {course_name} ({course_code}), los requisitos son:")
+            simultaneous_allowed = False
+            for req in course_data.get("requisitos", []):
+                req_name = req.get("nombre", "")
+                req_code = req.get("codigo", "")
+                req_text = f"{req_name} ({req_code})" if req_code else req_name
+                description = req.get('descripcion', '')
+                if "cursar simultáneamente" in description or "cursar simultaneamente" in self._normalize_text(description):
+                    simultaneous_allowed = True
+                lines.append(f"  - {req_text}: {description}.")
+            if simultaneous_allowed:
+                lines.append("  - Cuando el requisito permite cursar simultáneamente, no significa necesariamente aprobarlo antes; depende de que Campus Virtual lo permita en tu caso.")
+
+            missing_note = self._build_missing_requirement_note(course_data, passed_codes)
+            if missing_note:
+                lines.append(f"  - {missing_note}")
+
+        if any(ref.get("codigo") == "1INF54" for ref in course_refs) or "proyecto de diseno" in self._normalize_for_course_matching(pregunta):
+            lines.append("Nota: Proyecto de Diseño y Desarrollo de Software es 1INF54; no es lo mismo que Diseño de Software (1INF50) en los sílabos cargados.")
+        elif "diseno" in self._normalize_for_course_matching(pregunta) and not any(ref.get("codigo") in {"1INF50", "1INF54"} for ref in course_refs):
+            lines.append("Si solo dices 'diseño', necesito que precises si te refieres a Diseño de Software o a Proyecto de Diseño y Desarrollo de Software.")
+
+        lines.append(f"No puedo confirmar tu matrícula personal; revisa tus cursos permitidos en Campus Virtual PUCP: {self.CAMPUS_URL}")
+        return "\n".join(lines)
+
+    def _build_missing_requirement_note(self, course_data: dict[str, Any], passed_codes: set[str]) -> str | None:
+        if not passed_codes:
+            return None
+        remaining = []
+        for req in course_data.get("requisitos", []):
+            req_code = req.get("codigo")
+            if req_code and req_code in passed_codes:
+                continue
+            remaining.append(req)
+        if not remaining:
+            return "Con lo que indicas, los requisitos listados estarían cubiertos; igual debes validarlo en Campus Virtual."
+        remaining_text = []
+        for req in remaining:
+            req_code = req.get("codigo", "")
+            req_name = req.get("nombre", "")
+            remaining_text.append(f"{req_name} ({req_code})" if req_code else req_name)
+        return "Si ya aprobaste lo que indicas, aún debes verificar: " + ", ".join(remaining_text) + "."
+
+    def _load_course_requirements(self) -> dict[str, Any]:
+        if not self.COURSE_REQUIREMENTS_PATH.exists():
+            return {}
+        try:
+            return json.loads(self.COURSE_REQUIREMENTS_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {}
+
+    def _load_course_alias_records_by_alias(self) -> dict[str, dict[str, Any]]:
+        if not self.COURSE_ALIASES_PATH.exists():
+            return {}
+        try:
+            records = json.loads(self.COURSE_ALIASES_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {}
+
+        aliases = {}
+        for record in records:
+            if not isinstance(record, dict):
+                continue
+            alias = self._normalize_for_course_matching(str(record.get("alias", "")))
+            name = str(record.get("nombre", "")).strip()
+            if alias and name:
+                aliases[alias] = record
+        return aliases
+
+    def _find_course_references(self, question: str) -> list[dict[str, Any]]:
+        normalized_question = self._normalize_for_course_matching(question)
+        aliases = self._load_course_alias_records_by_alias()
+        matches = []
+        seen_codes = set()
+        for alias, record in aliases.items():
+            name = self._normalize_for_course_matching(str(record.get("nombre", "")))
+            terms = {alias, name}
+            if not any(self._contains_course_term(normalized_question, term) for term in terms):
+                continue
+            code = record.get("codigo", "")
+            key = code or name or alias
+            if key in seen_codes:
+                continue
+            seen_codes.add(key)
+            matches.append(record)
+        return matches
+
+    def _find_passed_course_references(self, question: str) -> list[dict[str, Any]]:
+        normalized_question = self._normalize_for_course_matching(question)
+        passed_refs = []
+        for ref in self._find_course_references(question):
+            terms = [ref.get("alias", ""), ref.get("nombre", "")]
+            for term in terms:
+                normalized_term = self._normalize_for_course_matching(str(term))
+                if not normalized_term:
+                    continue
+                pattern = rf"\b(?:pase|pasee|pasado|aprobe|aprobado|acabo de pasar|ya pase|ya aprobe)\b(?:\s+\w+){{0,4}}\s+{re.escape(normalized_term)}\b"
+                if re.search(pattern, normalized_question):
+                    passed_refs.append(ref)
+                    break
+        return passed_refs
+
+    def _normalize_for_course_matching(self, text: str) -> str:
+        normalized = unicodedata.normalize("NFKD", text or "")
+        normalized = "".join(char for char in normalized if not unicodedata.combining(char))
+        normalized = re.sub(r"[^a-zA-Z0-9\s]", " ", normalized.lower())
+        return re.sub(r"\s+", " ", normalized).strip()
+
+    def _contains_course_term(self, normalized_text: str, term: str) -> bool:
+        normalized_term = self._normalize_for_course_matching(term)
+        if not normalized_term:
+            return False
+        return re.search(rf"(?<![a-z0-9]){re.escape(normalized_term)}(?![a-z0-9])", normalized_text) is not None
 
     def _preflight_course_load_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)
@@ -380,20 +533,30 @@ class LanguageModel(object):
     def _format_course_alias(self, course: str | None) -> str | None:
         if not course:
             return None
-        aliases = self._load_course_aliases()
-        normalized_course = self._normalize_text(course)
-        official_name = aliases.get(normalized_course)
-        if official_name:
-            if self._normalize_text(official_name) == normalized_course:
-                return official_name
-            return f"{official_name} ({course.upper()})"
+        aliases = self._load_course_alias_records_by_alias()
+        normalized_course = self._normalize_for_course_matching(course)
+        record = aliases.get(normalized_course)
+        if record:
+            name = str(record.get("nombre", "")).strip()
+            code = str(record.get("codigo", "")).strip()
+            return f"{name} ({code})" if code else name
         return course
 
     def _preflight_ambiguous_slang_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)
+        normalized_course_question = self._normalize_for_course_matching(pregunta)
         ambiguous_terms = ["pepita", "digi"]
         if any(re.search(rf"\b{re.escape(term)}\b", normalized_question) for term in ambiguous_terms):
             return self._ask_to_clarify_ambiguous_terms(pregunta)
+        mentions_design_alone = re.search(r"\bdiseno\b", normalized_course_question) is not None
+        mentions_design_full_name = any(term in normalized_course_question for term in [
+            "diseno de software", "proyecto de diseno y desarrollo de software",
+        ])
+        if mentions_design_alone and not mentions_design_full_name:
+            return (
+                "Cuando dices 'diseño', necesito que precises el nombre oficial del curso: "
+                "Diseño de Software o Proyecto de Diseño y Desarrollo de Software. Así evito asignar un código incorrecto."
+            )
         return None
 
     def _ask_to_clarify_ambiguous_terms(self, pregunta: str) -> str:
@@ -439,6 +602,20 @@ class LanguageModel(object):
             "debes hacerlo", "puedes hacerlo", "inicia sesion",
         ]
         return any(term in normalized_answer for term in risky_answer_terms)
+
+    def _contains_invented_course_name(self, answer: str) -> bool:
+        normalized_answer = self._normalize_text(answer)
+        invented_names = [
+            "diseno de producto", "diseño de producto", "diseno de producto 1", "diseño de producto 1",
+        ]
+        return any(name in normalized_answer for name in invented_names)
+
+    def _safe_invented_course_name_response(self) -> str:
+        return (
+            "No puedo confirmar ese nombre de curso con los sílabos cargados. "
+            "Para evitar darte un código incorrecto, escribe el nombre oficial del curso o revísalo en Campus Virtual PUCP: "
+            f"{self.CAMPUS_URL}"
+        )
 
     def _preflight_psp_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)

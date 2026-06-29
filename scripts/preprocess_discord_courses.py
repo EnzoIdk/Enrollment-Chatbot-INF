@@ -9,19 +9,23 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+AMBIGUOUS_ALIAS_KEYS = {"diseno"}
+
 DEFAULT_ALIAS_SEEDS = [
     {"alias": "adso", "nombre": "Administración de Sistemas Operativos", "codigo": "1INF35", "tipo": "curso"},
     {"alias": "aso", "nombre": "Administración de Sistemas Operativos", "codigo": "1INF35", "tipo": "curso"},
     {"alias": "so", "nombre": "Sistemas Operativos", "codigo": "1INF29", "tipo": "curso"},
     {"alias": "p3", "nombre": "Programación 3", "codigo": "1INF30", "tipo": "curso"},
+    {"alias": "progra3", "nombre": "Programación 3", "codigo": "1INF30", "tipo": "curso"},
+    {"alias": "prog3", "nombre": "Programación 3", "codigo": "1INF30", "tipo": "curso"},
     {"alias": "dp1", "nombre": "Formulación de Proyecto de Fin de Carrera", "codigo": "1INF26", "tipo": "curso"},
     {"alias": "formulacion", "nombre": "Formulación de Proyecto de Fin de Carrera", "codigo": "1INF26", "tipo": "curso"},
     {"alias": "dp2", "nombre": "Proyecto de Implementación de Software", "codigo": "1INF47", "tipo": "curso"},
     {"alias": "ingesoft", "nombre": "Ingeniería de Software", "codigo": "1INF37", "tipo": "curso"},
-    {"alias": "diseño", "nombre": "Diseño de Software", "codigo": "1INF50", "tipo": "curso"},
-    {"alias": "diseno", "nombre": "Diseño de Software", "codigo": "1INF50", "tipo": "curso"},
+    {"alias": "ingsoft", "nombre": "Ingeniería de Software", "codigo": "1INF37", "tipo": "curso"},
     {"alias": "psp", "nombre": "Práctica Supervisada Preprofesional", "codigo": "INF008", "tipo": "curso/trámite"},
     {"alias": "bd", "nombre": "Base de Datos", "codigo": "1INF33", "tipo": "curso"},
+    {"alias": "arquicom", "nombre": "Arquitectura de Computadoras", "codigo": "1ELE01", "tipo": "curso"},
     {"alias": "ia", "nombre": "Inteligencia Artificial", "codigo": "1INF24", "tipo": "curso"},
     {"alias": "pei", "nombre": "Planeamiento Estratégico en Informática", "codigo": "", "tipo": "curso"},
 ]
@@ -90,7 +94,7 @@ def build_vocabulary(dynamic_dir: Path, historical_dir: Path, existing_vocab: Pa
     if existing_vocab and existing_vocab.exists():
         for record in json.loads(existing_vocab.read_text(encoding="utf-8")):
             alias = normalize_text(str(record.get("alias", "")))
-            if alias:
+            if alias and alias not in AMBIGUOUS_ALIAS_KEYS:
                 record["alias"] = alias
                 by_alias[alias] = record
 

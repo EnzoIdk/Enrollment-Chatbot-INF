@@ -7,6 +7,7 @@ Las abreviaturas se usan para normalizar preguntas; no autorizan matrícula ni r
 - tecnicas de programacion: Técnicas de Programación. Menciones DC: 2. Fuente: vocabulario estudiantil validado.
 - tp: Técnicas de Programación. Menciones DC: 3. Fuente: vocabulario estudiantil validado.
 - contabilidad y finanzas: Contabilidad Y Finanzas (1CON27). Menciones DC: 30. Fuente: sílabo 1CON27-2026-1-SILABO.PDF.
+- arquicom: Arquitectura de Computadoras (1ELE01). Menciones DC: 26. Fuente: vocabulario estudiantil validado.
 - arquitectura de computadoras: Arquitectura De Computadoras (1ELE01). Menciones DC: 26. Fuente: sílabo 1ELE01-2026-1-SILABO.PDF.
 - experimentacion numerica: Experimentación Numérica (1EST14). Menciones DC: 32. Fuente: sílabo 1EST14-2026-1-SILABO.PDF.
 - probabilidad y estadistica: Probabilidad Y Estadística (1EST22). Menciones DC: 13. Fuente: sílabo 1EST22-2026-1-SILABO.PDF.
@@ -23,6 +24,8 @@ Las abreviaturas se usan para normalizar preguntas; no autorizan matrícula ni r
 - sistemas operativos: Sistemas Operativos (1INF29). Menciones DC: 51. Fuente: sílabo 1INF29-2026-1-SILABO.PDF.
 - so: Sistemas Operativos (1INF29). Menciones DC: 57. Fuente: sílabo 1INF29 e histórico Discord.
 - p3: Programación 3 (1INF30). Menciones DC: 19. Fuente: vocabulario estudiantil validado.
+- prog3: Programación 3 (1INF30). Menciones DC: 21. Fuente: vocabulario estudiantil validado.
+- progra3: Programación 3 (1INF30). Menciones DC: 21. Fuente: vocabulario estudiantil validado.
 - programacion 3: Programación 3 (1INF30). Menciones DC: 19. Fuente: sílabo 1INF30-2026-1-SILABO.PDF.
 - arquitectura de software: Arquitectura De Software (1INF31). Menciones DC: 22. Fuente: sílabo 1INF31-2026-1-SILABO.PDF.
 - algoritmos avanzados: Algoritmos Avanzados (1INF32). Menciones DC: 22. Fuente: sílabo 1INF32-2026-1-SILABO.PDF.
@@ -34,6 +37,7 @@ Las abreviaturas se usan para normalizar preguntas; no autorizan matrícula ni r
 - aso: Administración de Sistemas Operativos (1INF35). Menciones DC: 19. Fuente: sílabo 1INF35.
 - ingenieria de software: Ingeniería De Software (1INF37). Menciones DC: 20. Fuente: sílabo 1INF37-2026-1-SILABO.PDF.
 - ingesoft: Ingeniería de Software (1INF37). Menciones DC: 26. Fuente: sílabo 1INF37 e histórico Discord.
+- ingsoft: Ingeniería de Software (1INF37). Menciones DC: 21. Fuente: vocabulario estudiantil validado.
 - innovacion y emprendimiento con tecnologias de: Innovación Y Emprendimiento Con Tecnologías De (1INF38). Menciones DC: 8. Fuente: sílabo 1INF38-2026-1-SILABO.PDF.
 - gobierno y gestion de tecnologias de informacion: Gobierno Y Gestión De Tecnologías De Información (1INF39). Menciones DC: 15. Fuente: sílabo 1INF39-2026-1-SILABO.PDF.
 - tecnologias de informacion para los negocios: Tecnologías De Información Para Los Negocios (1INF40). Menciones DC: 27. Fuente: sílabo 1INF40-2026-1-SILABO.PDF.
@@ -46,7 +50,6 @@ Las abreviaturas se usan para normalizar preguntas; no autorizan matrícula ni r
 - proyecto de implementacion de software: Proyecto De Implementación De Software (1INF47). Menciones DC: 6. Fuente: sílabo 1INF47-2026-1-SILABO.PDF.
 - estrategia y gestion de sistemas de informacion: Estrategia Y Gestión De Sistemas De Información (1INF48). Menciones DC: 6. Fuente: sílabo 1INF48-2026-1-SILABO.PDF.
 - ingenieria de requisitos: Ingeniería De Requisitos (1INF49). Menciones DC: 4. Fuente: sílabo 1INF49-2026-1-SILABO.PDF.
-- diseno: Diseño de Software (1INF50). Menciones DC: 50. Fuente: sílabo 1INF50 e histórico Discord.
 - diseno de software: Diseño De Software (1INF50). Menciones DC: 34. Fuente: sílabo 1INF50-2026-1-SILABO.PDF.
 - deep learning: Deep Learning (1INF52). Menciones DC: 25. Fuente: sílabo 1INF52-2026-1-SILABO.PDF.
 - proyecto de diseno y desarrollo de software: Proyecto De Diseño Y Desarrollo De Software (1INF54). Menciones DC: 2. Fuente: sílabo 1INF54-2026-1-SILABO.PDF.

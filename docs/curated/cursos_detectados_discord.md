@@ -3,7 +3,6 @@
 - so: Sistemas Operativos (1INF29) - 57 menciones
 - seguridad de informacion: Seguridad De Información (1INF41) - 51 menciones
 - sistemas operativos: Sistemas Operativos (1INF29) - 51 menciones
-- diseno: Diseño de Software (1INF50) - 50 menciones
 - ia: Inteligencia Artificial (1INF24) - 49 menciones
 - psp: Práctica Supervisada Preprofesional (INF008) - 42 menciones
 - dp1: Formulación de Proyecto de Fin de Carrera (1INF26) - 37 menciones
@@ -16,6 +15,7 @@
 - gestion de proyectos: Gestión De Proyectos (IND328) - 29 menciones
 - bd: Base de Datos (1INF33) - 27 menciones
 - tecnologias de informacion para los negocios: Tecnologías De Información Para Los Negocios (1INF40) - 27 menciones
+- arquicom: Arquitectura de Computadoras (1ELE01) - 26 menciones
 - arquitectura de computadoras: Arquitectura De Computadoras (1ELE01) - 26 menciones
 - ingesoft: Ingeniería de Software (1INF37) - 26 menciones
 - base de datos: Base De Datos (1INF33) - 25 menciones
@@ -26,6 +26,9 @@
 - arquitectura de software: Arquitectura De Software (1INF31) - 22 menciones
 - arquitectura empresarial: Arquitectura Empresarial (1INF44) - 21 menciones
 - formulacion de proyecto de fin de carrera: Formulación De Proyecto De Fin De Carrera (1INF26) - 21 menciones
+- ingsoft: Ingeniería de Software (1INF37) - 21 menciones
+- prog3: Programación 3 (1INF30) - 21 menciones
+- progra3: Programación 3 (1INF30) - 21 menciones
 - ingenieria de software: Ingeniería De Software (1INF37) - 20 menciones
 - aso: Administración de Sistemas Operativos (1INF35) - 19 menciones
 - p3: Programación 3 (1INF30) - 19 menciones
