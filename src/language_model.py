@@ -228,8 +228,19 @@ class LanguageModel(object):
             "como estas", "como esta", "que tal", "que tal estas", "como vas",
             "como te va", "todo bien", "que fue", "que tal chatbotinf",
         }
+        emotional_phrases = {
+            "me siento triste", "estoy triste", "me siento mal", "estoy mal",
+            "ando triste", "ando mal", "me siento bajoneado", "estoy bajoneado",
+            "me siento estresado", "estoy estresado", "me siento ansioso", "estoy ansioso",
+        }
         thanks = {"gracias", "muchas gracias", "ok gracias", "listo gracias"}
         farewells = {"adios", "chau", "hasta luego", "nos vemos"}
+
+        if normalized_question in emotional_phrases:
+            return (
+                "Lo siento. Si tiene que ver con matrícula, cursos o algún trámite de Ingeniería Informática PUCP, "
+                "cuéntame qué pasó y te ayudo con la información cargada."
+            )
 
         if normalized_question in greetings:
             return (
@@ -316,6 +327,13 @@ class LanguageModel(object):
             normalized_question,
         )
         if arithmetic_pattern:
+            return self._safe_generic_unknown_response()
+
+        sports_terms = [
+            "gol", "gool", "goool", "futbol", "partido", "paraguay", "peru vs",
+            "mundial", "copa america", "eliminatorias",
+        ]
+        if any(term in normalized_question for term in sports_terms):
             return self._safe_generic_unknown_response()
 
         external_terms = [
