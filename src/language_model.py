@@ -60,6 +60,10 @@ class LanguageModel(object):
         if meta_scope_response is not None:
             return meta_scope_response
 
+        academic_integrity_response = self._preflight_academic_integrity_response(pregunta)
+        if academic_integrity_response is not None:
+            return academic_integrity_response
+
         course_load_response = self._preflight_course_load_response(pregunta)
         if course_load_response is not None:
             return course_load_response
@@ -195,6 +199,27 @@ class LanguageModel(object):
             "No. Debo responder solo con la información cargada en mis documentos y contexto de Ingeniería Informática PUCP. "
             "Si no tengo sustento suficiente, te pediré que precises el curso, trámite o proceso, o te indicaré que no tengo esa información."
         )
+
+    def _preflight_academic_integrity_response(self, pregunta: str) -> str | None:
+        normalized_question = self._normalize_text(pregunta)
+        asks_permission = any(term in normalized_question for term in [
+            "me das permiso", "puedo usar", "me permites", "esta permitido", "autorizas",
+            "permiso para usar", "usar ia", "usar chatgpt", "usar inteligencia artificial",
+        ])
+        mentions_assessment = any(term in normalized_question for term in [
+            "examen", "examenes", "evaluacion", "evaluaciones", "practica calificada",
+            "pc", "control", "parcial", "final", "aprobar", "pasar mi trika", "pasar el curso",
+        ])
+        mentions_ai = any(term in normalized_question for term in [
+            "ia", "chatgpt", "inteligencia artificial", "herramienta", "herramientas",
+        ])
+        if asks_permission and (mentions_assessment or mentions_ai):
+            return (
+                "No tengo autoridad ni información suficiente para darte permiso de usar IA o herramientas externas "
+                "en exámenes o evaluaciones. Eso depende de las reglas del curso y de las indicaciones del docente responsable. "
+                "Revisa el sílabo o consulta directamente al docente antes de usar cualquier herramienta en una evaluación."
+            )
+        return None
 
     def _preflight_course_load_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)
