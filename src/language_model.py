@@ -141,7 +141,7 @@ class LanguageModel(object):
             if self._contains_out_of_scope_answer(answer):
                 return self._safe_generic_unknown_response()
 
-            return answer
+            return self._sanitize_stale_cycle_links(pregunta, answer)
         except Exception as e:
             print(f"Error en inferencia: {e}")
 
@@ -1203,6 +1203,79 @@ class LanguageModel(object):
             parts.append(page_content)
             parts.extend(str(value) for value in metadata.values())
         return self._normalize_text("\n".join(parts))
+
+    def _sanitize_stale_cycle_links(self, pregunta: str, answer: str) -> str:
+        current_year = date.today().year
+        normalized_question = self._normalize_text(pregunta)
+        requested_cycle = self._extract_cycle(normalized_question)
+        requested_years = {int(year) for year in re.findall(r"\b20\d{2}\b", normalized_question)}
+        removed_stale_link = False
+
+        def is_stale_url(url: str) -> bool:
+            normalized_url = self._normalize_text(url)
+            url_cycles = {
+                f"{match.group(1)}-{match.group(2)}"
+                for match in re.finditer(r"\b(20\d{2})[-_/ ]?([12])\b", normalized_url)
+            }
+            if requested_cycle and url_cycles:
+                return any(cycle != requested_cycle for cycle in url_cycles)
+
+            url_years = {int(year) for year in re.findall(r"\b20\d{2}\b", normalized_url)}
+            for year in url_years:
+                if year in requested_years:
+                    continue
+                if year < current_year:
+                    return True
+            return False
+
+        def has_stale_year_text(text_value: str) -> bool:
+            text_cycles = {
+                f"{match.group(1)}-{match.group(2)}"
+                for match in re.finditer(r"\b(20\d{2})[-_/ ]?([12])\b", self._normalize_text(text_value))
+            }
+            if requested_cycle and text_cycles:
+                return any(cycle != requested_cycle for cycle in text_cycles)
+            for year in {int(year) for year in re.findall(r"\b20\d{2}\b", text_value)}:
+                if year not in requested_years and year < current_year:
+                    return True
+            return False
+
+        def replace_markdown_link(match: re.Match) -> str:
+            nonlocal removed_stale_link
+            label = match.group(1).strip()
+            url = match.group(2).strip()
+            if is_stale_url(url):
+                removed_stale_link = True
+                return "" if has_stale_year_text(label) else label
+            return match.group(0)
+
+        sanitized = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", replace_markdown_link, answer)
+
+        def replace_plain_url(match: re.Match) -> str:
+            nonlocal removed_stale_link
+            full_url = match.group(0)
+            url = full_url.rstrip(".,;)])")
+            suffix = full_url[len(url):]
+            if is_stale_url(url):
+                removed_stale_link = True
+                return suffix.lstrip(".,; ")
+            return full_url
+
+        sanitized = re.sub(r"https?://[^\s<>)\]]+", replace_plain_url, sanitized)
+        sanitized = re.sub(r"[ \t]+", " ", sanitized)
+        sanitized = re.sub(r" *\n *", "\n", sanitized).strip()
+        sanitized = re.sub(r"\s+([,.;:])", r"\1", sanitized)
+        sanitized = re.sub(r"(?:\s+y)?\s*(?:link|enlace)?\s*(?:viejo|antiguo|anterior)\s*$", "", sanitized, flags=re.IGNORECASE).strip()
+        if removed_stale_link and self._normalize_text(sanitized) in {"revisa", "revisa.", "consulta", "consulta.", "completa el formulario psp", "completa el formulario psp:"}:
+            sanitized = "No tengo un enlace vigente cargado para ese formulario."
+
+        if removed_stale_link and not re.search(r"https?://", sanitized):
+            if "psp" in normalized_question or "practica" in normalized_question:
+                campus_message = f"Para formatos o formularios vigentes, revisa Campus Virtual PUCP: {self.CAMPUS_URL}"
+                sanitized = f"{sanitized}\n{campus_message}" if sanitized else campus_message
+            elif not sanitized:
+                sanitized = "No tengo un enlace vigente cargado para ese ciclo."
+        return sanitized
 
     def _contains_unsupported_matricula_claim(self, answer: str, context_docs: list[Any]) -> bool:
         normalized_answer = self._normalize_text(answer)
