@@ -192,7 +192,19 @@ def parse_curriculum_pdf(malla_pdf: Path, dynamic_dir: Path) -> dict[str, Any]:
         },
         "ciclos": {cycle: sorted(codes) for cycle, codes in sorted(cycles.items(), key=lambda item: int(item[0]))},
         "cursos": dict(sorted(by_code.items())),
+        "prerrequisito_de": build_prerequisite_index(by_code),
     }
+
+
+def build_prerequisite_index(courses: dict[str, dict[str, Any]]) -> dict[str, list[str]]:
+    index: dict[str, list[str]] = {}
+    for course in courses.values():
+        cycle = course.get("ciclo")
+        if cycle not in MAIN_CYCLE_RANGE:
+            continue
+        for req_code in course.get("requisitos_codigos", []):
+            index.setdefault(req_code, []).append(course["codigo"])
+    return {code: sorted(set(dependent_codes)) for code, dependent_codes in sorted(index.items())}
 
 
 def write_outputs(curriculum: dict[str, Any], output_dir: Path) -> None:
@@ -214,6 +226,14 @@ def write_outputs(curriculum: dict[str, Any], output_dir: Path) -> None:
         if course.get("categoria") == "electivo":
             req = course.get("requisitos_texto") or "sin requisitos en la malla"
             lines.append(f"- {course['nombre']} ({course['codigo']}) - {course.get('creditos', '')} créditos. Requisitos: {req}.")
+    lines.append("")
+
+    lines.append("## Índice de prerrequisitos")
+    lines.append("Cursos que registran cada código como requisito en la malla procesada:")
+    for req_code, dependent_codes in curriculum.get("prerrequisito_de", {}).items():
+        formatted = ", ".join(f"{courses[code]['nombre']} ({code})" for code in dependent_codes if code in courses)
+        if formatted:
+            lines.append(f"- {req_code}: {formatted}.")
     lines.append("")
     lines.append("Si una pregunta solicita ciclo, código, créditos o requisitos, usar esta malla antes que el historial de Discord.")
     (output_dir / "malla_informatica.md").write_text("\n".join(lines) + "\n", encoding="utf-8")

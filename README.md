@@ -2,7 +2,7 @@
 
 Chatbot de apoyo para estudiantes de Ingeniería Informática PUCP durante procesos de matrícula, consultas de cursos, PSP/convenios, calendario académico, malla y trámites relacionados.
 
-El bot usa RAG sobre documentos del repositorio y una capa intermedia de reglas para evitar respuestas inventadas, URLs incorrectas, confusión de roles o afirmaciones sin sustento.
+El bot usa RAG sobre documentos del repositorio, datos procesados y una capa intermedia de validación para evitar respuestas inventadas, URLs incorrectas, confusión de roles o afirmaciones sin sustento. Las instrucciones de comportamiento viven en `system_prompt.txt`.
 
 ## Alcance del bot
 
@@ -15,30 +15,46 @@ El bot puede responder usando información cargada sobre:
 - Malla, cursos permitidos, infracción de plan y solicitudes de excepción.
 - Consultas históricas anonimizadas de Discord.
 
-Si la pregunta no está sustentada por documentos o reglas curadas, el bot debe pedir precisión o derivar al canal correcto sin inventar.
+Si la pregunta no está sustentada por documentos, datos procesados o datos curados, el bot debe pedir precisión o derivar al canal correcto sin inventar.
 
 ## Estructura de datos
 
 ```text
-docs/static/      Reglamentos, malla y documentos estáticos.
-docs/dynamic/     Sílabos y PDFs dinámicos del ciclo.
-docs/historical/  Datasets anonimizados de Discord.
-docs/web/         URLs oficiales y fuentes web.
-docs/curated/     Datos curados y reglas de apoyo para la capa intermedia.
+docs/static/            Reglamentos, malla y documentos estáticos oficiales.
+docs/static/processed/  Datos generados por scripts desde documentos cargados.
+docs/dynamic/           Sílabos y PDFs dinámicos del ciclo.
+docs/historical/        Datasets anonimizados de Discord.
+docs/web/               URLs oficiales y fuentes web.
+docs/curated/           Datos curados o vocabulario validado; no instrucciones del bot.
+system_prompt.txt       Instrucciones de comportamiento, alcance, roles y seguridad.
+```
+
+Regla de organización:
+
+- Lo procesado automáticamente desde PDFs o malla va en `docs/static/processed/`.
+- Lo curado/validado manualmente o vocabulario estudiantil va en `docs/curated/`.
+- Las instrucciones sobre qué puede/no puede responder el bot van solo en `system_prompt.txt`.
+
+Archivos procesados principales:
+
+```text
+docs/static/processed/malla_informatica.json
+docs/static/processed/malla_informatica.md
+docs/static/processed/silabos_resumen.json
+docs/static/processed/silabos_resumen.md
 ```
 
 Archivos curados principales:
 
 ```text
+docs/curated/carga_academica_creditos.md
+docs/curated/cursos_detectados_discord.md
 docs/curated/matricula_fechas.json
 docs/curated/matricula_fechas_criticas.md
-docs/curated/roles_y_derivaciones.md
-docs/curated/vocabulario_estudiantil.md
-docs/curated/jerga_ambigua.md
 docs/curated/psp_270_horas.md
-docs/curated/vacantes_y_ampliaciones.md
-docs/curated/infraccion_de_plan.md
-docs/curated/identidad_y_alcance.md
+docs/curated/vocabulario_cursos.json
+docs/curated/vocabulario_cursos.md
+docs/curated/vocabulario_estudiantil.md
 ```
 
 ## Capa intermedia
@@ -101,7 +117,9 @@ src/embedder.py
 Cambios importantes:
 
 - Lee PDFs con extensión en mayúscula o minúscula (`.pdf`, `.PDF`, etc.).
-- Lee documentos `.md` y `.txt` desde `docs/curated` y `docs/web`.
+- Lee PDFs desde `docs/static` y `docs/dynamic`.
+- Lee `.md`, `.txt` y `.json` desde `docs/static/processed` y `docs/curated`.
+- Carga `docs/curated` en la colección vectorial `curated`; esa colección contiene datos, no instrucciones.
 - Usa embeddings en CPU para evitar problemas de memoria/GPU:
 
 ```python
@@ -135,6 +153,7 @@ DYNAMIC_DOCS_DIR=...
 HISTORICAL_DOCS_DIR=...
 WEB_DOCS_FILE=...
 CURATED_DOCS_DIR=./docs/curated
+STATIC_PROCESSED_DOCS_DIR=./docs/static/processed
 DISCORD_TOKEN=...
 ```
 

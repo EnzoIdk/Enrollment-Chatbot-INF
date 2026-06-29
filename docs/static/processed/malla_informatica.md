@@ -103,4 +103,36 @@ Fuente: `docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf`
 - Continuidad de las Tecnologías de Información (INF390) - 3.50 créditos. Requisitos: 1 (2q) 1INF39.
 - Teología 2 (TEO240) - 3.00 créditos. Requisitos: sin requisitos en la malla.
 
+## Índice de prerrequisitos
+Cursos que registran cada código como requisito en la malla procesada:
+- 1CON27: Modelado y Automatización de Procesos Empresariales (1INF34).
+- 1ELE01: Sistemas Operativos (1INF29), Redes de Computadoras (INF238).
+- 1EST14: Formulación de Proyecto de Fin de Carrera (1INF26), Proyecto de Diseño y Desarrollo de Software (1INF54).
+- 1EST22: Experimentación Numérica (1EST14).
+- 1FIS06: Arquitectura de Computadoras (1ELE01).
+- 1FIS07: Arquitectura de Computadoras (1ELE01).
+- 1IND90: Contabilidad y Finanzas (1CON27).
+- 1INF25: Sistemas Operativos (1INF29), Programación 3 (1INF30), Algoritmos Avanzados (1INF32).
+- 1INF26: Proyecto de Fin de Carrera 1 (1INF42).
+- 1INF27: Programación 2 (1INF25), Programación 3 (1INF30), Algoritmos Avanzados (1INF32).
+- 1INF28: Modelado y Automatización de Procesos Empresariales (1INF34).
+- 1INF29: Administración de Sistemas Operativos (1INF35).
+- 1INF30: Ingeniería de Software (1INF37).
+- 1INF31: Diseño de Software (1INF50).
+- 1INF32: Inteligencia Artificial (1INF24).
+- 1INF33: Fundamentos de Sistemas de Información (1INF28), Programación 3 (1INF30), Tecnologías de Información para los Negocios (1INF40).
+- 1INF34: Innovación y Emprendimiento con Tecnologías de (1INF38), Gobierno y Gestión de Tecnologías de Información (1INF39), Tecnologías de Información para los Negocios (1INF40), Práctica Supervisada Preprofesional (INF008).
+- 1INF37: Formulación de Proyecto de Fin de Carrera (1INF26), Proyecto de Diseño y Desarrollo de Software (1INF54), Gestión de Proyectos (IND328).
+- 1INF39: Seguridad de Información (1INF41).
+- 1INF40: Gobierno y Gestión de Tecnologías de Información (1INF39), Arquitectura Empresarial (1INF44), Implantación de Sistemas de Información (1INF45), Estrategia y Gestión de Sistemas de Información (1INF48).
+- 1INF42: Proyecto de Fin de Carrera 2 (1INF46).
+- 1INF49: Arquitectura de Software (1INF31).
+- 1INF50: Ingeniería de Software (1INF37).
+- 1INF54: Proyecto de Implementación de Software (1INF47).
+- 1MAT09: Probabilidad y Estadística (1EST22).
+- IND231: Innovación y Emprendimiento con Tecnologías de (1INF38).
+- INF134: Arquitectura de Computadoras (1ELE01).
+- INF144: Programación 2 (1INF25), Algoritmia y Estructura de Datos (1INF27), Base de Datos (1INF33).
+- INF238: Ingeniería de Software (1INF37).
+
 Si una pregunta solicita ciclo, código, créditos o requisitos, usar esta malla antes que el historial de Discord.

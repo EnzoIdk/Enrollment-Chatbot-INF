@@ -1184,5 +1184,112 @@
       "fuente": "docs/static/MALLA_INFORMATICA_FCI_2026-1.pdf",
       "fuente_silabo": ""
     }
+  },
+  "prerrequisito_de": {
+    "1CON27": [
+      "1INF34"
+    ],
+    "1ELE01": [
+      "1INF29",
+      "INF238"
+    ],
+    "1EST14": [
+      "1INF26",
+      "1INF54"
+    ],
+    "1EST22": [
+      "1EST14"
+    ],
+    "1FIS06": [
+      "1ELE01"
+    ],
+    "1FIS07": [
+      "1ELE01"
+    ],
+    "1IND90": [
+      "1CON27"
+    ],
+    "1INF25": [
+      "1INF29",
+      "1INF30",
+      "1INF32"
+    ],
+    "1INF26": [
+      "1INF42"
+    ],
+    "1INF27": [
+      "1INF25",
+      "1INF30",
+      "1INF32"
+    ],
+    "1INF28": [
+      "1INF34"
+    ],
+    "1INF29": [
+      "1INF35"
+    ],
+    "1INF30": [
+      "1INF37"
+    ],
+    "1INF31": [
+      "1INF50"
+    ],
+    "1INF32": [
+      "1INF24"
+    ],
+    "1INF33": [
+      "1INF28",
+      "1INF30",
+      "1INF40"
+    ],
+    "1INF34": [
+      "1INF38",
+      "1INF39",
+      "1INF40",
+      "INF008"
+    ],
+    "1INF37": [
+      "1INF26",
+      "1INF54",
+      "IND328"
+    ],
+    "1INF39": [
+      "1INF41"
+    ],
+    "1INF40": [
+      "1INF39",
+      "1INF44",
+      "1INF45",
+      "1INF48"
+    ],
+    "1INF42": [
+      "1INF46"
+    ],
+    "1INF49": [
+      "1INF31"
+    ],
+    "1INF50": [
+      "1INF37"
+    ],
+    "1INF54": [
+      "1INF47"
+    ],
+    "1MAT09": [
+      "1EST22"
+    ],
+    "IND231": [
+      "1INF38"
+    ],
+    "INF134": [
+      "1ELE01"
+    ],
+    "INF144": [
+      "1INF25",
+      "1INF27",
+      "1INF33"
+    ],
+    "INF238": [
+      "1INF37"
+    ]
   }
 }

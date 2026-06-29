@@ -50,8 +50,8 @@ def read_curated_documents(embedder: Embedder) -> None:
         print("No se detectó carpeta de documentos curados")
         return
     chunks = embedder.read_text_documents(curated_docs_dir)
-    embedder.embed_and_store(chunks = chunks, database_name = "instructions")
-    print("Documentos curados leídos")
+    embedder.embed_and_store(chunks = chunks, database_name = "curated")
+    print("Datos curados leídos")
 
 
 import discord
@@ -135,9 +135,9 @@ def setup_chatbot() -> LanguageModel:
     else:
         print(f"Base de datos detectada en '{db_dir}'.")
 
-    llm = LanguageModel(model_name = llm_model_name, initial_prompt = system_prompt, temperature = 0.08)
+    llm = LanguageModel(model_name = llm_model_name, initial_prompt = system_prompt, temperature = 0.1)
     llm.define_rag_chain(embedder.get_retriever(k = 2, static_weight = 0.4, dynamic_weight = 0.4,
-                                                historical_weight = 0.05, instructions_weight = 0.15))
+                                                historical_weight = 0.05, curated_weight = 0.15))
     return llm
 
 def main() -> None:

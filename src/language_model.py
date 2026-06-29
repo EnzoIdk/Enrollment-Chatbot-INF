@@ -106,6 +106,10 @@ class LanguageModel(object):
         if curriculum_response is not None:
             return curriculum_response
 
+        unloaded_cycle_response = self._preflight_unloaded_curriculum_cycle_response(pregunta)
+        if unloaded_cycle_response is not None:
+            return unloaded_cycle_response
+
         psp_response = self._preflight_psp_response(pregunta)
         if psp_response is not None:
             return psp_response
@@ -147,6 +151,8 @@ class LanguageModel(object):
                 return self._answer_plan_issue()
             if self._contains_invented_course_name(answer):
                 return self._safe_invented_course_name_response()
+            if self._contains_unknown_course_code(answer):
+                return self._safe_unknown_course_catalog_response()
             if self._contains_out_of_scope_answer(answer):
                 return self._safe_generic_unknown_response()
 
@@ -449,14 +455,75 @@ class LanguageModel(object):
         sumilla = record.get("sumilla", "")
 
         if topics:
-            lines = [f"Según el sílabo cargado, {name} ({code}) trata estos temas:"]
-            lines.extend(f"- {topic}" for topic in topics[:8])
-            return "\n".join(lines)
+            blocks = [f"Según el sílabo cargado, {name} ({code}) trata estos temas:"]
+            blocks.extend(self._format_syllabus_topic_block(topic) for topic in topics[:8])
+            return "\n\n".join(blocks)
 
         if sumilla:
-            return f"Según el sílabo cargado, {name} ({code}) tiene esta sumilla: {sumilla}"
+            return f"Según el sílabo cargado, {name} ({code}) tiene esta sumilla:\n\n{sumilla}"
 
         return f"Tengo el sílabo de {name} ({code}), pero no pude extraer temas o sumilla del documento procesado."
+
+    def _format_syllabus_topic_block(self, topic: str) -> str:
+        topic = re.sub(r"\s+", " ", topic or "").strip()
+        match = re.match(r"((?:Unidad|Capítulo|Sesión)\s+\d+)\s*:\s*(.+)", topic, flags=re.IGNORECASE)
+        if not match:
+            return f"- {topic}"
+
+        label = match.group(1)
+        body = match.group(2).strip()
+        title = body
+        detail = ""
+        title_match = re.match(r"(.+?\(\d+\s*horas?\))\s*:\s*(.+)", body, flags=re.IGNORECASE)
+        if title_match:
+            title = title_match.group(1).strip()
+            detail = title_match.group(2).strip(" .")
+        elif ":" in body:
+            title, detail = [part.strip(" .") for part in body.split(":", 1)]
+
+        lines = [f"**{label}:** {title}"]
+        if detail:
+            detail = re.sub(r"\b\d[A-Z]{3}\d{2}\s*-\s*[^;]+;\s*", "", detail)
+            lines.append("- Contenido:")
+            lines.extend(self._format_syllabus_detail_bullets(detail))
+        return "\n".join(lines)
+
+    def _format_syllabus_detail_bullets(self, detail: str) -> list[str]:
+        detail = re.sub(r"\s+", " ", detail or "").strip(" .")
+        if not detail:
+            return []
+
+        topic_parts = [part.strip(" .") for part in re.split(r"(?=Tema\s+\d+:)", detail) if part.strip(" .")]
+        if not topic_parts:
+            topic_parts = [detail]
+
+        lines = []
+        for part in topic_parts[:4]:
+            topic_match = re.match(r"(Tema\s+\d+):\s*(.+)", part, flags=re.IGNORECASE)
+            if not topic_match:
+                lines.append(f"  - {self._clean_syllabus_detail_text(part)}.")
+                continue
+
+            topic_label = topic_match.group(1)
+            topic_body = self._clean_syllabus_detail_text(topic_match.group(2))
+            if ":" in topic_body:
+                topic_title, topic_detail = [piece.strip(" .") for piece in topic_body.split(":", 1)]
+                lines.append(f"  - {topic_label}: {topic_title}.")
+                for sentence in self._split_syllabus_detail_sentences(topic_detail)[:3]:
+                    lines.append(f"    - {sentence}.")
+            else:
+                lines.append(f"  - {topic_label}: {topic_body}.")
+        return lines
+
+    def _split_syllabus_detail_sentences(self, text: str) -> list[str]:
+        text = self._clean_syllabus_detail_text(text)
+        parts = re.split(r"\.\s+(?=[A-ZÁÉÍÓÚÑ])", text)
+        return [part.strip(" .") for part in parts if part.strip(" .")]
+
+    def _clean_syllabus_detail_text(self, text: str) -> str:
+        text = re.sub(r"\s+", " ", text or "").strip(" .")
+        text = text.replace(";.", ".").replace(",;", ",").replace("; ", ", ")
+        return text
 
     def _preflight_curriculum_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_for_course_matching(pregunta)
@@ -487,6 +554,14 @@ class LanguageModel(object):
         ])
         if not (asks_code or asks_credits or asks_requirements or asks_course_by_code):
             return None
+
+        dependent_response = self._answer_courses_depending_on_prerequisite(normalized_question, curriculum)
+        if dependent_response is not None:
+            return dependent_response
+
+        unlocked_response = self._answer_courses_unlocked_by_passed_prerequisite(normalized_question, curriculum)
+        if unlocked_response is not None:
+            return unlocked_response
 
         refs = self._find_course_references(normalized_question)
         refs = self._merge_curriculum_name_references(normalized_question, refs, curriculum)
@@ -544,11 +619,169 @@ class LanguageModel(object):
                 parts.append(f"{course['creditos']} créditos")
             lines.append("- " + ", ".join(parts) + ".")
             if asks_requirements:
-                lines.append("  Requisitos: " + self._format_curriculum_requirements(course, courses))
+                lines.append("  Requisitos:")
+                lines.extend(f"  - {item}" for item in self._format_curriculum_requirement_items(course, courses))
 
         if asks_requirements:
             lines.append(f"Valida tu caso personal y cursos permitidos en Campus Virtual PUCP: {self.CAMPUS_URL}")
         return "\n".join(lines) if lines else None
+
+    def _answer_courses_depending_on_prerequisite(self, normalized_question: str, curriculum: dict[str, Any]) -> str | None:
+        asks_dependency = any(phrase in normalized_question for phrase in [
+            "dependen de", "depende de", "es requisito de", "son requisito de",
+            "que cursos requieren", "que cursos lo requieren", "que cursos tienen como requisito",
+            "de que cursos", "de qué cursos",
+        ])
+        if not asks_dependency:
+            return None
+
+        codes = self._extract_course_codes_from_question(normalized_question)
+        if not codes:
+            refs = self._find_course_references(normalized_question)
+            codes = [str(ref.get("codigo", "")).strip().upper() for ref in refs if ref.get("codigo")]
+        if not codes:
+            return None
+
+        courses = curriculum.get("cursos", {})
+        prerequisite_index = curriculum.get("prerrequisito_de", {})
+        responses = []
+        for code in dict.fromkeys(codes):
+            dependent_codes = prerequisite_index.get(code, [])
+            dependent_courses = [courses[dependent_code] for dependent_code in dependent_codes if dependent_code in courses]
+            dependent_courses.sort(key=lambda course: (course.get("ciclo") or 99, course.get("codigo", "")))
+
+            if not dependent_courses:
+                display = self._format_curriculum_code(code, courses)
+                responses.append(f"En la malla procesada no encuentro cursos del ciclo 5 al 10 que tengan {display} como requisito.")
+                continue
+
+            display = self._format_curriculum_code(code, courses)
+            lines = [f"En la malla procesada, {display} es requisito de:"]
+            for course in dependent_courses[:8]:
+                cycle_text = f", ciclo {course['ciclo']}" if course.get("ciclo") is not None else ""
+                credit_text = f", {course['creditos']} créditos" if course.get("creditos") else ""
+                relation = self._format_prerequisite_relation_for_course(code, course, courses)
+                lines.append(f"- {course['nombre']} ({course['codigo']}){cycle_text}{credit_text}: {relation}")
+            responses.append("\n".join(lines))
+        return "\n\n".join(responses)
+
+    def _extract_course_codes_from_question(self, normalized_question: str) -> list[str]:
+        codes = []
+        for match in re.finditer(r"\b(?:[a-z]{3}\d{3}|\d[a-z]{3}\d{2})\b", normalized_question):
+            codes.append(match.group(0).upper())
+        return list(dict.fromkeys(codes))
+
+    def _answer_courses_unlocked_by_passed_prerequisite(self, normalized_question: str, curriculum: dict[str, Any]) -> str | None:
+        asks_after_passing = any(phrase in normalized_question for phrase in [
+            "que cursos puedo llevar despues", "que cursos puedo llevar luego",
+            "que puedo llevar despues", "que puedo llevar luego",
+            "cursos que puedo llevar despues", "cursos que puedo llevar luego",
+            "cursos puedo llevar despues", "cursos puedo llevar luego",
+        ])
+        if not asks_after_passing:
+            return None
+
+        passed_codes = self._extract_passed_prerequisite_codes(normalized_question)
+        if not passed_codes:
+            return None
+
+        courses = curriculum.get("cursos", {})
+        prerequisite_index = curriculum.get("prerrequisito_de", {})
+        responses = []
+        for passed_code in passed_codes:
+            dependent_codes = prerequisite_index.get(passed_code, [])
+            dependent_courses = [courses[code] for code in dependent_codes if code in courses]
+            dependent_courses.sort(key=lambda course: (course.get("ciclo") or 99, course.get("codigo", "")))
+            if not dependent_courses:
+                responses.append(
+                    f"En la malla procesada no encuentro cursos del ciclo 5 al 10 que registren {passed_code} como requisito."
+                )
+                continue
+
+            if passed_code in courses:
+                header = f"En la malla procesada, estos cursos registran {courses[passed_code]['nombre']} ({passed_code}) como requisito:"
+            else:
+                header = f"{passed_code} no aparece como curso del tramo 5 al 10 cargado, pero sí figura como requisito en la malla procesada para:"
+            lines = [header]
+            for course in dependent_courses[:8]:
+                cycle_text = f", ciclo {course['ciclo']}" if course.get("ciclo") is not None else ""
+                credit_text = f", {course['creditos']} créditos" if course.get("creditos") else ""
+                lines.append(f"- {course['nombre']} ({course['codigo']}){cycle_text}{credit_text}.")
+                lines.append("  Requisitos:")
+                lines.extend(f"  - {item}" for item in self._format_curriculum_requirement_items(course, courses))
+            lines.append(
+                f"Que aparezca como requisito no confirma matrícula automática: valida créditos, requisitos adicionales y cursos permitidos en Campus Virtual PUCP: {self.CAMPUS_URL}"
+            )
+            responses.append("\n".join(lines))
+        return "\n\n".join(responses)
+
+    def _extract_passed_prerequisite_codes(self, normalized_question: str) -> list[str]:
+        if not re.search(r"\b(?:pase|pasee|pasado|aprobe|aprobado|acabo de pasar|ya pase|ya aprobe)\b", normalized_question):
+            return []
+
+        codes = []
+        for match in re.finditer(r"\b(?:[a-z]{3}\d{3}|\d[a-z]{3}\d{2})\b", normalized_question):
+            codes.append(match.group(0).upper())
+
+        for ref in self._find_passed_course_references(normalized_question):
+            code = str(ref.get("codigo", "")).strip().upper()
+            if code:
+                codes.append(code)
+
+        seen = set()
+        unique_codes = []
+        for code in codes:
+            if code in seen:
+                continue
+            seen.add(code)
+            unique_codes.append(code)
+        return unique_codes
+
+    def _preflight_unloaded_curriculum_cycle_response(self, pregunta: str) -> str | None:
+        normalized_question = self._normalize_for_course_matching(pregunta)
+        if self._mentions_academic_period(normalized_question):
+            return None
+        if not self._mentions_unloaded_curriculum_cycle(normalized_question):
+            return None
+
+        curriculum = self._load_curriculum()
+        loaded_cycles = sorted(int(cycle) for cycle in curriculum.get("ciclos", {}) if str(cycle).isdigit())
+        if not loaded_cycles:
+            return self._safe_generic_unknown_response()
+
+        requested_cycles = self._extract_requested_curriculum_cycles(normalized_question)
+        if requested_cycles and any(cycle in requested_cycles for cycle in range(1, 5)):
+            return self._answer_unloaded_curriculum_cycles(loaded_cycles)
+        if "primeros ciclos" in normalized_question and min(loaded_cycles) > 1:
+            return self._answer_unloaded_curriculum_cycles(loaded_cycles)
+        return None
+
+    def _mentions_academic_period(self, normalized_question: str) -> bool:
+        return re.search(r"\b20\d{2}\s+[012]\b", normalized_question) is not None
+
+    def _mentions_unloaded_curriculum_cycle(self, normalized_question: str) -> bool:
+        return bool(self._extract_requested_curriculum_cycles(normalized_question)) or "primeros ciclos" in normalized_question
+
+    def _extract_requested_curriculum_cycles(self, normalized_question: str) -> set[int]:
+        cycle_patterns = {
+            1: [r"\bprimer(?:o)?\s+ciclo\b", r"\b1(?:er|ro)?\s+ciclo\b", r"\bciclo\s+1\b"],
+            2: [r"\bsegundo\s+ciclo\b", r"\b2do\s+ciclo\b", r"\bciclo\s+2\b"],
+            3: [r"\btercer(?:o)?\s+ciclo\b", r"\b3(?:er|ro)?\s+ciclo\b", r"\bciclo\s+3\b"],
+            4: [r"\bcuarto\s+ciclo\b", r"\b4to\s+ciclo\b", r"\bciclo\s+4\b"],
+        }
+        requested = set()
+        for cycle, patterns in cycle_patterns.items():
+            if any(re.search(pattern, normalized_question) for pattern in patterns):
+                requested.add(cycle)
+        return requested
+
+    def _answer_unloaded_curriculum_cycles(self, loaded_cycles: list[int]) -> str:
+        cycle_range = f"{loaded_cycles[0]} al {loaded_cycles[-1]}" if len(loaded_cycles) > 1 else str(loaded_cycles[0])
+        return (
+            f"No tengo cargada la malla de los ciclos 1 al 4. En la malla procesada solo tengo cursos del ciclo {cycle_range} "
+            "y algunos electivos. Para evitar inventar cursos o códigos de los primeros ciclos, necesito que me compartas la malla completa "
+            "o preguntes por un curso/código que sí esté en la información cargada."
+        )
 
     def _load_curriculum(self) -> dict[str, Any]:
         if not self.CURRICULUM_PATH.exists():
@@ -599,13 +832,56 @@ class LanguageModel(object):
                 seen.add(code)
         return merged
 
+    def _format_prerequisite_relation_for_course(self, prerequisite_code: str, course: dict[str, Any], courses: dict[str, Any]) -> str:
+        display = self._format_curriculum_code(prerequisite_code, courses)
+        marker = self._requirement_marker_for_code(course.get("requisitos_texto", ""), prerequisite_code)
+        if marker == "[":
+            return f"{display} puede haberse cursado antes o llevarse simultáneamente."
+        if marker == "(":
+            return f"{display} debe haberse cursado con nota 08 o más."
+        if marker == "{":
+            return f"{display} debe haberse aprobado o puede cursarse simultáneamente según la malla/sílabo."
+        return f"requiere {display}."
+
     def _format_curriculum_requirements(self, course: dict[str, Any], courses: dict[str, Any]) -> str:
-        req_text = course.get("requisitos_texto") or "sin requisitos registrados en la malla"
-        for code in sorted(set(course.get("requisitos_codigos", [])), key=len, reverse=True):
-            req_course = courses.get(code)
-            if req_course:
-                req_text = re.sub(rf"(?<![A-Z0-9]){re.escape(code)}(?![A-Z0-9])", f"{req_course['nombre']} ({code})", req_text)
-        return req_text + "."
+        items = self._format_curriculum_requirement_items(course, courses)
+        return " ".join(items) if items else "Sin requisitos registrados en la malla."
+
+    def _format_curriculum_requirement_items(self, course: dict[str, Any], courses: dict[str, Any]) -> list[str]:
+        req_text = course.get("requisitos_texto") or ""
+        if not req_text:
+            return ["Sin requisitos registrados en la malla."]
+
+        items = []
+        credit_match = re.search(r"\b\d+(?:\.\d+)?\s+cr[eé]ditos aprobados\s*\*?", req_text, flags=re.IGNORECASE)
+        if credit_match:
+            items.append(f"Créditos mínimos: {credit_match.group(0).strip()}.")
+
+        for code in course.get("requisitos_codigos", []):
+            display = self._format_curriculum_code(code, courses)
+            marker = self._requirement_marker_for_code(req_text, code)
+            if marker == "[":
+                items.append(f"Puede haberse cursado antes o llevarse simultáneamente: {display}.")
+            elif marker == "(":
+                items.append(f"Debe haberse cursado con nota 08 o más: {display}.")
+            elif marker == "{":
+                items.append(f"Debe haberse aprobado o puede cursarse simultáneamente según la malla/sílabo: {display}.")
+            else:
+                items.append(f"Requiere: {display}.")
+
+        if not items:
+            items.append(f"Requisito indicado por la malla: {req_text}.")
+        return items
+
+    def _requirement_marker_for_code(self, req_text: str, code: str) -> str:
+        match = re.search(rf"([\[\(\{{])?\s*{re.escape(code)}", req_text)
+        return match.group(1) if match and match.group(1) else ""
+
+    def _format_curriculum_code(self, code: str, courses: dict[str, Any]) -> str:
+        course = courses.get(code)
+        if course:
+            return f"{course['nombre']} ({code})"
+        return code
 
     def _preflight_course_load_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)
@@ -916,6 +1192,30 @@ class LanguageModel(object):
             "diseno de producto", "diseño de producto", "diseno de producto 1", "diseño de producto 1",
         ]
         return any(name in normalized_answer for name in invented_names)
+
+    def _contains_unknown_course_code(self, answer: str) -> bool:
+        catalog_codes = self._load_known_course_codes()
+        if not catalog_codes:
+            return False
+        answer_codes = set(re.findall(r"\b(?:\d[A-Z]{3}\d{2}|[A-Z]{3}\d{3})\b", answer or ""))
+        return any(code not in catalog_codes for code in answer_codes)
+
+    def _load_known_course_codes(self) -> set[str]:
+        codes: set[str] = set()
+        curriculum = self._load_curriculum()
+        codes.update(curriculum.get("cursos", {}).keys())
+        codes.update(curriculum.get("prerrequisito_de", {}).keys())
+        for record in self._load_syllabus_summaries().values():
+            code = str(record.get("codigo", "")).strip().upper()
+            if code:
+                codes.add(code)
+        return codes
+
+    def _safe_unknown_course_catalog_response(self) -> str:
+        return (
+            "No puedo confirmar esos cursos o códigos con la malla y sílabos cargados de Ingeniería Informática PUCP. "
+            "Para evitar inventar información, pregunta por un curso/código presente en la malla procesada o comparte la malla completa."
+        )
 
     def _safe_invented_course_name_response(self) -> str:
         return (
@@ -1305,13 +1605,12 @@ class LanguageModel(object):
         return "\n".join(lines)
 
     def _extract_cycle(self, normalized_question: str) -> str | None:
-        match = re.search(r"\b(20\d{2})\s*[-.]\s*([12])\b", normalized_question)
+        match = re.search(r"\b(20\d{2})\s*[-.]\s*([012])\b", normalized_question)
         if match:
             return f"{match.group(1)}-{match.group(2)}"
-        if "2026 1" in normalized_question or "20261" in normalized_question:
-            return "2026-1"
-        if "2026 2" in normalized_question or "20262" in normalized_question:
-            return "2026-2"
+        compact_match = re.search(r"\b(20\d{2})([012])\b", normalized_question)
+        if compact_match:
+            return f"{compact_match.group(1)}-{compact_match.group(2)}"
         return None
 
     def _context_text(self, context_docs: list[Any]) -> str:
