@@ -73,6 +73,10 @@ class LanguageModel(object):
         if meta_scope_response is not None:
             return meta_scope_response
 
+        external_task_response = self._preflight_external_task_response(pregunta)
+        if external_task_response is not None:
+            return external_task_response
+
         academic_integrity_response = self._preflight_academic_integrity_response(pregunta)
         if academic_integrity_response is not None:
             return academic_integrity_response
@@ -134,6 +138,8 @@ class LanguageModel(object):
                 return self._answer_plan_issue()
             if self._contains_invented_course_name(answer):
                 return self._safe_invented_course_name_response()
+            if self._contains_out_of_scope_answer(answer):
+                return self._safe_generic_unknown_response()
 
             return answer
         except Exception as e:
@@ -284,6 +290,33 @@ class LanguageModel(object):
             "No. Debo responder solo con la información cargada en mis documentos y contexto de Ingeniería Informática PUCP. "
             "Si no tengo sustento suficiente, te pediré que precises el curso, trámite o proceso, o te indicaré que no tengo esa información."
         )
+
+    def _preflight_external_task_response(self, pregunta: str) -> str | None:
+        normalized_question = self._normalize_for_course_matching(pregunta)
+        academic_scope_terms = [
+            "matricula", "curso", "cursos", "ciclo", "malla", "credito", "creditos",
+            "requisito", "requisitos", "psp", "convenio", "campus", "portal",
+            "horario", "turno", "vacante", "trika", "bika", "silabo", "sílabo",
+            "informatica", "pucp", "codigo", "clave", "director", "carrera",
+        ]
+        if any(term in normalized_question for term in academic_scope_terms):
+            return None
+
+        arithmetic_pattern = re.search(
+            r"\b(?:cuanto|cuanto es|calcula|resolver|resuelve)?\s*\d+(?:\s*[+\-*/x÷]\s*\d+)+\s*\??$",
+            normalized_question,
+        )
+        if arithmetic_pattern:
+            return self._safe_generic_unknown_response()
+
+        external_terms = [
+            "chiste", "poema", "cuento", "receta", "clima", "noticia", "capital de",
+            "traduce", "traducir", "resume este texto", "programa", "codigo python",
+            "hazme una tarea", "calcula", "cuanto es", "resuelve", "derivada", "integral",
+        ]
+        if any(term in normalized_question for term in external_terms):
+            return self._safe_generic_unknown_response()
+        return None
 
     def _preflight_academic_integrity_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)
@@ -694,6 +727,16 @@ class LanguageModel(object):
             "psp", "practica", "practicas", "convenio", "modalidades formativas",
         ])
         return not question_is_psp
+
+    def _contains_out_of_scope_answer(self, answer: str) -> bool:
+        normalized_answer = self._normalize_for_course_matching(answer)
+        out_of_scope_patterns = [
+            r"\b2\s*\+\s*2\s*(?:es|=|igual a)\s*4\b",
+            r"si necesitas ayuda con calculos",
+            r"usa una calculadora",
+            r"puedo ayudarte con matematicas",
+        ]
+        return any(re.search(pattern, normalized_answer) for pattern in out_of_scope_patterns)
 
     def _safe_generic_unknown_response(self) -> str:
         return (
