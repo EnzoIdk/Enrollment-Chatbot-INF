@@ -200,33 +200,41 @@ class LanguageModel(object):
         normalized_question = self._normalize_text(pregunta)
         mentions_retake_slang = re.search(r"\b(bika|bica|trika|trica)\b", normalized_question) is not None
         mentions_third_time = re.search(r"\b(trika|trica)\b", normalized_question) is not None or "tercera vez" in normalized_question
-        asks_course_load = any(phrase in normalized_question for phrase in [
-            "cuantos cursos", "cuantos creditos", "cuanto es el maximo", "maximo numero de creditos",
-            "maximo de creditos", "maxima cantidad de creditos", "cantidad de cursos", "numero de cursos",
+        asks_credit_limit = any(phrase in normalized_question for phrase in [
+            "cuantos creditos", "cuanto es el maximo", "maximo numero de creditos",
+            "maximo de creditos", "maxima cantidad de creditos",
+        ])
+        asks_course_count = any(phrase in normalized_question for phrase in [
+            "cuantos cursos", "cantidad de cursos", "numero de cursos",
+        ])
+        asks_can_take_course = any(phrase in normalized_question for phrase in [
             "puedo llevar", "puedo matricularme",
         ])
-        if not asks_course_load:
+        if not (asks_credit_limit or asks_course_count or asks_can_take_course):
             return None
 
-        if mentions_retake_slang or mentions_third_time:
-            if mentions_third_time:
+        if mentions_third_time:
+            if asks_credit_limit and not asks_course_count:
+                return "Si te matriculas en un curso por tercera vez, puedes llevar como máximo 15 créditos en el semestre."
+            if asks_course_count:
                 return (
-                    "Si te matriculas en un curso por tercera vez, la regla cargada indica que no puedes matricularte "
-                    "en más de un curso por tercera vez. Además, solo puedes llevar un curso por segunda vez y el máximo "
-                    "total es 15 créditos en el semestre. La cantidad exacta de cursos depende de los créditos de cada curso "
-                    "y de las restricciones que te muestre Campus Virtual. "
-                    f"Verifica tu caso concreto en Campus Virtual PUCP: {self.CAMPUS_URL}"
+                    "Si te matriculas en un curso por tercera vez, no puedes matricularte en más de un curso por tercera vez. "
+                    "Además, solo puedes llevar un curso por segunda vez y el máximo total es 15 créditos en el semestre. "
+                    "La cantidad exacta de cursos depende de los créditos de cada curso."
                 )
+            return (
+                "Si llevas un curso por tercera vez, debes considerar estas restricciones: máximo total de 15 créditos en el semestre, "
+                "no más de un curso por tercera vez y solo un curso por segunda vez. Verifica si el curso específico te aparece permitido en "
+                f"Campus Virtual PUCP: {self.CAMPUS_URL}"
+            )
+
+        if mentions_retake_slang:
             return (
                 "No tengo cargada una regla exacta de carga académica para bika. "
                 "Verifica tu caso concreto, cursos permitidos y posibles restricciones en "
                 f"Campus Virtual PUCP: {self.CAMPUS_URL}"
             )
 
-        asks_credit_limit = any(phrase in normalized_question for phrase in [
-            "cuantos creditos", "cuanto es el maximo", "maximo numero de creditos",
-            "maximo de creditos", "maxima cantidad de creditos",
-        ])
         if asks_credit_limit:
             return "Para Ingeniería Informática PUCP, el máximo cargado es 28 créditos en un ciclo."
 
