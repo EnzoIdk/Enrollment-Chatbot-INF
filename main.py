@@ -82,15 +82,18 @@ def run_discord_bot(llm: LanguageModel) -> None:
                 # Generar respuesta usando la RAG chain
                 response = llm.generate_response(pregunta=message.content)
                 
-                # Discord tiene un límite de 2000 caracteres por mensaje
+                # Discord tiene un límite de 2000 caracteres por mensaje.
+                # El primer bloque responde al mensaje original sin mencionar al autor.
                 if len(response) > 2000:
-                    for i in range(0, len(response), 2000):
-                        await message.channel.send(response[i:i+2000])
+                    chunks = [response[i:i+2000] for i in range(0, len(response), 2000)]
+                    await message.reply(chunks[0], mention_author=False)
+                    for chunk in chunks[1:]:
+                        await message.channel.send(chunk)
                 else:
-                    await message.channel.send(response)
+                    await message.reply(response, mention_author=False)
             except Exception as e:
                 print(f"Error al generar respuesta: {e}")
-                await message.channel.send("Ocurrió un error al intentar generar una respuesta.")
+                await message.reply("Ocurrió un error al intentar generar una respuesta.", mention_author=False)
 
     token = os.getenv("DISCORD_TOKEN")
     if not token:
