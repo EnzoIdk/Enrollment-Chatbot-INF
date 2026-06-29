@@ -61,6 +61,10 @@ class LanguageModel(object):
         if cyber_safety_response is not None:
             return cyber_safety_response
 
+        empty_message_response = self._preflight_empty_message_response(pregunta)
+        if empty_message_response is not None:
+            return empty_message_response
+
         small_talk_response = self._preflight_small_talk_response(pregunta)
         if small_talk_response is not None:
             return small_talk_response
@@ -217,6 +221,17 @@ class LanguageModel(object):
                 "Además, eso está fuera del alcance del bot, que solo responde sobre procesos de Ingeniería Informática PUCP."
             )
         return None
+
+    def _preflight_empty_message_response(self, pregunta: str) -> str | None:
+        cleaned = re.sub(r"<@!?\d+>", " ", pregunta or "")
+        cleaned = re.sub(r"@?chatbotinf", " ", cleaned, flags=re.IGNORECASE)
+        meaningful = re.sub(r"[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ]+", "", cleaned)
+        if meaningful:
+            return None
+        return (
+            "No entendí tu mensaje. Escríbeme una pregunta sobre matrícula, cursos, PSP, "
+            "malla o sílabos de Ingeniería Informática PUCP."
+        )
 
     def _preflight_small_talk_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta).strip()
