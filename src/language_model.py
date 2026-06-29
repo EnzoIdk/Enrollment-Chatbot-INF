@@ -133,7 +133,7 @@ class LanguageModel(object):
                 "Hola. Te puedo ayudar con información cargada sobre procesos de Ingeniería Informática PUCP: "
                 "matrícula, calendario académico, trámites relevantes de la carrera, PSP/convenios, malla, sílabos "
                 "y consultas históricas del Discord cargado. Si es sobre otro proceso de la PUCP o información externa, "
-                "te lo diré y te derivaré al canal correspondiente."
+                "te indicaré que está fuera de mi alcance o que no tengo información suficiente; no inventaré una derivación."
             )
         if normalized_question in thanks:
             return "De nada. Recuerda que puedo apoyarte solo con procesos de Ingeniería Informática PUCP cubiertos por la información cargada."
@@ -177,7 +177,8 @@ class LanguageModel(object):
             return (
                 "Soy un asistente virtual de apoyo para Ingeniería Informática PUCP. "
                 "No soy un bot general de toda la PUCP ni una oficina oficial. "
-                "Respondo con la información cargada sobre matrícula, calendario académico, trámites relevantes de la carrera, PSP/convenios, malla, sílabos y consultas históricas del Discord cargado."
+                "Respondo con la información cargada sobre matrícula, calendario académico, trámites relevantes de la carrera, PSP/convenios, malla, sílabos y consultas históricas del Discord cargado. "
+                "Si el tema es externo a ese alcance, indicaré que no tengo información suficiente en vez de inventar una derivación."
             )
 
         asks_about_docs = any(phrase in normalized_question for phrase in [
