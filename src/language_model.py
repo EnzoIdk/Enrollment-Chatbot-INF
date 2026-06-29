@@ -60,6 +60,10 @@ class LanguageModel(object):
         if meta_scope_response is not None:
             return meta_scope_response
 
+        course_load_response = self._preflight_course_load_response(pregunta)
+        if course_load_response is not None:
+            return course_load_response
+
         student_slang_response = self._preflight_student_slang_response(pregunta)
         if student_slang_response is not None:
             return student_slang_response
@@ -191,6 +195,42 @@ class LanguageModel(object):
             "No. Debo responder solo con la información cargada en mis documentos y contexto de Ingeniería Informática PUCP. "
             "Si no tengo sustento suficiente, te pediré que precises el curso, trámite o proceso, o te indicaré que no tengo esa información."
         )
+
+    def _preflight_course_load_response(self, pregunta: str) -> str | None:
+        normalized_question = self._normalize_text(pregunta)
+        mentions_retake_slang = re.search(r"\b(bika|bica|trika|trica)\b", normalized_question) is not None
+        mentions_third_time = re.search(r"\b(trika|trica)\b", normalized_question) is not None or "tercera vez" in normalized_question
+        asks_course_load = any(phrase in normalized_question for phrase in [
+            "cuantos cursos", "cuantos creditos", "cuanto es el maximo", "maximo numero de creditos",
+            "maximo de creditos", "maxima cantidad de creditos", "cantidad de cursos", "numero de cursos",
+            "puedo llevar", "puedo matricularme",
+        ])
+        if not asks_course_load:
+            return None
+
+        if mentions_retake_slang or mentions_third_time:
+            if mentions_third_time:
+                return (
+                    "Si te matriculas en un curso por tercera vez, la regla cargada indica que no puedes matricularte "
+                    "en más de un curso por tercera vez. Además, solo puedes llevar un curso por segunda vez y el máximo "
+                    "total es 15 créditos en el semestre. La cantidad exacta de cursos depende de los créditos de cada curso "
+                    "y de las restricciones que te muestre Campus Virtual. "
+                    f"Verifica tu caso concreto en Campus Virtual PUCP: {self.CAMPUS_URL}"
+                )
+            return (
+                "No tengo cargada una regla exacta de carga académica para bika. "
+                "Verifica tu caso concreto, cursos permitidos y posibles restricciones en "
+                f"Campus Virtual PUCP: {self.CAMPUS_URL}"
+            )
+
+        asks_credit_limit = any(phrase in normalized_question for phrase in [
+            "cuantos creditos", "cuanto es el maximo", "maximo numero de creditos",
+            "maximo de creditos", "maxima cantidad de creditos",
+        ])
+        if asks_credit_limit:
+            return "Para Ingeniería Informática PUCP, el máximo cargado es 28 créditos en un ciclo."
+
+        return None
 
     def _preflight_student_slang_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)
