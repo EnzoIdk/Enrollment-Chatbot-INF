@@ -13,6 +13,21 @@ Programa analítico:
 ## Arquitectura de Computadoras (1ELE01)
 Fuente: docs/dynamic/1ELE01-2026-1-SILABO.PDF
 Sumilla: El curso es de naturaleza teórico-práctico cuyo propósito es que el estudiante comprenda el funcionamiento interno de la computadora. Se desarrollan temas como el análisis de circuitos combinacionales y secuenciales, la unidad central de proceso (CPU), memorias, dispositivos de entrada-salida y dispositivos de almacenamiento masivo.
+Programa analítico:
+- Sesión 1: (3 horas): 1.1 Compuertas lógicas básicas; 1.2 Representación de circuitos digitales; 1.3 El transistor, aplicación y tamaño.
+- Sesión 2: (3 horas): 2.1 Banco de registros; 2.2 Operaciones básicas con registros; 2.3 Instrucción.
+- Sesión 3: (3 horas): 3.1 Instrucción LOAD; 3.2 Instrucciones: LSL, LSR, ROR, ROL; 3.3 Contador.
+- Sesión 4: (3 horas): 4.1 Instrucción JUMP; 4.2 Complemento a 2; 4.3 Harvard vs VonNeumann.
+- Sesión 5: (3 horas): 5.1 Instrucción WRITE; 5.2 Salto condicional; 5.3 Subrutinas.
+- Sesión 6: (3 horas): 6.1 CISC vs RISC; 6.2 Microcontrolador vs Microprocesador; 6.3 Periféricos.
+- Sesión 7: (3 horas): 7.1 Interrupciones; 7.2 Subrutina de interrupción; 7.3 Corrupción de datos.
+- Sesión 8: (3 horas): 8.1 Pipeline; 8.2 Arquitectura x86.
+- Sesión 9: (3 horas): 9.1 Compilación y emsamblaje; 9.2 Header; 9.3 Optimización de espacio.
+- Sesión 10: (3 horas): 10.1 Ensamblador NASM; 10.2 Directivas y macros; 10.3 Stack.
+- Sesión 11: (3 horas): 1ELE01 - ARQUITECTURA DE COMPUTADORAS; 11.1 Formato de un archivo; 11.2 Caller-saved y Callee-saved.
+- Sesión 12: (3 horas): 12.1 Paso de parámetros; 12.2 Syscall exit; 12.3 Syscall chmod.
+- Sesión 13: (3 horas): 13.1 Syscall write; 13.2 Buffer; 13.3 Impresión de caracteres en terminal.
+- Sesión 14: (3 horas): 14.1 Directiva %ifndef; 14.2 Aplicaciones del syscall write.
 
 ## Experimentación Numérica (1EST14)
 Fuente: docs/dynamic/1EST14-2026-1-SILABO.PDF
@@ -202,10 +217,10 @@ Programa analítico:
 - Capítulo 4: GESTIÓN DE CONFIGURACIÓN (3 horas): Importancia de la gestión de configuración; Procesos de la gestión de configuración; Herramientas de Gestión de Configuración.
 - Capítulo 5: VERIFICACIÓN, VALIDACIÓN Y PRUEBAS DE SOFTWARE (3 horas): Importancia de la calidad; Aseguramiento y Control de Calidad; Verificación de software.
 - Capítulo 6: ESTIMACIÓN Y CRONOGRAMA DE SOFTWARE (3 horas): Estimación de tamaño; Estimación de recursos; Estimación de tiempos.
-- Capítulo 10: MANTENIMIENTO DE SOFTWARE (6 horas): Fundamentos de mantenimiento de software; Aspectos clave en mantenimiento del software; Proceso de mantenimiento.
 - Capítulo 7: CALIDAD DE PROCESO SOFTWARE (3 horas): Modelos de madurez (CMMI, MPS, MoProSoft, ISO 29110); Modelos de medición; Factores de adopción.
 - Capítulo 8: CALIDAD DE PRODUCTO SOFTWARE (3 horas): Modelos de calidad de la ISO 25000: interna, externa y calidad en uso; Requisitos de calidad de producto; Evaluación de la calidad de producto software.
 - Capítulo 9: DESPLIEGUE DEL SOFTWARE (3 horas): Planificación del despliegue; Consideraciones técnicas; Consideraciones procedimentales.
+- Capítulo 10: MANTENIMIENTO DE SOFTWARE (6 horas): Fundamentos de mantenimiento de software; Aspectos clave en mantenimiento del software; Proceso de mantenimiento.
 - Capítulo 11: GESTIÓN DEL PROYECTO DE DESARROLLO DE SOFTWARE (6 horas): Inicio y Definición del alcance; Planificación del Proyecto; Ejecución del Proyecto.
 
 ## Innovación y Emprendimiento con Tecnologías de (1INF38)
@@ -280,10 +295,10 @@ Programa analítico:
 - Capítulo 5: COSTEO DE PROYECTOS DE IMPLANTACIÓN. (1 horas): a. Estructura de costos; b. Impacto de la norma tributaria en la estructura de costos.
 - Capítulo 6: PRESENTACIÓN DEL PROYECTO DE IMPLANTACIÓN. (3 horas): a. Definición de requisitos y premisas organizacionales; b. Preparación del Business Case (Beneficios); c. Venta interna del proyecto (del producto).
 - Capítulo 7: EL PROCESO DE COMPRA DE LA SOLUCIÓN. (3 horas): a. Compliance; b. Negociación del alcance, responsabilidades y costos; c. La gestión Contractual.
-- Capítulo 11: MONITOREO, MEDICIÓN DE RESULTADOS Y CONTROL OPERACIONAL (1.5 horas) a. Monitoreo y ajuste. b. Control Operacional y medición de resultados. Establecimiento de métricas y KPIs para la evaluación del sistema. Evaluación de la aceptación y satisfacción de stakeholders. Optimización y mejora continua.
 - Capítulo 8: EL PROCESO DE IMPLANTACIÓN - PLANEACIÓN. (3 horas): 1INF45 - IMPLANTACIÓN DE SISTEMAS DE INFORMACIÓN; a. Metodologías de implantación; b. Implementación (gestión del proyecto).
 - Capítulo 9: GESTIÓN DE RIESGOS Y GESTIÓN DEL CAMBIO (3 horas): a. Impacto de la Gestión de Riesgos y Gestión del Cambio en Proyectos de TI; b. Gestión de Riesgos; c. Gestión del Cambio.
 - Capítulo 10: DESPLIEGUE DEL SISTEMA DE INFORMACIÓN. (1.5 horas) a. El proceso de Despliegue. b. Migración de datos: planificación y ejecución. c. Piloto. d. Integración a los procesos de respaldo y recuperación. e. Actualización del Plan de Continuidad. f. BCP Organizacional.
+- Capítulo 11: MONITOREO, MEDICIÓN DE RESULTADOS Y CONTROL OPERACIONAL (1.5 horas) a. Monitoreo y ajuste. b. Control Operacional y medición de resultados. Establecimiento de métricas y KPIs para la evaluación del sistema. Evaluación de la aceptación y satisfacción de stakeholders. Optimización y mejora continua.
 - Capítulo 12: ASPECTOS COMPLEMENTARIOS (3 horas): a. Arquitectura; b. Integridad y Seguridad de los Sistemas de Información; c. Migrando legados.
 
 ## Proyecto de Fin de Carrera 2 (1INF46)
@@ -333,12 +348,12 @@ Programa analítico:
 Fuente: docs/dynamic/1INF50-2026-1-SILABO.PDF
 Sumilla: El curso es de naturaleza teórico-práctico cuyo propósito es que el estudiante, trabajando de manera individual y en equipo, diseñe y documente los componentes del software y verifique su implementación. Se desarrolla los temas de conceptos de diseño de software, patrones de diseño, modelos de diseño y casos de prueba
 Programa analítico:
-- Unidad 1: DISEÑO DE SOFTWARE (16 horas).
 - Capítulo 1: (2 horas):: Fundamentos del Diseño de Software.
+- Unidad 1: DISEÑO DE SOFTWARE (16 horas).
 - Capítulo 2: (2 horas):: Notación UML: Diagramas de Clases de Diseño; Principios de Diseño.
+- Unidad 2: PRUEBAS DE SOFTWARE (12 horas).
 - Capítulo 3: (10 horas):: Patrones de Diseño; Patrones de Persistencia; Patrones de Interacción con Base de Datos.
 - Capítulo 4: (2 horas):: Notación UML: Diagramas de Secuencia; Notación UML: Diagramas de Comunicación.
-- Unidad 2: PRUEBAS DE SOFTWARE (12 horas).
 - Capítulo 5: (12 horas):: Fundamentos de Pruebas de Software; Tipos de Prueba; Diseño de Pruebas.
 
 ## Deep Learning (1INF52)
@@ -384,10 +399,10 @@ Programa analítico:
 - Unidad 1: FUNDAMENTOS DEL PROCESAMIENTO DE LENGUAJE NATURAL Y LINGÚISTICA COMPUTACIONAL (3 horas): Objetivo: Presentar conceptos básicos empleados en la lingüística computacional y en el; procesamiento de lenguaje natural; Contenido: Introducción. Lingüística computacional. Definición de conceptos básicos. Colocación.
 - Unidad 2: REPRESENTACIÓN DE TEXTOS (3 horas): Contenido: Introducción. Bag of Words Representation. TF-IDF. Word Embeddings. Word2Vec; GloVe. FastText.
 - Unidad 3: MODELOS DE LENGUAJE (3 horas): Objetivo: Estudiar el concepto de modelo de lenguaje y los tipos que existen; Contenido: Introducción. Modelos de lenguaje. Modelos estadísticos. Modelos neuronales simples; Aplicaciones.
-- Unidad 7: IMPLEMENTACIÓN DE CHATBOTS (9 horas): Objetivo: Mostrar los conceptos y técnicas necesarias para construir un chatbot; Contenido: Introducción. Chatbots básicos. Manejo de intenciones. Manejo de historias. Chatbot; conversacionales con IA generativa. Retrieval-Augmented Generation (RAG) en chatbots.
-- Unidad 6: TAREAS AVANZADAS Y NUEVAS TENDENCIAS DE PROCESAMIENTO DE LENGUAJE NATURAL (9 horas): Objetivo: Abordar las tareas complejas que pueden ser abordadas por el PLN y nuevas tecnologías; para las mismas; Contenido: Introducción. Traducción automática. Modelos de lenguaje basados en Transformers.
 - Unidad 4: TAREAS BÁSICAS DE PROCESAMIENTO DE LENGUAJE NATURAL (6 horas): Objetivo: Presentar las tareas elementales y recurrentes que pueden ser abordadas por el PLN; Contenido: Introducción. Clasificación de texto. Identificación de lenguaje. Análisis de sentimientos; Part-of-speech tagging (POS-tagging). Name-Entity Recognition (NER). Identificación de tópicos.
 - Unidad 5: DEEP LEARNING EN PROCESAMIENTO DE LENGUAJE NATURAL (9 horas): Objetivo: Presentar las arquitecturas de aprendizaje profundo que pueden ser usadas para el PLN; Contenido: Introducción. Problemas secuencia a secuencia (Seq2Seq). Redes neuronales; recurrentes (RNN). Redes LSTM. Tuning. Atención. Transformers. Modelos generativos.
+- Unidad 6: TAREAS AVANZADAS Y NUEVAS TENDENCIAS DE PROCESAMIENTO DE LENGUAJE NATURAL (9 horas): Objetivo: Abordar las tareas complejas que pueden ser abordadas por el PLN y nuevas tecnologías; para las mismas; Contenido: Introducción. Traducción automática. Modelos de lenguaje basados en Transformers.
+- Unidad 7: IMPLEMENTACIÓN DE CHATBOTS (9 horas): Objetivo: Mostrar los conceptos y técnicas necesarias para construir un chatbot; Contenido: Introducción. Chatbots básicos. Manejo de intenciones. Manejo de historias. Chatbot; conversacionales con IA generativa. Retrieval-Augmented Generation (RAG) en chatbots.
 
 ## Temas Avanzados de Inteligencia Artificial (1INF61)
 Fuente: docs/dynamic/1INF61-2026-1-SILABO.PDF
@@ -472,6 +487,9 @@ Programa analítico:
 ## Práctica Supervisada Preprofesional (INF008)
 Fuente: docs/dynamic/INF008-2026-1-SILABO.PDF
 Sumilla: Las prácticas supervisadas preprofesionales (PSP) complementan la formación académica del alumno brindándole bajo supervisión un espacio real para la aplicación de lo aprendido en la universidad. El curso consiste en que los alumnos realizan prácticas profesionales bajo supervisión de la empresa y la universidad. Al cumplirse la semana 11 del semestre, el alumno es evaluado tras haber cumplido un mínimo de 270 horas (30 horas semanales durante 9 semanas). El curso es de naturaleza práctica cuyo propósito es que el estudiante pueda aplicar los conocimientos y habilidades adquiridas en el programa de Ingeniería Informática para la implementación de soluciones en un espacio real bajo supervisión. El curso consiste en que los estudiantes realizan prácticas preprofesionales bajo la supervisión de la empresa y el Programa. Esta experiencia contribuye al desarrollo de las competencias de implementar soluciones informáticas, trabajo en equipo, búsqueda de información, aprendizaje autónomo y comunicación eficaz. INF008 - PRÁCTICA SUPERVISADA PREPROFESIONAL
+Programa analítico:
+- Sesión 1: GRUPO 1 (1 sesiones) Los alumnos que para la semana 2 ya cumplan con el requisito de horas practicadas (270 horas, una distribución típica de estas horas es en 30 horas semanales durante 9 semanas). Semana 1 y 2: Inscripción de la PSP. Revisión y aprobación de convenios, planes de formación y fichas de inscripción. Semana 3, 4 y 5: Entrevista del alumno con el supervisor encargado. Semana 6: Entrega del informe del practicante. Semana 7 y 8: Entrevista del alumno con el supervisor encargado y empleador.
+- Sesión 2: GRUPO 2 (1 sesiones) Los alumnos que para la semana 11 ya cumplan con el requisito de horas practicadas (270 horas, una distribución típica de estas horas es en 30 horas semanales durante 9 semanas). Semana 1 y 2: Inscripción de la PSP. Revisión y aprobación de convenios, planes de formación y fichas de inscripción. Semana 3 a la 10: Entrevista del alumno con el supervisor encargado. Semana 11: Entrega del informe del practicante. Semana 12 y 13: Entrevista del alumno con el supervisor encargado y empleador.
 
 ## Redes de Computadoras (INF238)
 Fuente: docs/dynamic/INF238-2026-1-SILABO.PDF
@@ -481,13 +499,13 @@ Programa analítico:
 - Unidad 2: MEDIOS DE TRANSMISIÓN GUIADOS Y NO GUIADOS (3 horas): Medios de transmisión: cobre, fibra óptica, espacio libre; Cable de par trenzado (UTP): normas y categorías; Fibra óptica: tipos y componentes ópticos.
 - Unidad 3: TECNOLOGÍAS DE REDES LAN CABLEADAS (3 horas): Evolución de Ethernet. Métodos de Acceso: CSMA/CD y Token Passing; Tecnología Ethernet IEEE 802.3. Subniveles LLC y MAC. Formato de la trama Ethernet; Funcionamiento de Ethernet.
 - Unidad 4: DISPOSITIVOS DE INTERCONEXIÓN DE REDES (3 horas): INF238 - REDES DE COMPUTADORAS; LAN Switching y dominios de difusión; VLANs. Funcionamiento y Tipos. VLAN Trunk.
-- Unidad 8: VIRTUALIZACIÓN, CONTENEDORES Y COMPUTACIÓN EN LA NUBE (3 horas): Conceptos Básicos; Virtualización. Tipos; Contenedores: Docker y Kubernetes.
 - Unidad 5: ARQUITECTURA DE REDES TCP/IP (3 horas): Arquitectura de Internet; Routers. Interfaces. Modos de Acceso; Capas del Modelo TCP/IP. Encapsulamiento.
 - Unidad 6: SUBREDES Y ENRUTAMIENTO (3 horas): Enrutamiento Estático y enrutamiento con Múltiples Rutas; Direccionamiento de Subredes. Consideraciones de Diseño; VLSM. División Recursiva. CIDR. Consideraciones de diseño.
 - Unidad 7: NAT, IPV6 (3 horas): Traducción de direcciones de red: Estático, Dinámico y NAT PAT; Introducción a IPv6; Características de Ipv6.
+- Unidad 8: VIRTUALIZACIÓN, CONTENEDORES Y COMPUTACIÓN EN LA NUBE (3 horas): Conceptos Básicos; Virtualización. Tipos; Contenedores: Docker y Kubernetes.
 - Unidad 9: PROTOCOLOS DE CAPA DE TRANSPORTE (3 horas): Protocolo TCP. Puertos. Control de Flujo. Control de congestión; Formato del Segmento TCP; Número de secuencia. Inicio y cierre de sesión TCP. Negociación. Estados TCP.
-- Unidad 11: PROTOCOLOS DE CAPA DE APLICACIÓN II (3 horas): Protocolo HTTP, HTTPS; Protocolo SMTP, IMAP, POP, Formatos MIME; Sistema de correo web.
 - Unidad 10: PROTOCOLOS DE CAPA DE APLICACIÓN I (3 horas): INF238 - REDES DE COMPUTADORAS; Paradigma Cliente Servidor; Servicios Básicos: DNS y DHCP.
+- Unidad 11: PROTOCOLOS DE CAPA DE APLICACIÓN II (3 horas): Protocolo HTTP, HTTPS; Protocolo SMTP, IMAP, POP, Formatos MIME; Sistema de correo web.
 - Unidad 12: SEGURIDAD DE REDES (3 horas): Firewalls. Funcionamiento. Tipos de Firewalls; Conexiones web seguras (SSL/TLS) y transacción electrónica segura (SET); Correo Seguro.
 - Unidad 13: CRIPTOGRAFÍA, AUTENTICACIÓN Y HACKING ÉTICO (3 horas): Criptografía. Tipos y aplicaciones; Firmas, Certificados Digitales y funciones Hash; Autenticación. Múltiples Factores. Autenticación Triple A.
 - Unidad 14: MONITOREO Y GESTIÓN DE REDES (3 horas): Importancia del monitoreo en la operación y seguridad de redes; SNMP: arquitectura, versiones y MIB; NETCONF: automatización y gestión centralizada.

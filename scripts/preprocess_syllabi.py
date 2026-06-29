@@ -47,6 +47,8 @@ def format_topic(title: str, details: list[str]) -> str:
     title = re.sub(r"CAP[ÍI]TULO\s+(\d+)\s+CAP[ÍI]TULO\s+\1\s*:?", r"Capítulo \1:", title, flags=re.IGNORECASE)
     title = re.sub(r"CAP[ÍI]TULO\s+(\d+)\s*:?", r"Capítulo \1:", title, flags=re.IGNORECASE)
     title = re.sub(r"UNIDAD\s+(\d+)\s*:?", r"Unidad \1:", title, flags=re.IGNORECASE)
+    title = re.sub(r"SESI[ÓO]N\s+(\d+)\s+SESI[ÓO]N\s+\1\s*:?", r"Sesión \1:", title, flags=re.IGNORECASE)
+    title = re.sub(r"SESI[ÓO]N\s+(\d+)\s*:?", r"Sesión \1:", title, flags=re.IGNORECASE)
     title = re.sub(r":\s*:", ":", title)
     title = re.sub(r":(?=\S)", ": ", title)
 
@@ -63,6 +65,13 @@ def format_topic(title: str, details: list[str]) -> str:
     return f"{title}."
 
 
+def topic_sort_key(topic: str) -> tuple[int, str]:
+    match = re.match(r"(?:Capítulo|Unidad|Sesión)\s+(\d+)", topic, flags=re.IGNORECASE)
+    if match:
+        return int(match.group(1)), topic
+    return 10_000, topic
+
+
 def extract_program_topics(text: str) -> list[str]:
     section = extract_between(text, r"VI\.\s*PROGRAMA ANAL[ÍI]TICO", r"\n\s*VII\.")
     if not section:
@@ -75,7 +84,7 @@ def extract_program_topics(text: str) -> list[str]:
     topics = []
     current_title = ""
     current_details = []
-    title_pattern = r"(?:CAP[ÍI]TULO|UNIDAD)\s+\d+"
+    title_pattern = r"(?:CAP[ÍI]TULO|UNIDAD|SESI[ÓO]N)\s+\d+"
     for line in lines:
         if re.match(title_pattern, line, flags=re.IGNORECASE):
             if current_title:
@@ -93,7 +102,7 @@ def extract_program_topics(text: str) -> list[str]:
         current_details.append(line)
     if current_title:
         topics.append(format_topic(current_title, current_details))
-    return [topic for topic in topics if topic]
+    return sorted((topic for topic in topics if topic), key=topic_sort_key)
 
 
 def read_pdf_text(pdf_path: Path) -> str:
