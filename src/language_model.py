@@ -19,6 +19,7 @@ class LanguageModel(object):
     MATRICULA_FACTS_PATH = Path("docs/curated/matricula_fechas.json")
     COURSE_ALIASES_PATH = Path("docs/curated/vocabulario_cursos.json")
     CURRICULUM_PATH = Path("docs/static/processed/malla_informatica.json")
+    SYLLABUS_SUMMARIES_PATH = Path("docs/static/processed/silabos_resumen.json")
 
     def __init__(self, model_name: str, initial_prompt: str, temperature: float = 0.1):
         assert model_name is not None, "Model name cannot be None"
@@ -96,6 +97,10 @@ class LanguageModel(object):
         ambiguous_slang_response = self._preflight_ambiguous_slang_response(pregunta)
         if ambiguous_slang_response is not None:
             return ambiguous_slang_response
+
+        syllabus_summary_response = self._preflight_syllabus_summary_response(pregunta)
+        if syllabus_summary_response is not None:
+            return syllabus_summary_response
 
         curriculum_response = self._preflight_curriculum_response(pregunta)
         if curriculum_response is not None:
@@ -380,6 +385,78 @@ class LanguageModel(object):
                 "Revisa el sílabo o consulta directamente al docente antes de usar cualquier herramienta en una evaluación."
             )
         return None
+
+    def _preflight_syllabus_summary_response(self, pregunta: str) -> str | None:
+        normalized_question = self._normalize_for_course_matching(pregunta)
+        asks_syllabus_content = any(term in normalized_question for term in [
+            "silabo", "sílabo", "tema", "temas", "trata", "contenido", "sumilla", "programa analitico",
+        ])
+        if not asks_syllabus_content:
+            return None
+
+        records = self._load_syllabus_summaries()
+        if not records:
+            return None
+
+        refs = self._find_course_references(normalized_question)
+        curriculum = self._load_curriculum()
+        if curriculum:
+            refs = self._merge_curriculum_name_references(normalized_question, refs, curriculum)
+            courses = curriculum.get("cursos", {})
+            for match in re.finditer(r"\b[0-9][a-z]{3}[0-9]{2}\b", normalized_question):
+                course = courses.get(match.group(0).upper())
+                if course:
+                    refs.append(course)
+
+        wanted_codes = []
+        seen_codes = set()
+        for ref in refs:
+            code = ref.get("codigo")
+            if code and code not in seen_codes:
+                wanted_codes.append(code)
+                seen_codes.add(code)
+
+        if not wanted_codes:
+            for match in re.finditer(r"\b[0-9][a-z]{3}[0-9]{2}\b", normalized_question):
+                code = match.group(0).upper()
+                wanted_codes.append(code)
+
+        for code in wanted_codes:
+            record = records.get(code)
+            if record:
+                return self._format_syllabus_summary(record)
+        return None
+
+    def _load_syllabus_summaries(self) -> dict[str, dict[str, Any]]:
+        if not self.SYLLABUS_SUMMARIES_PATH.exists():
+            return {}
+        try:
+            records = json.loads(self.SYLLABUS_SUMMARIES_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {}
+        if not isinstance(records, list):
+            return {}
+        return {
+            str(record.get("codigo", "")).strip(): record
+            for record in records
+            if isinstance(record, dict) and record.get("codigo")
+        }
+
+    def _format_syllabus_summary(self, record: dict[str, Any]) -> str:
+        code = record.get("codigo", "")
+        name = record.get("nombre", code)
+        topics = record.get("programa_analitico") or []
+        sumilla = record.get("sumilla", "")
+
+        if topics:
+            lines = [f"Según el sílabo cargado, {name} ({code}) trata estos temas:"]
+            lines.extend(f"- {topic}" for topic in topics[:8])
+            return "\n".join(lines)
+
+        if sumilla:
+            return f"Según el sílabo cargado, {name} ({code}) tiene esta sumilla: {sumilla}"
+
+        return f"Tengo el sílabo de {name} ({code}), pero no pude extraer temas o sumilla del documento procesado."
 
     def _preflight_curriculum_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_for_course_matching(pregunta)
