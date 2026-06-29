@@ -17,8 +17,9 @@ devuelve los vectores de embedding
 class Embedder(object):
     
     def __init__(self, model_name: str, database_path: str, chunk_size: int = 500, chunk_overlap: int = 100,
-                 static_db_name: str = "static", historical_db_name: str = "historical", 
-                 dynamic_db_name:str = "dynamic", min_chunk_length: int = 30):
+                 static_db_name: str = "static", historical_db_name: str = "historical",
+                 dynamic_db_name: str = "dynamic", instructions_db_name: str = "instructions",
+                 min_chunk_length: int = 30):
         assert model_name is not None, "Model name cannot be None"
         assert database_path is not None, "Database path cannot be None"
 
@@ -36,6 +37,7 @@ class Embedder(object):
         self.static_db_name: str = static_db_name
         self.historical_db_name: str = historical_db_name
         self.dynamic_db_name: str = dynamic_db_name
+        self.instructions_db_name: str = instructions_db_name
 
 
     def read_pdf_documents(self, documents_path: str) -> list[Document]:
@@ -153,10 +155,19 @@ class Embedder(object):
         return [Document(page_content = page_content, metadata = metadata)]
 
 
+    def _valid_collection_names(self) -> list[str]:
+        return [
+            self.static_db_name,
+            self.historical_db_name,
+            self.dynamic_db_name,
+            self.instructions_db_name,
+        ]
+
     def _get_vector_store(self, collection_name: str) -> Chroma:
-        if collection_name not in [self.static_db_name, self.historical_db_name, self.dynamic_db_name]:
-            raise ValueError(f"Collection name must be either '{self.static_db_name}', '{self.historical_db_name}', or \
-                              '{self.dynamic_db_name}'")
+        if collection_name not in self._valid_collection_names():
+            raise ValueError(
+                f"Collection name must be one of {self._valid_collection_names()}"
+            )
         
         return Chroma(persist_directory = self.database_path, 
                       embedding_function = self.model,
@@ -177,20 +188,20 @@ class Embedder(object):
 
     def embed_and_store(self, chunks: list[Document], database_name: str) -> None:
         assert chunks is not None, "Chunks cannot be None"
-        assert database_name in [self.static_db_name, self.historical_db_name, self.dynamic_db_name], \
-            f"Database name must be either '{self.static_db_name}', '{self.historical_db_name}', or '{self.dynamic_db_name}'"
+        assert database_name in self._valid_collection_names(), \
+            f"Database name must be one of {self._valid_collection_names()}"
 
         vector_store = self._get_vector_store(database_name)
         vector_store.add_documents(documents = chunks)
     
-
-    def get_retriever(self, k: int = 3, static_weight: float = 0.5, dynamic_weight: float = 0.4, 
-                      historical_weight: float = 0.1) -> EnsembleRetriever:
+    def get_retriever(self, k: int = 3, static_weight: float = 0.4, dynamic_weight: float = 0.4,
+                      historical_weight: float = 0.05, instructions_weight: float = 0.15) -> EnsembleRetriever:
         assert k > 0, "k must be greater than 0"
         assert 0 <= static_weight <= 1, "static_weight must be between 0 and 1"
         assert 0 <= dynamic_weight <= 1, "dynamic_weight must be between 0 and 1"
         assert 0 <= historical_weight <= 1, "historical_weight must be between 0 and 1"
-        # assert static_weight + dynamic_weight + historical_weight == 1.0, "Weights must sum to 1"
+        assert 0 <= instructions_weight <= 1, "instructions_weight must be between 0 and 1"
+        # assert static_weight + dynamic_weight + historical_weight + instructions_weight == 1.0, "Weights must sum to 1"
 
         # Obtnemos el retriever estático
         vector_store_static = self._get_vector_store(self.static_db_name)
@@ -204,10 +215,14 @@ class Embedder(object):
         vector_store_historical = self._get_vector_store(self.historical_db_name)
         retriever_historical = vector_store_historical.as_retriever(search_type="mmr", search_kwargs={"k": k, "fetch_k": k * 2})
 
-        # Combinamos ambos
+        # Obtenemos el retriever de instrucciones curadas
+        vector_store_instructions = self._get_vector_store(self.instructions_db_name)
+        retriever_instructions = vector_store_instructions.as_retriever(search_type="mmr", search_kwargs={"k": k, "fetch_k": k * 2})
+
+        # Combinamos los retrievers
         ensemble_retriever = EnsembleRetriever(
-            retrievers=[retriever_static, retriever_dynamic, retriever_historical],
-            weights=[static_weight, dynamic_weight, historical_weight]
+            retrievers=[retriever_static, retriever_dynamic, retriever_historical, retriever_instructions],
+            weights=[static_weight, dynamic_weight, historical_weight, instructions_weight]
         )
         return ensemble_retriever
     
