@@ -196,6 +196,16 @@ class LanguageModel(object):
         term = "bika" if mentions_bika else "trika"
         attempt = "segunda" if mentions_bika else "tercera"
         course = self._extract_course_after_slang(normalized_question)
+        requested_course = self._extract_requested_course_in_slang_question(normalized_question)
+        if course and requested_course:
+            return (
+                f"Entiendo que estás llevando por {attempt} vez el curso que llamas '{course}'. "
+                f"No puedo confirmar si puedes llevar '{requested_course}' en el mismo ciclo solo con esa información; "
+                "eso depende de requisitos, cursos permitidos, posibles infracciones de plan y reglas de matrícula. "
+                f"Revísalo en Campus Virtual PUCP: {self.CAMPUS_URL}. "
+                "Si el sistema no te permite matricularte o te marca infracción de plan, consulta con la Dirección de Carrera o con matrícula-ocr@pucp.edu.pe."
+            )
+
         if course:
             return (
                 f"Si dices que llevas {term} de '{course}', entiendo que estás llevando por {attempt} vez "
@@ -212,12 +222,33 @@ class LanguageModel(object):
         if not match:
             return None
         course = re.sub(r"<@!?\d+>", "", match.group(1))
+        course = re.split(
+            r"[,.;?]|\b(?:puedo|podria|debo|quisiera|quiero|es posible|tambien|igualmente)\b",
+            course,
+            maxsplit=1,
+        )[0]
         course = re.sub(r"[^a-z0-9\s]", " ", course)
         course = re.sub(r"\s+", " ", course).strip()
         stop_phrases = ["que significa", "que entiendes", "sabes", "cuando te digo"]
         if not course or any(phrase in course for phrase in stop_phrases):
             return None
         return course
+
+    def _extract_requested_course_in_slang_question(self, normalized_question: str) -> str | None:
+        match = re.search(
+            r"\b(?:puedo|podria|quisiera|quiero|debo)\s+(?:llevar|matricularme\s+en|meterme\s+a|inscribirme\s+en)\s+(.+)$",
+            normalized_question,
+        )
+        if not match:
+            return None
+        requested_course = re.split(
+            r"[,.;?]|\b(?:igualmente|tambien|este ciclo|en el ciclo|a la vez|en paralelo|junto con)\b",
+            match.group(1),
+            maxsplit=1,
+        )[0]
+        requested_course = re.sub(r"[^a-z0-9\s]", " ", requested_course)
+        requested_course = re.sub(r"\s+", " ", requested_course).strip()
+        return requested_course or None
 
     def _preflight_ambiguous_slang_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)
