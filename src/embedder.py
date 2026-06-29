@@ -7,6 +7,7 @@ from langchain_core.documents.base import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from pathlib import Path
+from src.text_cleaner import TextCleaner
 
 """
 Este modulo contiene la clase 'Embedder', la cual se encargará de la creación 
@@ -17,7 +18,7 @@ class Embedder(object):
     
     def __init__(self, model_name: str, database_path: str, chunk_size: int = 500, chunk_overlap: int = 100,
                  static_db_name: str = "static", historical_db_name: str = "historical", 
-                 dynamic_db_name:str = "dynamic"):
+                 dynamic_db_name:str = "dynamic", min_chunk_length: int = 30):
         assert model_name is not None, "Model name cannot be None"
         assert database_path is not None, "Database path cannot be None"
 
@@ -31,6 +32,7 @@ class Embedder(object):
         self.database_path: str = database_path
         self.text_splitter: RecursiveCharacterTextSplitter = \
             RecursiveCharacterTextSplitter(chunk_size = chunk_size, chunk_overlap = chunk_overlap)
+        self.text_cleaner: TextCleaner = TextCleaner(min_chunk_length = min_chunk_length)
         self.static_db_name: str = static_db_name
         self.historical_db_name: str = historical_db_name
         self.dynamic_db_name: str = dynamic_db_name
@@ -45,8 +47,8 @@ class Embedder(object):
         if len(documents) == 0:
             raise ValueError("No documents found in the specified path.")
 
-        return self._create_chunks(documents)
-    
+        cleaned_documents = self.text_cleaner.clean(documents)
+        return self._create_chunks(cleaned_documents)
 
     def read_csv_documents(self, documents_path: str) -> list[Document]:
         assert documents_path is not None, "Documents path cannot be None"
@@ -171,15 +173,15 @@ class Embedder(object):
 
         # Obtnemos el retriever estático
         vector_store_static = self._get_vector_store(self.static_db_name)
-        retriever_static = vector_store_static.as_retriever(search_type = "similarity", search_kwargs = {"k": k})
+        retriever_static = vector_store_static.as_retriever(search_type = "mmr", search_kwargs = {"k": k, "fetch_k": k * 2})
 
         # Obtenemos el retriever dinámico
         vector_store_dynamic = self._get_vector_store(self.dynamic_db_name)
-        retriever_dynamic = vector_store_dynamic.as_retriever(search_type = "similarity", search_kwargs = {"k": k})
+        retriever_dynamic = vector_store_dynamic.as_retriever(search_type = "mmr", search_kwargs = {"k": k, "fetch_k": k * 2})
 
         # Obtenemos el retriever histórico
         vector_store_historical = self._get_vector_store(self.historical_db_name)
-        retriever_historical = vector_store_historical.as_retriever(search_type = "similarity", search_kwargs = {"k": k})
+        retriever_historical = vector_store_historical.as_retriever(search_type="mmr", search_kwargs={"k": k, "fetch_k": k * 2})
 
         # Combinamos ambos
         ensemble_retriever = EnsembleRetriever(

@@ -99,7 +99,7 @@ def setup_chatbot() -> LanguageModel:
         system_prompt = f.read()
     print("Prompt del sistema leído...")
     
-    embedder = Embedder(model_name = embedder_model_name, database_path = db_dir, chunk_size = 500, chunk_overlap = 50)
+    embedder = Embedder(model_name = embedder_model_name, database_path = db_dir, chunk_size = 1000, chunk_overlap = 200)
     
     if not os.path.exists(db_dir) or len(os.listdir(db_dir)) == 0:
         print(f"No se detectó base de datos en '{db_dir}'. Generando embeddings...")
@@ -112,8 +112,8 @@ def setup_chatbot() -> LanguageModel:
         print(f"Base de datos detectada en '{db_dir}'.")
 
     llm = LanguageModel(model_name = llm_model_name, initial_prompt = system_prompt, temperature = 0.08)
-    llm.define_rag_chain(embedder.get_retriever(k = 5, static_weight = 0.6, dynamic_weight = 0.38, 
-                                                historical_weight = 0.02))
+    llm.define_rag_chain(embedder.get_retriever(k = 2, static_weight = 0.5, dynamic_weight = 0.45, 
+                                                historical_weight = 0.05))
     return llm
 
 def main() -> None:
