@@ -67,4 +67,3 @@ Las abreviaturas se usan para normalizar preguntas; no autorizan matrícula ni r
 - desarrollo de videojuegos: Desarrollo De Videojuegos (INF309). Menciones DC: 7. Fuente: sílabo INF309-2026-1-SILABO.PDF.
 - continuidad de las tecnologias de informacion: Continuidad De Las Tecnologías De Información (INF390). Menciones DC: 5. Fuente: sílabo INF390-2026-1-SILABO.PDF.
 
-Si una abreviatura no aparece en este vocabulario ni en el contexto recuperado, no inventar su significado; pedir el nombre oficial del curso o trámite.
