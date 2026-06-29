@@ -15,6 +15,8 @@ DEFAULT_ALIAS_SEEDS = [
     {"alias": "adso", "nombre": "Administración de Sistemas Operativos", "codigo": "1INF35", "tipo": "curso"},
     {"alias": "aso", "nombre": "Administración de Sistemas Operativos", "codigo": "1INF35", "tipo": "curso"},
     {"alias": "so", "nombre": "Sistemas Operativos", "codigo": "1INF29", "tipo": "curso"},
+    {"alias": "sisops", "nombre": "Sistemas Operativos", "codigo": "1INF29", "tipo": "curso"},
+    {"alias": "sisop", "nombre": "Sistemas Operativos", "codigo": "1INF29", "tipo": "curso"},
     {"alias": "p3", "nombre": "Programación 3", "codigo": "1INF30", "tipo": "curso"},
     {"alias": "progra3", "nombre": "Programación 3", "codigo": "1INF30", "tipo": "curso"},
     {"alias": "prog3", "nombre": "Programación 3", "codigo": "1INF30", "tipo": "curso"},
@@ -150,7 +152,6 @@ def write_outputs(vocabulary: list[dict[str, Any]], detected: list[dict[str, Any
         "# Vocabulario de cursos y abreviaturas",
         "",
         "Archivo generado por `scripts/preprocess_discord_courses.py` a partir de sílabos y del histórico de Discord cargado.",
-        "Las abreviaturas se usan para normalizar preguntas; no autorizan matrícula ni reemplazan la validación del Campus Virtual.",
         "",
     ]
     for item in vocabulary:
@@ -159,7 +160,6 @@ def write_outputs(vocabulary: list[dict[str, Any]], detected: list[dict[str, Any
         source = item.get("fuente", "")
         lines.append(f"- {item['alias']}: {item['nombre']}{code}. Menciones DC: {mentions}. Fuente: {source}.")
     lines.append("")
-    lines.append("Si una abreviatura no aparece en este vocabulario ni en el contexto recuperado, no inventar su significado; pedir el nombre oficial del curso o trámite.")
     (curated_dir / "vocabulario_cursos.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     detected_lines = ["# Cursos detectados en el histórico de Discord", ""]

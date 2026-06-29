@@ -1,7 +1,9 @@
 # Cursos detectados en el histórico de Discord
 
 - so: Sistemas Operativos (1INF29) - 57 menciones
+- sisop: Sistemas Operativos (1INF29) - 52 menciones
 - seguridad de informacion: Seguridad De Información (1INF41) - 51 menciones
+- sisops: Sistemas Operativos (1INF29) - 51 menciones
 - sistemas operativos: Sistemas Operativos (1INF29) - 51 menciones
 - ia: Inteligencia Artificial (1INF24) - 49 menciones
 - psp: Práctica Supervisada Preprofesional (INF008) - 42 menciones

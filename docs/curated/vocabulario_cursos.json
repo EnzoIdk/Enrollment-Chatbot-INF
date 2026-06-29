@@ -159,6 +159,24 @@
     "ejemplo_discord": "Buenas tardes [DIRECTOR] . Mi consulta es respecto a la convalidación de Base de Datos. ¿Por qué se convalida únicamente con el nuevo curso de Base de Datos y no con su prerrequisito que es Fundamentos de Sistemas de Información?"
   },
   {
+    "alias": "sisop",
+    "nombre": "Sistemas Operativos",
+    "codigo": "1INF29",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 52,
+    "ejemplo_discord": "Buenas tardes [DIRECTOR]. Sería posible ampliar la cantidad de vacantes tanto del curso de sistemas operativos y sistemas de información 2? Debido a que se tiene demasiada demanda para 25 vacantes con un solo profesor disponible en cada cur"
+  },
+  {
+    "alias": "sisops",
+    "nombre": "Sistemas Operativos",
+    "codigo": "1INF29",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 51,
+    "ejemplo_discord": "Buenas tardes [DIRECTOR]. Sería posible ampliar la cantidad de vacantes tanto del curso de sistemas operativos y sistemas de información 2? Debido a que se tiene demasiada demanda para 25 vacantes con un solo profesor disponible en cada cur"
+  },
+  {
     "alias": "sistemas operativos",
     "nombre": "Sistemas Operativos",
     "tipo": "curso",

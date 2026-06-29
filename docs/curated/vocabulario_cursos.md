@@ -1,7 +1,6 @@
 # Vocabulario de cursos y abreviaturas
 
 Archivo generado por `scripts/preprocess_discord_courses.py` a partir de sílabos y del histórico de Discord cargado.
-Las abreviaturas se usan para normalizar preguntas; no autorizan matrícula ni reemplazan la validación del Campus Virtual.
 
 - pei: Planeamiento Estratégico en Informática. Menciones DC: 32. Fuente: histórico Discord.
 - tecnicas de programacion: Técnicas de Programación. Menciones DC: 2. Fuente: vocabulario estudiantil validado.
@@ -21,6 +20,8 @@ Las abreviaturas se usan para normalizar preguntas; no autorizan matrícula ni r
 - formulacion de proyecto de fin de carrera: Formulación De Proyecto De Fin De Carrera (1INF26). Menciones DC: 21. Fuente: sílabo 1INF26-2026-1-SILABO.PDF.
 - algoritmia y estructura de datos: Algoritmia Y Estructura De Datos (1INF27). Menciones DC: 1. Fuente: sílabo 1INF27-2026-1-SILABO.PDF.
 - fundamentos de sistemas de informacion: Fundamentos De Sistemas De Información (1INF28). Menciones DC: 4. Fuente: sílabo 1INF28-2026-1-SILABO.PDF.
+- sisop: Sistemas Operativos (1INF29). Menciones DC: 52. Fuente: vocabulario estudiantil validado.
+- sisops: Sistemas Operativos (1INF29). Menciones DC: 51. Fuente: vocabulario estudiantil validado.
 - sistemas operativos: Sistemas Operativos (1INF29). Menciones DC: 51. Fuente: sílabo 1INF29-2026-1-SILABO.PDF.
 - so: Sistemas Operativos (1INF29). Menciones DC: 57. Fuente: sílabo 1INF29 e histórico Discord.
 - p3: Programación 3 (1INF30). Menciones DC: 19. Fuente: vocabulario estudiantil validado.

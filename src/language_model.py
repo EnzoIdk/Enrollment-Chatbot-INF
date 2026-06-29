@@ -356,8 +356,11 @@ class LanguageModel(object):
         asks_credits = any(term in normalized_question for term in ["credito", "creditos", "cuantos creditos", "cuanto creditaje"])
         asks_requirements = any(term in normalized_question for term in [
             "requisito", "requisitos", "que me falta", "qué me falta", "necesito",
-            "puedo adelantar", "puedo llevar", "debo pasar", "tengo que pasar",
-            "si o si pasarlo", "sí o sí pasarlo", "si o si aprobar", "sí o sí aprobar",
+            "puedo adelantar", "puedo llevar", "puedo pedir excepcion", "puedo pedir excepción",
+            "pedir excepcion", "pedir excepción", "solicitud de excepcion", "solicitud de excepción",
+            "mismo tiempo", "a la vez", "simultaneamente", "simultáneamente",
+            "debo pasar", "tengo que pasar", "si o si pasarlo", "sí o sí pasarlo",
+            "si o si aprobar", "sí o sí aprobar",
         ])
         if not (asks_code or asks_credits or asks_requirements):
             return None
@@ -374,6 +377,26 @@ class LanguageModel(object):
             target_refs = [ref for ref in refs if ref.get("codigo") in courses]
         if not target_refs:
             return None
+
+        asks_simultaneous_or_exception = any(term in normalized_question for term in [
+            "puedo pedir excepcion", "puedo pedir excepción", "pedir excepcion", "pedir excepción",
+            "solicitud de excepcion", "solicitud de excepción", "mismo tiempo", "a la vez",
+            "simultaneamente", "simultáneamente", "en paralelo", "junto con",
+        ])
+        if asks_requirements and asks_simultaneous_or_exception and len(target_refs) >= 2:
+            selected_courses = [courses.get(ref.get("codigo")) for ref in target_refs if ref.get("codigo") in courses]
+            selected_courses = [course for course in selected_courses if course]
+            for dependent_course in selected_courses:
+                required_codes = set(dependent_course.get("requisitos_codigos", []))
+                for prerequisite_course in selected_courses:
+                    if prerequisite_course.get("codigo") in required_codes:
+                        return (
+                            f"{dependent_course['nombre']} ({dependent_course['codigo']}) registra como requisito "
+                            f"{prerequisite_course['nombre']} ({prerequisite_course['codigo']}). "
+                            "Si aún no has aprobado ese requisito, no puedo confirmar que puedas llevar ambos cursos "
+                            "en el mismo ciclo ni que proceda una excepción solo con la información cargada. "
+                            f"Verifica tus cursos permitidos o la solicitud correspondiente en Campus Virtual PUCP: {self.CAMPUS_URL}"
+                        )
 
         lines = []
         for ref in target_refs[:3]:
