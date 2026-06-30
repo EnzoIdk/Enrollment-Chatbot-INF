@@ -1,4 +1,5 @@
 import json
+import os
 import re
 import unicodedata
 
@@ -26,7 +27,20 @@ class Embedder(object):
         assert database_path is not None, "Database path cannot be None"
 
         try:
-            __loaded_model = HuggingFaceEmbeddings(model_name = model_name, model_kwargs = {"device": "cpu"})
+            embedding_kwargs = {
+                "model_name": model_name,
+                "model_kwargs": {"device": "cpu"},
+            }
+            if "multilingual-e5" in model_name.lower():
+                embedding_kwargs["encode_kwargs"] = {
+                    "normalize_embeddings": True,
+                    "prompt": "passage: ",
+                }
+                embedding_kwargs["query_encode_kwargs"] = {
+                    "normalize_embeddings": True,
+                    "prompt": "query: ",
+                }
+            __loaded_model = HuggingFaceEmbeddings(**embedding_kwargs)
         except Exception as e:
             print(f"Error loading model: {e}")
             raise e
@@ -253,7 +267,17 @@ class Embedder(object):
             f"Database name must be one of {self._valid_collection_names()}"
 
         vector_store = self._get_vector_store(database_name)
-        vector_store.add_documents(documents = chunks)
+        batch_size = int(os.getenv("CHROMA_BATCH_SIZE", "64"))
+        total = len(chunks)
+        if total == 0:
+            print(f"Colección {database_name}: 0 chunks", flush=True)
+            return
+
+        for start in range(0, total, batch_size):
+            batch = chunks[start:start + batch_size]
+            vector_store.add_documents(documents=batch)
+            end = min(start + len(batch), total)
+            print(f"Colección {database_name}: {end}/{total} chunks guardados", flush=True)
     
     def get_retriever(self, k: int = 3, static_weight: float = 0.4, dynamic_weight: float = 0.4,
                       historical_weight: float = 0.05, curated_weight: float = 0.15) -> EnsembleRetriever:

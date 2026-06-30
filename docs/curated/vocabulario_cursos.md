@@ -3,8 +3,6 @@
 Archivo generado por `scripts/preprocess_discord_courses.py` a partir de sílabos y del histórico de Discord cargado.
 
 - pei: Planeamiento Estratégico en Informática. Menciones DC: 32. Fuente: histórico Discord.
-- tecnicas de programacion: Técnicas de Programación. Menciones DC: 2. Fuente: vocabulario estudiantil validado.
-- tp: Técnicas de Programación. Menciones DC: 3. Fuente: vocabulario estudiantil validado.
 - contabilidad y finanzas: Contabilidad Y Finanzas (1CON27). Menciones DC: 30. Fuente: sílabo 1CON27-2026-1-SILABO.PDF.
 - arquicom: Arquitectura de Computadoras (1ELE01). Menciones DC: 26. Fuente: vocabulario estudiantil validado.
 - arquitectura de computadoras: Arquitectura De Computadoras (1ELE01). Menciones DC: 26. Fuente: sílabo 1ELE01-2026-1-SILABO.PDF.
@@ -12,6 +10,10 @@ Archivo generado por `scripts/preprocess_discord_courses.py` a partir de sílabo
 - probabilidad y estadistica: Probabilidad Y Estadística (1EST22). Menciones DC: 13. Fuente: sílabo 1EST22-2026-1-SILABO.PDF.
 - taller de habilidades interpersonales: Taller De Habilidades Interpersonales (1GES92). Menciones DC: 0. Fuente: sílabo 1GES92-2026-1-SILABO.PDF.
 - empresa y su entorno: Empresa Y Su Entorno (1IND90). Menciones DC: 1. Fuente: sílabo 1IND90-2026-1-SILABO.PDF.
+- fpro: Fundamentos de Programación (1INF01). Menciones DC: 0. Fuente: vocabulario estudiantil validado.
+- fundamentos de programacion: Fundamentos de Programación (1INF01). Menciones DC: 0. Fuente: vocabulario estudiantil validado.
+- fundamentos de programacion fpro: Fundamentos De Programación (Fpro) (1INF01). Menciones DC: 0. Fuente: sílabo 1INF01-2026-1-SILABO.PDF.
+- funpro: Fundamentos de Programación (1INF01). Menciones DC: 0. Fuente: vocabulario estudiantil validado.
 - ia: Inteligencia Artificial (1INF24). Menciones DC: 49. Fuente: sílabo 1INF24.
 - inteligencia artificial: Inteligencia Artificial (1INF24). Menciones DC: 18. Fuente: sílabo 1INF24-2026-1-SILABO.PDF.
 - programacion 2: Programación 2 (1INF25). Menciones DC: 7. Fuente: sílabo 1INF25-2026-1-SILABO.PDF.
@@ -64,6 +66,11 @@ Archivo generado por `scripts/preprocess_discord_courses.py` a partir de sílabo
 - gestion de proyectos: Gestión De Proyectos (IND328). Menciones DC: 29. Fuente: sílabo IND328-2026-1-SILABO.PDF.
 - practica supervisada preprofesional: Práctica Supervisada Preprofesional (INF008). Menciones DC: 4. Fuente: sílabo INF008-2026-1-SILABO.PDF.
 - psp: Práctica Supervisada Preprofesional (INF008). Menciones DC: 42. Fuente: sílabo INF008 e histórico PSP.
+- ed: Estructuras Discretas (INF134). Menciones DC: 8. Fuente: vocabulario estudiantil validado.
+- estructuras discretas: Estructuras Discretas (INF134). Menciones DC: 2. Fuente: vocabulario estudiantil validado.
+- estructuras discretas ed: Estructuras Discretas (Ed) (INF134). Menciones DC: 0. Fuente: sílabo INF134-2026-1-SILABO.PDF.
+- tecnicas de programacion: Técnicas de Programación (INF144). Menciones DC: 2. Fuente: vocabulario estudiantil validado.
+- tp: Técnicas de Programación (INF144). Menciones DC: 3. Fuente: vocabulario estudiantil validado.
 - redes de computadoras: Redes De Computadoras (INF238). Menciones DC: 23. Fuente: sílabo INF238-2026-1-SILABO.PDF.
 - desarrollo de videojuegos: Desarrollo De Videojuegos (INF309). Menciones DC: 7. Fuente: sílabo INF309-2026-1-SILABO.PDF.
 - continuidad de las tecnologias de informacion: Continuidad De Las Tecnologías De Información (INF390). Menciones DC: 5. Fuente: sílabo INF390-2026-1-SILABO.PDF.

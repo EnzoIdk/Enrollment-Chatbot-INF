@@ -44,6 +44,7 @@
 - ingenieria economica: Ingeniería Económica (IND231) - 10 menciones
 - proyecto de fin de carrera 1: Proyecto De Fin De Carrera 1 (1INF42) - 10 menciones
 - modelado y automatizacion de procesos empresariales: Modelado Y Automatización De Procesos Empresariales (1INF34) - 9 menciones
+- ed: Estructuras Discretas (INF134) - 8 menciones
 - innovacion y emprendimiento con tecnologias de: Innovación Y Emprendimiento Con Tecnologías De (1INF38) - 8 menciones
 - desarrollo de videojuegos: Desarrollo De Videojuegos (INF309) - 7 menciones
 - programacion 2: Programación 2 (1INF25) - 7 menciones
@@ -55,10 +56,11 @@
 - ingenieria de requisitos: Ingeniería De Requisitos (1INF49) - 4 menciones
 - practica supervisada preprofesional: Práctica Supervisada Preprofesional (INF008) - 4 menciones
 - proyecto de fin de carrera 2: Proyecto De Fin De Carrera 2 (1INF46) - 3 menciones
-- tp: Técnicas de Programación - 3 menciones
+- tp: Técnicas de Programación (INF144) - 3 menciones
+- estructuras discretas: Estructuras Discretas (INF134) - 2 menciones
 - inteligencia artificial aplicada: Inteligencia Artificial Aplicada (1INF62) - 2 menciones
 - proyecto de diseno y desarrollo de software: Proyecto De Diseño Y Desarrollo De Software (1INF54) - 2 menciones
-- tecnicas de programacion: Técnicas de Programación - 2 menciones
+- tecnicas de programacion: Técnicas de Programación (INF144) - 2 menciones
 - algoritmia y estructura de datos: Algoritmia Y Estructura De Datos (1INF27) - 1 menciones
 - derecho para ingenieros informaticos: Derecho Para Ingenieros Informáticos (DER349) - 1 menciones
 - empresa y su entorno: Empresa Y Su Entorno (1IND90) - 1 menciones

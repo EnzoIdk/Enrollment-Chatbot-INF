@@ -12,3 +12,8 @@ discord/datasetOriginal
 discord/primerasPruebas
 # Diccionario de anonimización
 discord/diccionario_anonimizacion.json
+# Runtime local del bot
+bot_discord.log
+bot_discord.pid
+bot_discord_db_dir.txt
+ollama.log

@@ -12,6 +12,13 @@ from typing import Any
 AMBIGUOUS_ALIAS_KEYS = {"diseno"}
 
 DEFAULT_ALIAS_SEEDS = [
+    {"alias": "tp", "nombre": "Técnicas de Programación", "codigo": "INF144", "tipo": "curso"},
+    {"alias": "tecnicas de programacion", "nombre": "Técnicas de Programación", "codigo": "INF144", "tipo": "curso"},
+    {"alias": "funpro", "nombre": "Fundamentos de Programación", "codigo": "1INF01", "tipo": "curso"},
+    {"alias": "fpro", "nombre": "Fundamentos de Programación", "codigo": "1INF01", "tipo": "curso"},
+    {"alias": "fundamentos de programacion", "nombre": "Fundamentos de Programación", "codigo": "1INF01", "tipo": "curso"},
+    {"alias": "ed", "nombre": "Estructuras Discretas", "codigo": "INF134", "tipo": "curso"},
+    {"alias": "estructuras discretas", "nombre": "Estructuras Discretas", "codigo": "INF134", "tipo": "curso"},
     {"alias": "adso", "nombre": "Administración de Sistemas Operativos", "codigo": "1INF35", "tipo": "curso"},
     {"alias": "aso", "nombre": "Administración de Sistemas Operativos", "codigo": "1INF35", "tipo": "curso"},
     {"alias": "so", "nombre": "Sistemas Operativos", "codigo": "1INF29", "tipo": "curso"},
@@ -56,6 +63,11 @@ def extract_pdf_text(pdf_path: Path) -> str:
     return result.stdout or ""
 
 
+def clean_syllabus_field(value: str) -> str:
+    value = re.sub(r"\s+", " ", value).strip()
+    return re.sub(r"^:+\s*", "", value).strip()
+
+
 def extract_official_courses(dynamic_dir: Path) -> list[dict[str, str]]:
     courses = []
     for pdf_path in sorted(dynamic_dir.glob("**/*.[pP][dD][fF]")):
@@ -64,8 +76,8 @@ def extract_official_courses(dynamic_dir: Path) -> list[dict[str, str]]:
         code_match = re.search(r"^CLAVE\s+(.+)$", text, flags=re.MULTILINE)
         if not course_match or not code_match:
             continue
-        name = re.sub(r"\s+", " ", course_match.group(1)).strip().title()
-        code = re.sub(r"\s+", " ", code_match.group(1)).strip().upper()
+        name = clean_syllabus_field(course_match.group(1)).title()
+        code = clean_syllabus_field(code_match.group(1)).upper()
         courses.append({
             "alias": normalize_text(name),
             "nombre": name,

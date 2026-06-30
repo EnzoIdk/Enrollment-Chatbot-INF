@@ -70,6 +70,10 @@ class LanguageModel(object):
         if small_talk_response is not None:
             return small_talk_response
 
+        course_alias_response = self._preflight_course_alias_response(pregunta)
+        if course_alias_response is not None:
+            return course_alias_response
+
         out_of_scope_response = self._preflight_out_of_scope_response(pregunta)
         if out_of_scope_response is not None:
             return out_of_scope_response
@@ -289,11 +293,15 @@ class LanguageModel(object):
 
     def _preflight_out_of_scope_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)
-        out_of_scope_terms = [
-            "protesta", "protestas", "toma", "tomar el edificio", "dintilhac",
-            "apoyar esta protesta", "deberiamos apoyar", "opinas", "opinion politica",
+        sensitive_context_patterns = [
+            r"\bprotestas?\b",
+            r"\btoma\s+(de\s+)?(edificio|dintilhac)\b",
+            r"\btomar\s+(el\s+)?edificio\b",
+            r"\bdintilhac\b",
+            r"\b(apoyar|apoyemos|deberiamos apoyar).{0,30}\b(protesta|toma)\b",
+            r"\b(opinas|opinion politica)\b.*\b(protesta|toma|dintilhac)\b",
         ]
-        if any(term in normalized_question for term in out_of_scope_terms):
+        if any(re.search(pattern, normalized_question) for pattern in sensitive_context_patterns):
             return self._safe_out_of_scope_derivation()
         return None
 
@@ -395,7 +403,12 @@ class LanguageModel(object):
     def _preflight_syllabus_summary_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_for_course_matching(pregunta)
         asks_syllabus_content = any(term in normalized_question for term in [
-            "silabo", "sílabo", "tema", "temas", "trata", "contenido", "sumilla", "programa analitico",
+            "silabo", "sílabo", "tema", "temas", "trata", "contenido", "sumilla",
+            "programa analitico", "evaluacion", "evaluacion", "formula", "nota final",
+            "practica", "practicas", "practicas calificadas", "examen", "examenes",
+            "parcial", "final", "participacion", "bibliografia", "bibliografia recomendada",
+            "objetivo", "objetivos", "resultado de aprendizaje", "resultados de aprendizaje",
+            "calculadora", "calculadoras", "permitido", "permite",
         ])
         if not asks_syllabus_content:
             return None
@@ -427,11 +440,29 @@ class LanguageModel(object):
                 code = match.group(0).upper()
                 wanted_codes.append(code)
 
+        detail_type = self._detect_syllabus_detail_type(normalized_question)
         for code in wanted_codes:
             record = records.get(code)
             if record:
-                return self._format_syllabus_summary(record)
+                return self._format_syllabus_summary(record, detail_type)
         return None
+
+    def _detect_syllabus_detail_type(self, normalized_question: str) -> str:
+        if any(term in normalized_question for term in ["bibliografia", "bibliografia recomendada", "referencia", "referencias"]):
+            return "bibliografia"
+        if any(term in normalized_question for term in ["objetivo", "objetivos", "resultado de aprendizaje", "resultados de aprendizaje"]):
+            return "objetivos"
+        if any(term in normalized_question for term in ["formula", "nota final"]):
+            return "formula"
+        if any(term in normalized_question for term in ["practica", "practicas", "practicas calificadas", "examen", "examenes", "parcial", "final", "evaluacion"]):
+            return "evaluacion"
+        if "participacion" in normalized_question:
+            return "participacion"
+        if any(term in normalized_question for term in ["calculadora", "calculadoras"]):
+            return "calculadoras"
+        if "sumilla" in normalized_question:
+            return "sumilla"
+        return "temas"
 
     def _load_syllabus_summaries(self) -> dict[str, dict[str, Any]]:
         if not self.SYLLABUS_SUMMARIES_PATH.exists():
@@ -448,11 +479,65 @@ class LanguageModel(object):
             if isinstance(record, dict) and record.get("codigo")
         }
 
-    def _format_syllabus_summary(self, record: dict[str, Any]) -> str:
+    def _format_syllabus_summary(self, record: dict[str, Any], detail_type: str = "temas") -> str:
         code = record.get("codigo", "")
         name = record.get("nombre", code)
         topics = record.get("programa_analitico") or []
         sumilla = record.get("sumilla", "")
+        details = record.get("detalles_silabo") or {}
+        evaluation = details.get("evaluacion") or {}
+
+        if detail_type == "sumilla":
+            if sumilla:
+                return f"Según el sílabo cargado, {name} ({code}) tiene esta sumilla:\n\n{sumilla}"
+            return f"Tengo el sílabo de {name} ({code}), pero no encontré una sumilla extraída en el documento procesado."
+
+        if detail_type == "objetivos":
+            objectives = details.get("objetivos") or []
+            if objectives:
+                lines = [f"Según el sílabo cargado, los objetivos/resultados de aprendizaje de {name} ({code}) son:"]
+                lines.extend(f"- {item}" for item in objectives[:8])
+                return "\n".join(lines)
+            return f"Tengo el sílabo de {name} ({code}), pero no encontré objetivos o resultados de aprendizaje extraídos."
+
+        if detail_type == "bibliografia":
+            bibliography = details.get("bibliografia") or []
+            if bibliography:
+                lines = [f"Según el sílabo cargado, la bibliografía de {name} ({code}) incluye:"]
+                lines.extend(f"- {item}" for item in bibliography[:6])
+                return "\n".join(lines)
+            return f"Tengo el sílabo de {name} ({code}), pero no encontré bibliografía extraída."
+
+        if detail_type == "formula":
+            formula = evaluation.get("formula_nota_final", "")
+            if formula:
+                return f"Según el sílabo cargado, la fórmula de evaluación de {name} ({code}) es:\n\n{formula}"
+            return f"Tengo el sílabo de {name} ({code}), pero no encontré una fórmula de nota final extraída."
+
+        if detail_type == "evaluacion":
+            components = evaluation.get("componentes") or []
+            formula = evaluation.get("formula_nota_final", "")
+            if components or formula:
+                lines = [f"Según el sílabo cargado, la evaluación de {name} ({code}) es:"]
+                lines.extend(f"- {item}" for item in components)
+                if formula:
+                    lines.append(f"- Fórmula de nota final: {formula}")
+                return "\n".join(lines)
+            return f"Tengo el sílabo de {name} ({code}), pero no encontré detalles de evaluación extraídos."
+
+        if detail_type == "participacion":
+            methodology = details.get("metodologia", "")
+            evaluation_text = evaluation.get("texto", "")
+            combined = self._normalize_text(f"{methodology} {evaluation_text}")
+            if "participacion" in combined:
+                return f"Según el sílabo cargado, {name} ({code}) sí menciona participación en la metodología o evaluación:\n\n{methodology}"
+            return f"En el sílabo cargado de {name} ({code}) no encontré que la participación figure como componente de evaluación."
+
+        if detail_type == "calculadoras":
+            all_text = self._normalize_text(json.dumps(details, ensure_ascii=False))
+            if "calculadora" in all_text:
+                return f"El sílabo cargado de {name} ({code}) sí menciona calculadora. Revisa el detalle exacto en el sílabo oficial antes de asumir permiso de uso."
+            return f"En el sílabo cargado de {name} ({code}) no encontré una indicación explícita sobre uso de calculadoras."
 
         if topics:
             blocks = [f"Según el sílabo cargado, {name} ({code}) trata estos temas:"]
@@ -1114,6 +1199,74 @@ class LanguageModel(object):
             code = str(record.get("codigo", "")).strip()
             return f"{name} ({code})" if code else name
         return course
+
+    def _preflight_course_alias_response(self, pregunta: str) -> str | None:
+        normalized_question = self._normalize_for_course_matching(pregunta)
+        if not normalized_question:
+            return None
+        if not any(term in normalized_question for term in [
+            " es ", " son ", "significa", "abreviatura", "apodo", "mismo curso",
+            "mismo", "equivale", "quiere decir",
+        ]):
+            return None
+
+        aliases = self._load_course_alias_records_by_alias()
+        if not aliases:
+            return None
+
+        matched_records = []
+        seen = set()
+        alias_items = sorted(
+            aliases.items(),
+            key=lambda item: (len(item[0]) > 12 or len(item[0].split()) > 2, len(item[0])),
+        )
+        for alias, record in alias_items:
+            name = self._normalize_for_course_matching(str(record.get("nombre", "")))
+            code = self._normalize_for_course_matching(str(record.get("codigo", "")))
+            alias_in_question = self._contains_course_term(normalized_question, alias)
+            name_in_question = bool(name and self._contains_course_term(normalized_question, name))
+            code_in_question = bool(code and self._contains_course_term(normalized_question, code))
+            if not (alias_in_question or name_in_question or code_in_question):
+                continue
+            key = str(record.get("codigo") or record.get("nombre") or alias)
+            if key in seen and not alias_in_question:
+                continue
+            seen.add(key)
+            matched_records.append((alias, record, alias_in_question, name_in_question, code_in_question))
+
+        if not matched_records:
+            return None
+
+        explicit_short_alias_pairs = []
+        seen_short_alias_codes = set()
+        for alias, record, alias_in_question, _name_in_question, _code_in_question in matched_records:
+            if not alias_in_question:
+                continue
+            if len(alias) > 12 or len(alias.split()) > 2:
+                continue
+            key = str(record.get("codigo") or record.get("nombre") or alias)
+            if key in seen_short_alias_codes:
+                continue
+            seen_short_alias_codes.add(key)
+            explicit_short_alias_pairs.append((alias, record))
+
+        positive_alias_pairs = explicit_short_alias_pairs
+        if not positive_alias_pairs:
+            for alias, record, alias_in_question, name_in_question, code_in_question in matched_records:
+                if alias_in_question and (name_in_question or code_in_question or len(matched_records) == 1):
+                    positive_alias_pairs.append((alias, record))
+
+        if not positive_alias_pairs:
+            return None
+
+        lines = []
+        for alias, record in positive_alias_pairs[:4]:
+            display_alias = str(record.get("alias", alias)).strip().upper()
+            name = str(record.get("nombre", "")).strip()
+            code = str(record.get("codigo", "")).strip()
+            official = f"{name} ({code})" if code else name
+            lines.append(f"Sí. En el vocabulario cargado, {display_alias} se usa para referirse a {official}.")
+        return "\n".join(lines)
 
     def _preflight_ambiguous_slang_response(self, pregunta: str) -> str | None:
         normalized_question = self._normalize_text(pregunta)

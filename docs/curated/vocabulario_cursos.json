@@ -9,22 +9,6 @@
     "ejemplo_discord": "Buenos días [DIRECTOR], ¿es posible aumentar la cantidad de vacantes de DP1 y Planeamiento Estratégico en Informática? Hay pocos que por el momento están fuera en la posición relativa 🥺"
   },
   {
-    "alias": "tecnicas de programacion",
-    "nombre": "Técnicas de Programación",
-    "tipo": "curso",
-    "menciones_discord": 2,
-    "ejemplo_discord": "Buenas tardes ingeniero [DIRECTOR].Soy el alumno [ALUMNO] con código de alumno ******** ,el motivo del presente correo es para consultarle sobre la cantidad mínima de créditos que la universidad me permite llevar el presente semestre 2023-1",
-    "fuente": "vocabulario estudiantil validado"
-  },
-  {
-    "alias": "tp",
-    "nombre": "Técnicas de Programación",
-    "tipo": "curso",
-    "menciones_discord": 3,
-    "ejemplo_discord": "Buenas tardes [DIRECTOR] , una consulta, un compañero se cambió a Informática formalmente y al momento de inscribirse en los cursos sale como que no pertenece al plan de estudios de informática, por ende no puede llevar los cursos de TP y E",
-    "fuente": "vocabulario estudiantil validado"
-  },
-  {
     "alias": "contabilidad y finanzas",
     "nombre": "Contabilidad Y Finanzas",
     "codigo": "1CON27",
@@ -85,6 +69,38 @@
     "fuente": "sílabo 1IND90-2026-1-SILABO.PDF",
     "menciones_discord": 1,
     "ejemplo_discord": "Buenas noches profesor, cómo podríamos tener acceso a esa lista de cursos de verano? Está publicada? O la podría compartir?"
+  },
+  {
+    "alias": "fpro",
+    "nombre": "Fundamentos de Programación",
+    "codigo": "1INF01",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 0
+  },
+  {
+    "alias": "fundamentos de programacion",
+    "nombre": "Fundamentos de Programación",
+    "codigo": "1INF01",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 0
+  },
+  {
+    "alias": "fundamentos de programacion fpro",
+    "nombre": "Fundamentos De Programación (Fpro)",
+    "codigo": "1INF01",
+    "tipo": "curso",
+    "fuente": "sílabo 1INF01-2026-1-SILABO.PDF",
+    "menciones_discord": 0
+  },
+  {
+    "alias": "funpro",
+    "nombre": "Fundamentos de Programación",
+    "codigo": "1INF01",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 0
   },
   {
     "alias": "ia",
@@ -552,6 +568,50 @@
     "fuente": "sílabo INF008 e histórico PSP",
     "menciones_discord": 42,
     "ejemplo_discord": "[DIRECTOR] aún se puede egresar este ciclo 2022-2 sin psp?"
+  },
+  {
+    "alias": "ed",
+    "nombre": "Estructuras Discretas",
+    "codigo": "INF134",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 8,
+    "ejemplo_discord": "Buenas tardes [DIRECTOR] , una consulta, un compañero se cambió a Informática formalmente y al momento de inscribirse en los cursos sale como que no pertenece al plan de estudios de informática, por ende no puede llevar los cursos de TP y E"
+  },
+  {
+    "alias": "estructuras discretas",
+    "nombre": "Estructuras Discretas",
+    "codigo": "INF134",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 2,
+    "ejemplo_discord": "Buenas tardes [DIRECTOR] , una consulta, un compañero se cambió a Informática formalmente y al momento de inscribirse en los cursos sale como que no pertenece al plan de estudios de informática, por ende no puede llevar los cursos de TP y E"
+  },
+  {
+    "alias": "estructuras discretas ed",
+    "nombre": "Estructuras Discretas (Ed)",
+    "codigo": "INF134",
+    "tipo": "curso",
+    "fuente": "sílabo INF134-2026-1-SILABO.PDF",
+    "menciones_discord": 0
+  },
+  {
+    "alias": "tecnicas de programacion",
+    "nombre": "Técnicas de Programación",
+    "tipo": "curso",
+    "menciones_discord": 2,
+    "ejemplo_discord": "Buenas tardes ingeniero [DIRECTOR].Soy el alumno [ALUMNO] con código de alumno ******** ,el motivo del presente correo es para consultarle sobre la cantidad mínima de créditos que la universidad me permite llevar el presente semestre 2023-1",
+    "fuente": "vocabulario estudiantil validado",
+    "codigo": "INF144"
+  },
+  {
+    "alias": "tp",
+    "nombre": "Técnicas de Programación",
+    "tipo": "curso",
+    "menciones_discord": 3,
+    "ejemplo_discord": "Buenas tardes [DIRECTOR] , una consulta, un compañero se cambió a Informática formalmente y al momento de inscribirse en los cursos sale como que no pertenece al plan de estudios de informática, por ende no puede llevar los cursos de TP y E",
+    "fuente": "vocabulario estudiantil validado",
+    "codigo": "INF144"
   },
   {
     "alias": "redes de computadoras",
