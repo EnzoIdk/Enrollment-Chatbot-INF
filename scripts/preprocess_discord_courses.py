@@ -27,7 +27,7 @@ DEFAULT_ALIAS_SEEDS = [
     {"alias": "p3", "nombre": "Programación 3", "codigo": "1INF30", "tipo": "curso"},
     {"alias": "progra3", "nombre": "Programación 3", "codigo": "1INF30", "tipo": "curso"},
     {"alias": "prog3", "nombre": "Programación 3", "codigo": "1INF30", "tipo": "curso"},
-    {"alias": "dp1", "nombre": "Formulación de Proyecto de Fin de Carrera", "codigo": "1INF26", "tipo": "curso"},
+    {"alias": "dp1", "nombre": "Proyecto de Fin de Carrera 1", "codigo": "1INF42", "tipo": "curso", "fuente": "vocabulario estudiantil validado"},
     {"alias": "formulacion", "nombre": "Formulación de Proyecto de Fin de Carrera", "codigo": "1INF26", "tipo": "curso"},
     {"alias": "dp2", "nombre": "Proyecto de Implementación de Software", "codigo": "1INF47", "tipo": "curso"},
     {"alias": "ingesoft", "nombre": "Ingeniería de Software", "codigo": "1INF37", "tipo": "curso"},

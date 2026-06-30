@@ -17,7 +17,6 @@ Archivo generado por `scripts/preprocess_discord_courses.py` a partir de sílabo
 - ia: Inteligencia Artificial (1INF24). Menciones DC: 49. Fuente: sílabo 1INF24.
 - inteligencia artificial: Inteligencia Artificial (1INF24). Menciones DC: 18. Fuente: sílabo 1INF24-2026-1-SILABO.PDF.
 - programacion 2: Programación 2 (1INF25). Menciones DC: 7. Fuente: sílabo 1INF25-2026-1-SILABO.PDF.
-- dp1: Formulación de Proyecto de Fin de Carrera (1INF26). Menciones DC: 37. Fuente: sílabo 1INF26 e histórico Discord.
 - formulacion: Formulación de Proyecto de Fin de Carrera (1INF26). Menciones DC: 32. Fuente: histórico Discord.
 - formulacion de proyecto de fin de carrera: Formulación De Proyecto De Fin De Carrera (1INF26). Menciones DC: 21. Fuente: sílabo 1INF26-2026-1-SILABO.PDF.
 - algoritmia y estructura de datos: Algoritmia Y Estructura De Datos (1INF27). Menciones DC: 1. Fuente: sílabo 1INF27-2026-1-SILABO.PDF.
@@ -45,6 +44,7 @@ Archivo generado por `scripts/preprocess_discord_courses.py` a partir de sílabo
 - gobierno y gestion de tecnologias de informacion: Gobierno Y Gestión De Tecnologías De Información (1INF39). Menciones DC: 15. Fuente: sílabo 1INF39-2026-1-SILABO.PDF.
 - tecnologias de informacion para los negocios: Tecnologías De Información Para Los Negocios (1INF40). Menciones DC: 27. Fuente: sílabo 1INF40-2026-1-SILABO.PDF.
 - seguridad de informacion: Seguridad De Información (1INF41). Menciones DC: 51. Fuente: sílabo 1INF41-2026-1-SILABO.PDF.
+- dp1: Proyecto de Fin de Carrera 1 (1INF42). Menciones DC: 26. Fuente: vocabulario estudiantil validado.
 - proyecto de fin de carrera 1: Proyecto De Fin De Carrera 1 (1INF42). Menciones DC: 10. Fuente: sílabo 1INF42-2026-1-SILABO.PDF.
 - arquitectura empresarial: Arquitectura Empresarial (1INF44). Menciones DC: 21. Fuente: sílabo 1INF44-2026-1-SILABO.PDF.
 - implantacion de sistemas de informacion: Implantación De Sistemas De Información (1INF45). Menciones DC: 12. Fuente: sílabo 1INF45-2026-1-SILABO.PDF.

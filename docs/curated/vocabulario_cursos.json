@@ -130,15 +130,6 @@
     "ejemplo_discord": "[DIRECTOR] se puede solicitar una excepción para llevar Programación 2 a la par que Algoritmos Avanzados?"
   },
   {
-    "alias": "dp1",
-    "nombre": "Formulación de Proyecto de Fin de Carrera",
-    "codigo": "1INF26",
-    "tipo": "curso",
-    "fuente": "sílabo 1INF26 e histórico Discord",
-    "menciones_discord": 37,
-    "ejemplo_discord": "Buenas noches, tengo una consulta, ¿Cuáles cursos serán presenciales? ¿Dónde se ve eso?"
-  },
-  {
     "alias": "formulacion",
     "nombre": "Formulación de Proyecto de Fin de Carrera",
     "codigo": "1INF26",
@@ -380,6 +371,15 @@
     "fuente": "sílabo 1INF41-2026-1-SILABO.PDF",
     "menciones_discord": 51,
     "ejemplo_discord": "Buenos días profesor, el curso electivo de seguridad de la información de este ciclo se podrá convalidar con el de la nueva malla?"
+  },
+  {
+    "alias": "dp1",
+    "nombre": "Proyecto de Fin de Carrera 1",
+    "codigo": "1INF42",
+    "tipo": "curso",
+    "fuente": "vocabulario estudiantil validado",
+    "menciones_discord": 26,
+    "ejemplo_discord": "Buenas noches, tengo una consulta, ¿Cuáles cursos serán presenciales? ¿Dónde se ve eso?"
   },
   {
     "alias": "proyecto de fin de carrera 1",

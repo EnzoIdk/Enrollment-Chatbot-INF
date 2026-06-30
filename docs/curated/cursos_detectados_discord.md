@@ -7,7 +7,6 @@
 - sistemas operativos: Sistemas Operativos (1INF29) - 51 menciones
 - ia: Inteligencia Artificial (1INF24) - 49 menciones
 - psp: Práctica Supervisada Preprofesional (INF008) - 42 menciones
-- dp1: Formulación de Proyecto de Fin de Carrera (1INF26) - 37 menciones
 - diseno de software: Diseño De Software (1INF50) - 34 menciones
 - experimentacion numerica: Experimentación Numérica (1EST14) - 32 menciones
 - formulacion: Formulación de Proyecto de Fin de Carrera (1INF26) - 32 menciones
@@ -19,6 +18,7 @@
 - tecnologias de informacion para los negocios: Tecnologías De Información Para Los Negocios (1INF40) - 27 menciones
 - arquicom: Arquitectura de Computadoras (1ELE01) - 26 menciones
 - arquitectura de computadoras: Arquitectura De Computadoras (1ELE01) - 26 menciones
+- dp1: Proyecto de Fin de Carrera 1 (1INF42) - 26 menciones
 - ingesoft: Ingeniería de Software (1INF37) - 26 menciones
 - base de datos: Base De Datos (1INF33) - 25 menciones
 - deep learning: Deep Learning (1INF52) - 25 menciones

@@ -1,5 +1,6 @@
 import json
 import os
+import torch
 import re
 import unicodedata
 
@@ -27,9 +28,17 @@ class Embedder(object):
         assert database_path is not None, "Database path cannot be None"
 
         try:
+            device = os.getenv("EMBEDDER_DEVICE")
+            if not device:
+                device = "cuda" if torch.cuda.is_available() else "cpu"
+            if device.startswith("cuda") and not torch.cuda.is_available():
+                print("CUDA no está disponible para embeddings. Usando CPU.")
+                device = "cpu"
+            print(f"Dispositivo de embeddings: {device}")
+
             embedding_kwargs = {
                 "model_name": model_name,
-                "model_kwargs": {"device": "cpu"},
+                "model_kwargs": {"device": device},
             }
             if "multilingual-e5" in model_name.lower():
                 embedding_kwargs["encode_kwargs"] = {
